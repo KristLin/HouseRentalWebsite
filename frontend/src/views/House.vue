@@ -3,7 +3,6 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
-  
         <div class="list-group my-4 sidebar">
           <a href="#intro" class="list-group-item active">Intro</a>
           <a href="#description" class="list-group-item">Description</a>
@@ -78,9 +77,13 @@ export default {
     // if the params is empty, call the backend to get the house data.
     if (Object.keys(to.params).length === 0) {
       to.params.house = {
-        title: "hhhhh",
-        cover: "",
-        price: "150"
+        _id: 1,
+        title: "Title 1",
+        description:
+          "Aliquam mi massa, finibus ut elementum sed, tincidunt ac erat. Sed sagittis consectetur velit at tempor. In non tempor diam, eget pretium purus. Aliquam vel dictum odio, et cursus urna. Fusce convallis sapien dui, blandit convallis enim malesuada aliquam. Maecenas vestibulum tortor ac odio fringilla, in feugiat risus pretium. Donec iaculis eros at bibendum sollicitudin. Proin ultrices est tristique finibus ullamcorper. Pellentesque eleifend, dolor nec viverra luctus, mauris massa maximus libero, quis feugiat dolor diam a dui. Ut pharetra, dui sit amet condimentum mattis, metus ipsum eleifend lorem, vitae varius velit risus nec ipsum. Maecenas vehicula vulputate urna ut pulvinar. Aliquam erat volutpat. Praesent sapien sapien, fringilla sit amet placerat et, gravida interdum nunc. Nullam id tincidunt augue, quis porttitor risus.",
+        cover: "/house_images/1.jpg",
+        suburb: "Zetland",
+        price: "200"
       };
       // house = this.$axios
       //   .get("/api/houses/" + this.houseId)
@@ -99,7 +102,7 @@ export default {
 }
 @media screen and (max-width: 991px) {
   .sidebar {
-    display: none
+    display: none;
   }
 }
 </style>
