@@ -10,9 +10,9 @@
           <input type="text" />
           <br />
           <label for>Start Date:</label>
-          <!-- <input type="date" /> -->
+          <input type="date">
           <label for>Leave Date:</label>
-          <!-- <input type="date" /> -->
+          <input type="date">
           <button @click="searchHouse" class="btn btn-primary">Search</button>
         </div>
       </div>
@@ -29,7 +29,7 @@ import HouseCards from "@/components/HouseCards.vue";
 export default {
   name: "search",
   components: {
-    HouseCards
+    HouseCards,
   },
 
   data() {
