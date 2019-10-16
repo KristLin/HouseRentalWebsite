@@ -26,7 +26,9 @@ export default {
 
   data() {
     return {
-      searchData: this.$route.query.searchData,
+      searchData: {
+        suburb: this.$route.query.suburb,
+      },
       houses: this.$route.params.houses,
     };
   },

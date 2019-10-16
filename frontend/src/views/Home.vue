@@ -75,7 +75,7 @@ export default {
       // if it is empty, no need to pass the query
       this.$router.push({
         name: "search",
-        query: { searchDate: this.searchData },
+        query: { suburb: this.searchData.suburb },
         params: { houses: this.houses }
       });
     }
