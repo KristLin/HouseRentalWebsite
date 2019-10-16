@@ -117,15 +117,7 @@ export default {
   padding-top: 2rem;
   min-height: 500px;
 }
-/* .price-input {
-  width: 30%;
-} */
 .filter-label {
-  font-size: 13px;
-}
-.price-label {
-  margin-right: 5px;
-  margin-left: auto;
   font-size: 13px;
 }
 .filter-row {
@@ -133,10 +125,6 @@ export default {
 }
 .filter-input {
   margin: auto;
-}
-.price-range-input {
-  display: inline;
-  width: 30%;
 }
 .datepicker-height {
   height: 50%;
