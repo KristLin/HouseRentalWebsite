@@ -1,37 +1,8 @@
 <template>
   <div>
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <div class="container">
-      <div class="row">
-        <div class="col-lg-3 col-md-6 form-group">
-          <label class="filter-label">Keyword:</label>
-          <input type="text" class="form-control" placeholder="Keyword" />
-        </div>
-        <div class="col-lg-3 col-md-6 form-group">
-          <label class="filter-label">Suburb:</label>
-          <input type="text" class="form-control" placeholder="Suburb" />
-        </div>
-        <div class="col-lg-3 col-md-6 form-group">
-          <label class="filter-label">Price from:</label>
-          <input type="input" class="form-control" name="input" placeholder="Min Price" />
-        </div>
-        <div class="col-lg-3 col-md-6 form-group">
-          <label class="filter-label">to:</label>
-          <input type="input" class="form-control" name="input" placeholder="Max Price" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-md-12 form-group">
-          <label class="filter-label">Stay Period:</label>
-          <HotelDatePicker class="datepicker-height" />
-        </div>
-        <div class="col-lg-6 col-md-12 form-group">
-          <label class="filter-label">Search</label>
-          <button @click="searchHouse" class="btn btn-primary form-control">Search</button>
-        </div>
-      </div>
-
-      <div class="row">
+      <SearchInput :searchData="searchData" @search="searchHouse" />
+      <div>
         <h5>Search Result:</h5>
         <HouseCards v-bind:houses="houses" />
       </div>
@@ -41,33 +12,28 @@
 
 <script>
 // @ is an alias to /src
+import SearchInput from "@/components/SearchInput.vue";
 import HouseCards from "@/components/HouseCards.vue";
-import HotelDatePicker from "vue-hotel-datepicker";
+
 
 export default {
   name: "search",
   components: {
+    SearchInput,
     HouseCards,
-    HotelDatePicker
+
   },
 
   data() {
     return {
+      searchData: this.$route.query.searchData,
       houses: this.$route.params.houses,
-      suburn: this.$route.query.suburn,
-      priceRange: [0, 300],
-      pricePoints: [0, 100, 200, 300, 400, "over 400"]
     };
   },
 
   methods: {
-    searchHouse() {
-      window.console.log("searching...");
-    },
-    handleDescription(description) {
-      return (
-        description.substring(0, 100) + (description.length > 100 ? " ..." : "")
-      );
+    searchHouse () {
+      window.console.log("searching...")
     }
   },
   beforeRouteEnter: (to, from, next) => {
@@ -108,6 +74,10 @@ export default {
       //   .catch(err => window.console.log(err));
     }
     next();
+  },
+  mounted() {
+    // Used for testing
+    // window.console.log(this.searchData);
   }
 };
 </script>

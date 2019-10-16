@@ -5,16 +5,12 @@
       <div class="card-body">
         <h2 class="card-title">Find your favorite accommodation</h2>
         <p class="card-text">Thousands of choices for you in New South Wales.</p>
-        <div class="filter-option">
+        <SearchInput :searchData="searchData" @search="searchHouse" />
+        <!-- <div class="filter-option">
           <label for>Suburb:</label>
           <input type="text" v-model="searchData.suburb" />
-          <!-- <router-link
-            class="btn btn-primary"
-            :to="{ name: 'search', params: { suburb: this.searchData.suburb }}"
-          >Search</router-link>-->
           <button class="btn btn-primary" @click="searchHouse">Search</button>
-          <!-- <button @click="searchHouse" class="btn btn-primary">Search</button> -->
-        </div>
+        </div>-->
       </div>
       <h5>You might be intesested in these accommodation..</h5>
       <hr />
@@ -27,18 +23,18 @@
 <script>
 // @ is an alias to /src
 import HouseCards from "@/components/HouseCards.vue";
+import SearchInput from "@/components/SearchInput.vue";
 
 export default {
   name: "home",
   components: {
+    SearchInput,
     HouseCards
   },
   props: {},
   data() {
     return {
-      searchData: {
-        suburb: ""
-      },
+      searchData: {},
       houses: [
         {
           _id: 1,
@@ -72,10 +68,14 @@ export default {
   },
 
   methods: {
-    searchHouse() {
+    searchHouse(event) {
+      window.console.log(event.startDate);
+      window.console.log(event.endDate);
+      // next to implement: add if-control to check if the query is empty
+      // if it is empty, no need to pass the query
       this.$router.push({
         name: "search",
-        query: { suburb: this.searchData.suburb },
+        query: { searchDate: this.searchData },
         params: { houses: this.houses }
       });
     }
