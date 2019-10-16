@@ -2,40 +2,39 @@
   <div>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <div class="container">
-      <div class="card-body">
-        <div>
-          <div class="row text-left">
-            <div class="col-lg-4 col-md-6">
-              <label class="filter-label">Suburb:</label>
-              <input type="text" />
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <label class="filter-label">Min Price:</label>
-              <input type="text" />
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <label class="filter-label">Max Price:</label>
-              <input type="text" />
-            </div>
-          </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 form-group">
+          <label class="filter-label">Keyword:</label>
+          <input type="text" class="form-control" placeholder="Keyword" />
         </div>
-        <div class="row text-left">
-          <div class="col-lg-4 col-md-6">
-            <label class="filter-label">Start:</label>
-            <input type="date" />
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <label class="filter-label">Leave:</label>
-            <input type="date" />
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <button @click="searchHouse" class="btn btn-primary">Search</button>
-          </div>
+        <div class="col-lg-3 col-md-6 form-group">
+          <label class="filter-label">Suburb:</label>
+          <input type="text" class="form-control" placeholder="Suburb" />
+        </div>
+        <div class="col-lg-3 col-md-6 form-group">
+          <label class="filter-label">Price from:</label>
+          <input type="input" class="form-control" name="input" placeholder="Min Price" />
+        </div>
+        <div class="col-lg-3 col-md-6 form-group">
+          <label class="filter-label">to:</label>
+          <input type="input" class="form-control" name="input" placeholder="Max Price" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12 form-group">
+          <label class="filter-label">Stay Period:</label>
+          <HotelDatePicker class="datepicker-height" />
+        </div>
+        <div class="col-lg-6 col-md-12 form-group">
+          <label class="filter-label">Search</label>
+          <button @click="searchHouse" class="btn btn-primary form-control">Search</button>
         </div>
       </div>
 
-      <h5>Search Result:</h5>
-      <HouseCards v-bind:houses="houses" />
+      <div class="row">
+        <h5>Search Result:</h5>
+        <HouseCards v-bind:houses="houses" />
+      </div>
     </div>
   </div>
 </template>
@@ -43,23 +42,32 @@
 <script>
 // @ is an alias to /src
 import HouseCards from "@/components/HouseCards.vue";
+import HotelDatePicker from "vue-hotel-datepicker";
 
 export default {
   name: "search",
   components: {
-    HouseCards
+    HouseCards,
+    HotelDatePicker
   },
 
   data() {
     return {
       houses: this.$route.params.houses,
-      suburn: this.$route.query.suburn
+      suburn: this.$route.query.suburn,
+      priceRange: [0, 300],
+      pricePoints: [0, 100, 200, 300, 400, "over 400"]
     };
   },
 
   methods: {
     searchHouse() {
       window.console.log("searching...");
+    },
+    handleDescription(description) {
+      return (
+        description.substring(0, 100) + (description.length > 100 ? " ..." : "")
+      );
     }
   },
   beforeRouteEnter: (to, from, next) => {
@@ -109,8 +117,28 @@ export default {
   padding-top: 2rem;
   min-height: 500px;
 }
+/* .price-input {
+  width: 30%;
+} */
 .filter-label {
-  text-align: center;
-  width: 75px;
+  font-size: 13px;
+}
+.price-label {
+  margin-right: 5px;
+  margin-left: auto;
+  font-size: 13px;
+}
+.filter-row {
+  height: 100px;
+}
+.filter-input {
+  margin: auto;
+}
+.price-range-input {
+  display: inline;
+  width: 30%;
+}
+.datepicker-height {
+  height: 50%;
 }
 </style>
