@@ -12,16 +12,24 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 class DB(object):
     def __init__(self):
         # self.dbclient = MongoClient(host='mongodb://useradmin:useradmin1@ds257752.mlab.com:57752/ass2')
-        # connect to mongoDB
+
+        # connect to local mongoDB
         # self.dbclient = MongoClient('mongodb://localhost:27017/')
         # self.db = self.dbclient['airbnbDB']
         # self.users = self.db['users']
         # self.houses = self.db['houses']
 
-        self.dbclient = MongoClient(f'mongodb://krist:{DB_PASSWORD}@9900-cluster-shard-00-00-ljnr8.mongodb.net:27017,9900-cluster-shard-00-01-ljnr8.mongodb.net:27017,9900-cluster-shard-00-02-ljnr8.mongodb.net:27017/test?ssl=true&replicaSet=9900-cluster-shard-0&authSource=admin&retryWrites=true&w=majority',  maxPoolSize=50, connect=False)
-        self.users = self.dbclient.airbnbDB.users
-        self.houses = self.dbclient.airbnbDB.houses
+        # connect to mongoDB Atlas
+        # self.dbclient = MongoClient(f'mongodb://krist:{DB_PASSWORD}@9900-cluster-shard-00-00-ljnr8.mongodb.net:27017,9900-cluster-shard-00-01-ljnr8.mongodb.net:27017,9900-cluster-shard-00-02-ljnr8.mongodb.net:27017/test?ssl=true&replicaSet=9900-cluster-shard-0&authSource=admin&retryWrites=true&w=majority',  maxPoolSize=50, connect=False)
+        # self.users = self.dbclient.airbnbDB.users
+        # self.houses = self.dbclient.airbnbDB.houses
 
+        # connect to mongoDB mlab
+        
+        self.dbclient = MongoClient(f"mongodb://krist123:{DB_PASSWORD}@ds335678.mlab.com:35678/9900-database", 123456).get_default_database()
+        print(self.dbclient)
+        self.users = self.dbclient["users"]
+        self.houses = self.dbclient["houses"]
         super().__init__()
 
     # =========== user data manipulation ===========
