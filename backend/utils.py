@@ -48,9 +48,9 @@ def filter_houses_with_suburb(houses, suburb):
 
 def filter_houses_with_min_price(houses, min_price):
     filtered_houses = []
-    if minPrice!= None:
+    if min_price!= None:
         for house in houses:
-            if minPrice <= house["price"]:
+            if min_price <= house["price"]:
                 filtered_houses.append(house)
         return filtered_houses
     else:
