@@ -290,7 +290,7 @@ class Houses(Resource):
         return all_houses, 200
 
     # @requires_provider
-    @api.doc(description="Upload a new house info")
+    @api.doc(description="Upload a new house")
     @api.expect(house_model, validate=True)
     # upload a house
     def post(self):
