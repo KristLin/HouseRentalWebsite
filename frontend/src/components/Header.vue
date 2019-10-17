@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <router-link class="navbar-brand" to="/">Airbnb</router-link>
       <button
         class="navbar-toggler"
@@ -52,7 +52,7 @@ export default {
   display: block;
   width: 0px;
   height: 2px;
-  background: #fec400;
+  background: #3c9d9b;
   transition: 0.2s;
 }
 .nav-item:hover::after {
@@ -64,7 +64,7 @@ export default {
 .navbar-dark .navbar-nav .show > .nav-link,
 .navbar-dark .navbar-nav .nav-link:focus,
 .navbar-dark .navbar-nav .nav-link:hover {
-  color: #fec400;
+  color: #3c9d9b;
 }
 .nav-link {
   padding: 15px 5px;
@@ -76,6 +76,6 @@ export default {
 }
 .dropdown-item:focus,
 .dropdown-item:hover {
-  background: #fec400;
+  background: #3c9d9b;
 }
 </style> 

@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-dark">
+  <footer>
     <p>© copyright Bomb Shrimper.</p>
   </footer>
 </template>
@@ -15,6 +15,5 @@ footer {
   margin-top: 50px;
   padding-top: 50px;
   height: 120px;
-  color: white;
 }
 </style> 
