@@ -11,14 +11,14 @@ def filter_houses(
     smoke_allowed=None,
     has_wifi=None,
 ):
-    filtered_houses = []
-    filtered_houses += filter_houses_with_keyword(houses, keyword)
-    filtered_houses += filter_houses_with_suburb(houses, keyword)
-    filtered_houses += filter_houses_with_min_price(houses, keyword)
-    filtered_houses += filter_houses_with_max_price(houses, keyword)
-    filtered_houses += filter_houses_with_conditions(houses, pet_allowed, party_allowed, smoke_allowed)
-    filtered_houses += filter_houses_with_facilities(houses, has_wifi)
-    filtered_houses += filter_houses_with_date(houses, keyword)
+    filtered_houses = houses
+    filtered_houses = filter_houses_with_keyword(filtered_houses, keyword)
+    filtered_houses = filter_houses_with_suburb(filtered_houses, suburb)
+    filtered_houses = filter_houses_with_min_price(filtered_houses, min_price)
+    filtered_houses = filter_houses_with_max_price(filtered_houses, max_price)
+    # filtered_houses += filter_houses_with_conditions(houses, pet_allowed, party_allowed, smoke_allowed)
+    # filtered_houses += filter_houses_with_facilities(houses, has_wifi)
+    filtered_houses = filter_houses_with_date(filtered_houses, start_date, end_date)
     
     return filtered_houses
 
@@ -101,7 +101,7 @@ def filter_houses_with_facilities(houses, has_wifi):
 
 
 # extract valid data used for updating to avoid overwriting info with empty data
-def get_update_info(data_object):
+def get_valid_update_info(data_object):
     update_info = {}
     for attr in data_object:
         if data_object[attr]:

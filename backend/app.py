@@ -65,21 +65,22 @@ house_model = api.model(
     {
         "title": fields.String,
         "cover": fields.Url,
+        "images": fields.List(fields.String),
         "description": fields.String,
         "provider": fields.String,
         # datetime.datetime.now() 获取当前时间
-        "date": fields.DateTime,
+        # "date": fields.DateTime,
         "suburb": fields.String,
-        "location": fields.String,
+        # "location": fields.String,
         "price": fields.Integer,
-        "size": fields.Integer,
-        "bedroom_num": fields.Integer,
-        "bathroom_num": fields.Integer,
-        "carpark_num": fields.Integer,
-        "has_wifi": fields.Boolean,
-        "party_allowed": fields.Boolean,
-        "pet_allowed": fields.Boolean,
-        "smoke_allowed": fields.Boolean,
+        # "size": fields.Integer,
+        # "bedroom_num": fields.Integer,
+        # "bathroom_num": fields.Integer,
+        # "carpark_num": fields.Integer,
+        # "has_wifi": fields.Boolean,
+        # "party_allowed": fields.Boolean,
+        # "pet_allowed": fields.Boolean,
+        # "smoke_allowed": fields.Boolean,
     },
 )
 
@@ -232,7 +233,7 @@ class User(Resource):
     def patch(self, user_id):
         update_info = request.json
         # remove empty property in update info
-        update_info = utils.get_update_info(update_info)
+        update_info = utils.get_valid_update_info(update_info)
         update_user = db.find_user_by_id(user_id)
         if update_user:
             # user can only modify his/her user data
@@ -258,20 +259,34 @@ class User(Resource):
 class Houses(Resource):
     @api.param("keyword", "keyword for filtering houses")
     @api.param("suburb", "suburb for filtering houses")
-    @api.param("minPrice", "minimum price for filtering houses")
-    @api.param("maxPrice", "maximum price for filtering houses")
-    @api.param("startDate", "start date for filtering houses")
-    @api.param("endDate", "end date for filtering houses")
-    # @api.param("allowPet", "end date for filtering houses")
-    # @api.param("allowParty", "end date for filtering houses")
-    # @api.param("allowSmoke", "end date for filtering houses")
-    # @api.param("hasWifi", "end date for filtering houses")
+    @api.param("min_price", "minimum price for filtering houses")
+    @api.param("max_price", "maximum price for filtering houses")
+    @api.param("start_date", "start date for filtering houses")
+    @api.param("end_date", "end date for filtering houses")
+    # @api.param("pet_allowed", "end date for filtering houses")
+    # @api.param("party_allowed", "end date for filtering houses")
+    # @api.param("smoke_allowed", "end date for filtering houses")
+    # @api.param("has_wifi", "end date for filtering houses")
     @api.doc(description="Retrieve all houses info")
     # get all houses
     def get(self):
-        all_houses = db.find_all_houses()
+        keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
-        all_houses = utils.filter_houses(all_houses, suburb)
+        min_price = int(request.args.get("min_price")) if request.args.get("min_price") else None
+        max_price = int(request.args.get("max_price")) if request.args.get("max_price") else None
+        start_date = request.args.get("start_date")
+        end_date = request.args.get("end_date")
+
+        all_houses = db.find_all_houses()
+        all_houses = utils.filter_houses(
+            houses=all_houses,
+            keyword=keyword,
+            suburb=suburb,
+            min_price=min_price,
+            max_price=max_price,
+            start_date=start_date,
+            end_date=end_date,
+        )
         return all_houses, 200
 
     # @requires_provider
@@ -282,7 +297,7 @@ class Houses(Resource):
         new_house = request.json
         _id = db.add_house(new_house)
         if _id:
-            return "The house is uploaded", 201
+            return f"House with id {_id} is uploaded", 201
         else:
             return "Something is wrong, please try again", 404
 
@@ -307,6 +322,7 @@ class House(Resource):
         else:
             return f"House with id {house_id} is not in the database!", 404
 
+
 @houses.route("/<string:provider_id>/<string:house_id>")
 class HousesOfProvider(Resource):
     # @requires_provider
@@ -327,10 +343,17 @@ class HousesOfProvider(Resource):
             return f"House with id {house_id} is not in the database!", 404
 
     # @requires_provider
+    @api.expect(house_model, validate=True)
     @api.doc(description="Update house info")
     # update house info
     def patch(self, provider_id, house_id):
         update_info = request.json
+        # remove empty update properties
+        update_info = utils.get_valid_update_info(update_info)
+        # change type to integer
+        # if "price" in update_info:
+        #     update_info["price"] == int(update_info["price"])
+
         update_house = db.find_house_by_id(house_id)
         if update_house:
             house_provider = update_house["provider"]
