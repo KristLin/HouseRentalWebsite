@@ -56,17 +56,17 @@ export default {
   },
   methods: {
     login() {
-      this.$axios
-        // .get("/api/houses")
-        .post("/api/users/login", this.loginData)
-        .then(res => {
-          window.console.log(res);
-          this.res = res;
-        })
-        .catch(err => {
-          window.console.log(err.response);
-          this.err = err;
-        });
+    this.$axios
+      .post("/api/houses/random", this.loginData)
+      .then(response => {
+        // JSON responses are automatically parsed.
+        if(response.status == 200) {
+          window.console.log("logged in!")
+        }
+      })
+      .catch(err => {
+        window.console.log(err);
+      });
     }
   }
 };

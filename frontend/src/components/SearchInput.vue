@@ -3,21 +3,11 @@
     <div class="row">
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Keyword:</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Keyword"
-          v-model="searchData.keyword"
-        />
+        <input type="text" class="form-control" placeholder="Keyword" v-model="searchData.keyword" />
       </div>
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Suburb:</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Suburb"
-          v-model="searchData.suburb"
-        />
+        <input type="text" class="form-control" placeholder="Suburb" v-model="searchData.suburb" />
       </div>
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Price from:</label>
@@ -65,15 +55,15 @@ export default {
     searchData: {
       keyword: "",
       suburb: "",
-      minPrice: "",
-      maxPrice: "",
-      startDate: "",
-      endDate: ""
+      min_price: "",
+      max_price: "",
+      start_date: "",
+      end_date: ""
     }
   },
   methods: {
     searchHouse() {
-      this.$emit("search", this.searchData);
+      this.$emit("searchHouse", this.searchData);
     }
   }
 };

@@ -1,16 +1,23 @@
 <template>
   <div>
-    <div class="card-deck">
-      <div class="card" @click="clickHouse(house)" :key="house._id" v-for="house in houses">
-        <img :src="house.cover" class="card-img-top house-cover" alt="house-cover" />
-        <div class="card-body">
-          <h5 class="card-title">{{house.title}}</h5>
-          <p class="card-text">{{handleDescription(house.description)}}</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">{{house.suburb}}</small>
-          <br />
-          <small class="text-muted">${{house.price}}</small>
+    <div class="row">
+      <div
+        class="col-lg-4 col-sm-6 mb-4"
+        @click="clickHouse(house)"
+        :key="house._id"
+        v-for="house in houses"
+      >
+        <div class="card h-100">
+          <img class="card-img-top" :src="house.cover" alt="house-cover" />
+          <div class="card-body">
+            <h4 class="card-title">{{house.title}}</h4>
+            <p class="card-text text-left">{{handleDescription(house.description)}}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{house.suburb}}</small>
+            <br />
+            <small class="text-muted">${{house.price}}</small>
+          </div>
         </div>
       </div>
     </div>
@@ -30,7 +37,9 @@ export default {
       });
     },
     handleDescription(description) {
-      return description.substring(0, 100) + (description.length > 100 ? " ..." : "")
+      return (
+        description.substring(0, 150) + (description.length > 150 ? " ..." : "")
+      );
     }
   }
 };
@@ -41,5 +50,8 @@ img {
   width: 100%; /* You can set the dimensions to whatever you want */
   height: 200px;
   object-fit: cover;
+}
+.card-title {
+  min-height: 50px;
 }
 </style>
