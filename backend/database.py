@@ -27,7 +27,6 @@ class DB(object):
         # connect to mongoDB mlab
         
         self.dbclient = MongoClient(f"mongodb://krist123:{DB_PASSWORD}@ds335678.mlab.com:35678/9900-database", 123456).get_default_database()
-        print(self.dbclient)
         self.users = self.dbclient["users"]
         self.houses = self.dbclient["houses"]
         super().__init__()

@@ -4,107 +4,106 @@
       <div class="container">
         <h2>Join us.</h2>
         <hr />
-          <div class="row">
-            <!-- for layout purpose -->
-            <div class="col-md-2"></div>
+        <div class="row">
+          <!-- for layout purpose -->
+          <div class="col-md-2"></div>
 
-            <!-- input user data -->
-            <div class="col-md-4 user-info">
-              <div class="form-group">
-                <input
-                  v-model.lazy="userData.name"
-                  class="form-control input-lg"
-                  placeholder="Your Name"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <input
-                  type="email"
-                  v-model.lazy="userData.email"
-                  class="form-control input-lg"
-                  placeholder="Email Address"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  type="tel"
-                  v-model.lazy="userData.phone"
-                  class="form-control input-lg"
-                  placeholder="Phone Number"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <input
-                  type="password"
-                  v-model.lazy="userData.password"
-                  class="form-control input-lg"
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  type="password"
-                  v-model.lazy="checkedData.password2"
-                  class="form-control input-lg"
-                  placeholder="Password Confirm"
-                  required
-                />
-              </div>
-              <!-- choose role -->
-              <div class="form-group">
-                <div class="role-pick">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="tenant"
-                    v-model.lazy="userData.role"
-                    required
-                  />
-                  <label>Tenant</label>
-                </div>
-                <div class="role-pick">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="provider"
-                    v-model.lazy="userData.role"
-                    required
-                  />
-                  <label>Provider</label>
-                </div>
-              </div>
+          <!-- input user data -->
+          <div class="col-md-4 user-info">
+            <div class="form-group">
+              <input
+                type="email"
+                v-model.lazy="userData.email"
+                class="form-control input-lg"
+                placeholder="Email Address"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                v-model.lazy="userData.name"
+                class="form-control input-lg"
+                placeholder="Your Name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="tel"
+                v-model.lazy="userData.phone"
+                class="form-control input-lg"
+                placeholder="Phone Number"
+                required
+              />
             </div>
 
-            <!-- for layout purpose -->
-            <div class="col-md-1"></div>
-
-            <!-- show user info -->
-            <div class="col-md-3 confirm-box">
-              <h6>Please Confirm Your Information:</h6>
-              <hr />
-              <div class="confirm-info">
-                <p>Name: {{ userData.name }}</p>
-                <p>Email: {{ userData.email }}</p>
-                <p>Phone: {{ userData.phone }}</p>
+            <div class="form-group">
+              <input
+                type="password"
+                v-model.lazy="userData.password"
+                class="form-control input-lg"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                v-model.lazy="checkedData.password2"
+                class="form-control input-lg"
+                placeholder="Password Confirm"
+                required
+              />
+            </div>
+            <!-- choose role -->
+            <div class="form-group">
+              <div class="role-pick">
+                <input
+                  type="radio"
+                  name="role"
+                  value="tenant"
+                  v-model.lazy="userData.role"
+                  required
+                />
+                <label>Tenant</label>
               </div>
-              <hr />
+              <div class="role-pick">
+                <input
+                  type="radio"
+                  name="role"
+                  value="provider"
+                  v-model.lazy="userData.role"
+                  required
+                />
+                <label>Provider</label>
+              </div>
             </div>
           </div>
 
-          <!-- check policy & terms and submit button -->
-          <div>
-            <p>
-              <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
-              By clicking the checkbox you're agree to our policy & terms
-            </p>
-            <button @click="registerAccount" class="btn btn-lg btn-primary">Register</button>
+          <!-- for layout purpose -->
+          <div class="col-md-1"></div>
+
+          <!-- show user info -->
+          <div class="col-md-3 confirm-box">
+            <h6>Please Confirm Your Information:</h6>
+            <hr />
+            <div class="confirm-info">
+              <p>Email: {{ userData.email }}</p>
+              <p>Name: {{ userData.name }}</p>
+              <p>Phone: {{ userData.phone }}</p>
+            </div>
+            <hr />
           </div>
+        </div>
+
+        <!-- check policy & terms and submit button -->
+        <div>
+          <p>
+            <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
+            By clicking the checkbox you're agree to our policy & terms
+          </p>
+          <button @click="registerAccount" class="btn btn-lg btn-primary">Register</button>
+        </div>
       </div>
     </div>
   </div>
@@ -130,8 +129,7 @@ export default {
       checkedData: {
         password2: "",
         checkedPolicy: ""
-      },
-      errMsg: ""
+      }
     };
   },
   methods: {
@@ -142,31 +140,21 @@ export default {
       if (this.userData.password !== this.checkedData.password2) {
         alert("Passwords are not matched!");
       } else {
-        axios
-          .post("/api/users/register", this.userData)
-          .then(res => window.console.log(res))
-          .catch(err => window.console.log(err.response));
+        axios("/api/users", this.userData)
+          .then(response => {
+            // JSON responses are automatically parsed.
+            if (response.status == 200) {
+              window.console.log("rigistered!");
+              alert("rigistered!");
+              this.$router.push({
+                name: "search"
+              });
+            }
+          })
+          .catch(err => {
+            window.console.log(err);
+          });
       }
-      // window.console.log(checked);
-      // window.console.log(picked);
-      //   if (password !== password2) {
-      //     alert("Passwords are not matched!");
-      //   } else {
-      //     axios
-      //       .post("localhost:5000/users/register", {
-      //         email: email,
-      //         name: name,
-      //         phone: phone,
-      //         password: password,
-      //         role: picked
-      //       })
-      //       .then(response => console.log(response))
-      //       .catch(function(error) {
-      //         // handle error
-      //         console.log(error);
-      //       });
-      //   }
-      // }
     }
   }
 };

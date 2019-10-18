@@ -57,7 +57,7 @@ export default {
   methods: {
     login() {
     this.$axios
-      .post("/api/houses/random", this.loginData)
+      .post("/api/users/login", this.loginData)
       .then(response => {
         // JSON responses are automatically parsed.
         if(response.status == 200) {
@@ -65,7 +65,7 @@ export default {
         }
       })
       .catch(err => {
-        window.console.log(err);
+        window.console.log(err.response);
       });
     }
   }

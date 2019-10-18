@@ -64,8 +64,10 @@ house_model = api.model(
     "house",
     {
         "title": fields.String,
-        "cover": fields.Url,
+        "cover": fields.String,
+        # "cover": fields.Raw,
         "images": fields.List(fields.String),
+        # "images": fields.List(fields.Raw),
         "description": fields.String,
         "provider": fields.String,
         # datetime.datetime.now() 获取当前时间
@@ -291,7 +293,7 @@ class Houses(Resource):
 
     # @requires_provider
     @api.doc(description="Upload a new house")
-    @api.expect(house_model, validate=True)
+    @api.expect(house_model, validate=False)
     # upload a house
     def post(self):
         new_house = request.json
