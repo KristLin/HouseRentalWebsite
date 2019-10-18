@@ -23,27 +23,32 @@ export default new Router({
     {
       path: '/contact',
       name: 'contact',
-      component: () => import(/* webpackChunkName: "about" */ './views/Contact.vue')
+      component: () => import(/* webpackChunkName: "contact" */ './views/Contact.vue')
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "about" */ './views/Login.vue')
+      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
     },
     {
       path: '/signup',
       name: 'signup',
-      component: () => import(/* webpackChunkName: "about" */ './views/Signup.vue')
+      component: () => import(/* webpackChunkName: "signup" */ './views/Signup.vue')
     },
     {
       path: '/search',
       name: 'search',
-      component: () => import(/* webpackChunkName: "about" */ './views/Search.vue')
+      component: () => import(/* webpackChunkName: "search" */ './views/Search.vue')
     },
     {
       path: '/house',
       name: 'house',
-      component: () => import(/* webpackChunkName: "about" */ './views/House.vue')
+      component: () => import(/* webpackChunkName: "house" */ './views/House.vue')
+    },
+    {
+      path: '/uploadHouse',
+      name: 'uploadHouse',
+      component: () => import(/* webpackChunkName: "uploadHouse" */ './views/UploadHouse.vue')
     }
   ]
 })

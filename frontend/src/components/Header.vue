@@ -26,6 +26,9 @@
             <router-link class="nav-link" to="/about" active-class="active" exact>About us</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/uploadHouse" active-class="active" exact>Upload</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
           </li>
         </ul>
