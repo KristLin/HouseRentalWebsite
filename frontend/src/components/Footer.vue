@@ -1,6 +1,12 @@
 <template>
   <footer>
-    <p>© copyright Bomb Shrimper.</p>
+    <div class="container-fluid">
+      <i class="social-icon fab fa-facebook-f"></i>
+      <i class="social-icon fab fa-twitter"></i>
+      <i class="social-icon fab fa-instagram"></i>
+      <i class="social-icon fas fa-envelope"></i>
+      <p>© copyright Bomb Shrimper.</p>
+    </div>
   </footer>
 </template>
 
@@ -12,8 +18,12 @@ export default {
 
 <style scoped>
 footer {
-  margin-top: 50px;
-  padding-top: 50px;
+  padding-top: 15px;
   height: 120px;
+  background-color: #3c9d9b;
+  color: white;
+}
+.social-icon {
+  margin: 20px 10px;
 }
 </style> 

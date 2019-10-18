@@ -27,11 +27,12 @@
           placeholder="Password"
           required
         />
-        <button @click="login" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+        <button @click="login" class="my-btn form-control my-4">Log in</button>
 
         <p class="hint-text">
           Don't have an account?
-          <router-link to="/signup">Sign up</router-link>here!
+          <router-link class="mx-1 sign-up-link" to="/signup">Sign up</router-link>here!
         </p>
       </div>
     </div>
@@ -56,17 +57,29 @@ export default {
   },
   methods: {
     login() {
-    this.$axios
-      .post("/api/users/login", this.loginData)
-      .then(response => {
-        // JSON responses are automatically parsed.
-        if(response.status == 200) {
-          window.console.log("logged in!")
+      // raise alert if login form is not complete
+      for (let key in this.loginData) {
+        if (this.loginData[key] === "") {
+          alert("The login form is not complete!");
+          return;
         }
-      })
-      .catch(err => {
-        window.console.log(err.response);
-      });
+      }
+      this.$axios
+        .post("/api/users/login", this.loginData)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          if (response.status == 200) {
+            window.console.log("logged in!");
+            alert("logged in!");
+            this.$router.push({
+              name: "search"
+            });
+          }
+        })
+        .catch(err => {
+          window.console.log(err.response);
+          alert(err.response.data)
+        });
     }
   }
 };
@@ -81,7 +94,20 @@ export default {
   margin: auto;
   width: 300px;
 }
-.hint-text {
-  margin-top: 10px;
+
+.sign-up-link {
+  color: #3c9d9b;
+}
+
+.my-btn {
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
 }
 </style>

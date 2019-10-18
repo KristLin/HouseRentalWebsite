@@ -19,7 +19,7 @@
             <p
               class="card-text mt-2 house-description-display"
               :class="{'text-left': houseData.description}"
-            >{{ handleDescription(houseData.description) ? houseData.description : "House Description" }}</p>
+            >{{ handleDescription(houseData.description) }}</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{ houseData.suburb ? houseData.suburb : "Suburb" }}</small>
@@ -53,14 +53,26 @@
         <!-- input description start -->
         <div class="row mt-2">
           <label class="input-label">Description:</label>
-          <textarea cols="30" rows="8" class="form-control" v-model="houseData.description"></textarea>
+          <textarea
+            cols="30"
+            rows="8"
+            class="form-control"
+            placeholder="House Description"
+            v-model="houseData.description"
+          ></textarea>
         </div>
         <!-- input description end -->
 
         <!-- input images start -->
         <div class="row mt-2">
           <label class="input-label">Image Urls (Please separate Urls with return):</label>
-          <textarea cols="30" rows="3" class="form-control" v-model="houseData.images"></textarea>
+          <textarea
+            cols="30"
+            rows="3"
+            class="form-control"
+            placeholder="Image Urls"
+            v-model="houseData.images"
+          ></textarea>
         </div>
         <!-- input images end -->
 
@@ -81,9 +93,9 @@
             v-model="houseData.price"
           />
         </div>
-        <div class="row mt-2">
-          <label class="input-label">Upload:</label>
-          <button class="btn btn-dark form-control" @click="uploadHouse">Upload House</button>
+        <div class="row my-4">
+          <label class="input-label">Upload House:</label>
+          <button class="my-btn form-control" @click="uploadHouse">Upload House</button>
         </div>
         <!-- input title end -->
       </div>
@@ -172,9 +184,14 @@ export default {
   },
   methods: {
     handleDescription(description) {
-      return (
-        description.substring(0, 150) + (description.length > 150 ? " ..." : "")
-      );
+      if (description) {
+        return (
+          description.substring(0, 150) +
+          (description.length > 150 ? " ..." : "")
+        );
+      } else {
+        return "House Description";
+      }
     },
     uploadCover(event) {
       this.houseData.cover = event.target.files[0];
@@ -187,7 +204,20 @@ export default {
     uploadHouse() {
       // convert imageUrls from text to list
       this.houseData.images = this.parseImagesUrls(this.houseData.images);
-      window.console.log(this.houseData);
+      // window.console.log(this.houseData);
+
+      // upload images in url form to backend
+      this.$axios
+        .post("/api/houses/", this.houseData)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          if (response.status == 200) {
+            window.console.log("uploaded!");
+          }
+        })
+        .catch(err => {
+          window.console.log(err.response);
+        });
 
       // upload images in file form to backend (failed)
       // let formData = new FormData();
@@ -203,19 +233,6 @@ export default {
       // };
       // this.$axios
       //   .post("/api/houses/", formData, config)
-      //   .then(response => {
-      //     // JSON responses are automatically parsed.
-      //     if (response.status == 200) {
-      //       window.console.log("uploaded!");
-      //     }
-      //   })
-      //   .catch(err => {
-      //     window.console.log(err.response);
-      //   });
-
-      // upload images in url form to backend
-      // this.$axios
-      //   .post("/api/houses/", this.houseData)
       //   .then(response => {
       //     // JSON responses are automatically parsed.
       //     if (response.status == 200) {
@@ -246,6 +263,10 @@ export default {
   object-fit: cover;
 }
 
+.card-body {
+  padding: 1rem;
+}
+
 .house-description-display {
   min-height: 100px;
 }
@@ -254,10 +275,15 @@ export default {
   font-size: 14px;
 }
 
-input {
-  font-size: 14px;
+.my-btn {
+  border: none;
+  background-color: black;
+  color: white;
 }
-textarea {
-  font-size: 14px;
+
+.my-btn:hover {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
 }
 </style>

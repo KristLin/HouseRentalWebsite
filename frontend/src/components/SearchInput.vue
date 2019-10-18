@@ -41,7 +41,7 @@
       </div>
       <div class="col-lg-6 col-md-12 form-group">
         <label class="filter-label">Search</label>
-        <button @click="searchHouse" class="btn btn-primary form-control">Search</button>
+        <button @click="searchHouse" class="my-btn form-control">Search</button>
       </div>
     </div>
   </div>
@@ -70,4 +70,20 @@ export default {
 </script>
 
 <style scoped>
+.btn-dark {
+  border: none;
+  background-color: #3c9d9b;
+}
+
+.my-btn {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: black;
+  color: white;
+}
 </style>

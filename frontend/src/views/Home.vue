@@ -29,7 +29,7 @@
                 </h3>
                 <br />
                 <div class="carousel-button">
-                  <button class="btn btn-dark form-control" @click="learnMore">Learn More</button>
+                  <button class="my-btn form-control" @click="learnMore">Learn More</button>
                 </div>
               </div>
             </div>
@@ -54,7 +54,7 @@
                 </h3>
                 <br />
                 <div class="carousel-button">
-                  <button class="btn btn-dark form-control" @click="learnMore">Learn More</button>
+                  <button class="my-btn form-control" @click="learnMore">Learn More</button>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@
                 </h3>
                 <br />
                 <div class="carousel-button">
-                  <button class="btn btn-dark form-control" @click="learnMore">Learn More</button>
+                  <button class="my-btn form-control" @click="learnMore">Learn More</button>
                 </div>
               </div>
             </div>
@@ -105,7 +105,9 @@
         </a>
       </div>
       <div class="features">
-        <p>Features Intro</p>
+        <p>--------------------</p>
+        <p>Features Intro (后续)</p>
+        <p>--------------------</p>
       </div>
       <!-- <div class="card-body">
         <h2 class="card-title">Find your favorite accommodation</h2>
@@ -193,9 +195,16 @@ export default {
   width: 200px;
 }
 
-.btn-dark {
+.my-btn {
   border: none;
   background-color: #3c9d9b;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: black;
+  color: white;
 }
 
 /* Carousel Header Styles */
@@ -220,5 +229,9 @@ export default {
 .header-text h3 span {
   background-color: #000;
   padding: 15px;
+}
+
+.features {
+  min-height: 400px;
 }
 </style>

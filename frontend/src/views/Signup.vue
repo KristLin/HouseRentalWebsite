@@ -102,7 +102,9 @@
             <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
             By clicking the checkbox you're agree to our policy & terms
           </p>
-          <button @click="registerAccount" class="btn btn-lg btn-primary">Register</button>
+          <div class="register-button-div">
+            <button @click="registerAccount" class="my-btn form-control my-4">Register</button>
+          </div>
         </div>
       </div>
     </div>
@@ -110,8 +112,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "signup",
   components: {},
@@ -135,12 +135,18 @@ export default {
   methods: {
     registerAccount() {
       // raise alert if user info is not complete
-
+      for (let key in this.userData) {
+        if (this.userData[key] === "") {
+          alert("The register form is not complete!");
+          return;
+        }
+      }
       // raise alert if two password are not matched
       if (this.userData.password !== this.checkedData.password2) {
         alert("Passwords are not matched!");
       } else {
-        axios("/api/users", this.userData)
+        this.$axios
+          .post("/api/users/", this.userData)
           .then(response => {
             // JSON responses are automatically parsed.
             if (response.status == 200) {
@@ -152,7 +158,8 @@ export default {
             }
           })
           .catch(err => {
-            window.console.log(err);
+            window.console.log(err.response);
+            alert(err.response.data)
           });
       }
     }
@@ -187,5 +194,22 @@ export default {
 }
 .confirm-info {
   text-align: left;
+}
+
+.register-button-div {
+  margin: auto;
+  width: 50%;
+}
+
+.my-btn {
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
 }
 </style>

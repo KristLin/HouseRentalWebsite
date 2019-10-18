@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="container">
-      <SearchInput :searchData="searchData" @search="searchHouse" />
+      <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <div>
         <h5>Search Result:</h5>
-        <hr>
+        <hr />
+        <p v-if="this.houses" class="my-4">Sorry, there is not result...</p>
         <HouseCards v-bind:houses="houses" />
       </div>
     </div>
@@ -34,6 +35,15 @@ export default {
   methods: {
     searchHouse() {
       window.console.log("searching...");
+      this.$axios
+        .get("/api/houses/", { params: this.searchData })
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.houses = response.data;
+        })
+        .catch(err => {
+          window.console.log(err.response);
+        });
     }
   },
   // beforeRouteEnter: (to, from, next) => {
@@ -65,22 +75,18 @@ export default {
           this.houses = response.data;
         })
         .catch(err => {
-          window.console.log(err);
+          window.console.log(err.response);
         });
     } else {
-      if (Object.keys(this.$route.params).length !== 0) {
-        this.houses = this.$route.params.houses;
-      } else {
-        this.$axios
-          .get("/api/houses/")
-          .then(response => {
-            // JSON responses are automatically parsed.
-            this.houses = response.data;
-          })
-          .catch(err => {
-            window.console.log(err);
-          });
-      }
+      this.$axios
+        .get("/api/houses/")
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.houses = response.data;
+        })
+        .catch(err => {
+          window.console.log(err.response);
+        });
     }
   }
 };
