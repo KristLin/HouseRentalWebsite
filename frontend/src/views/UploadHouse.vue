@@ -214,7 +214,7 @@ export default {
         .post("/api/houses/", this.houseData)
         .then(response => {
           // JSON responses are automatically parsed.
-          if (response.status == 200) {
+          if (response.status == 201) {
             window.console.log("uploaded!");
           }
         })

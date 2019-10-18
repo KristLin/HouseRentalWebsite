@@ -10,8 +10,8 @@
         <div class="card h-100">
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
           <div class="card-body">
-            <h4 class="card-title">{{house.title}}</h4>
-            <p class="card-text text-left">{{handleDescription(house.description)}}</p>
+            <h5 class="card-title">{{ house.title }}</h5>
+            <!-- <p class="card-text text-left">{{ handleDescription(house.description) }}</p> -->
           </div>
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>

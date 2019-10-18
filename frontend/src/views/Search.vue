@@ -5,7 +5,7 @@
       <div>
         <h5>Search Result:</h5>
         <hr />
-        <p v-if="this.houses" class="my-4">Sorry, there is not result...</p>
+        <p v-if="!this.houses.length" class="my-4">Sorry, there is not result...</p>
         <HouseCards v-bind:houses="houses" />
       </div>
     </div>
