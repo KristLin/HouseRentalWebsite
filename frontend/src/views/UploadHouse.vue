@@ -206,7 +206,7 @@ export default {
     uploadHouse() {
       // convert imageUrls from text to list
       this.houseData.images = this.parseImagesUrls(this.houseData.images);
-      this.houseData.provider = this.$store.state.userId;
+      this.houseData.provider = this.$store.getters.getUserId;
       // window.console.log(this.houseData);
 
       // upload images in url form to backend

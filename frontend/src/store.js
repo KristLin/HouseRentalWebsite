@@ -25,6 +25,9 @@ export default new Vuex.Store({
     },
     getUserId: state => {
       return state.userId ? state.userId : localStorage.getItem("userId")
+    },
+    getUserRole: state => {
+      return state.userRole ? state.userRole : localStorage.getItem("userRole")
     }
   },
   mutations: {
