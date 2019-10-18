@@ -177,8 +177,10 @@ export default {
         title: "",
         cover: "",
         description: "",
+        images: [],
         price: "",
-        images: []
+        suburb: "",
+        provider: ""
       }
     };
   },
@@ -204,6 +206,7 @@ export default {
     uploadHouse() {
       // convert imageUrls from text to list
       this.houseData.images = this.parseImagesUrls(this.houseData.images);
+      this.houseData.provider = this.$store.state.userId;
       // window.console.log(this.houseData);
 
       // upload images in url form to backend
@@ -246,6 +249,15 @@ export default {
     parseImagesUrls(imagesUrlText) {
       let imageUrls = imagesUrlText.split("\n");
       return imageUrls;
+    }
+  },
+  beforeMount() {
+    window.console.log("state.isProvider: " + this.$store.getters.isProvider);
+    if (this.$store.getters.isProvider) {
+      window.console.log("current user is provider.");
+    } else {
+      alert("Require provider login!");
+      this.$router.push({ name: "home" });
     }
   }
 };

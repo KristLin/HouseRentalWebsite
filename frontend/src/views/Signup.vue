@@ -150,7 +150,16 @@ export default {
           .then(response => {
             // JSON responses are automatically parsed.
             if (response.status == 200) {
-              window.console.log("rigistered!");
+              let [userId, userRole] = response.data.split(" ");
+              let authUserData = {
+                userId: userId,
+                userRole: userRole
+              };
+              this.$store.commit("authUser", authUserData);
+
+              window.console.log("user rigistered!");
+              window.console.log("user id: " + userId);
+              window.console.log("user role: " + userRole);
               alert("rigistered!");
               this.$router.push({
                 name: "search"
@@ -159,7 +168,7 @@ export default {
           })
           .catch(err => {
             window.console.log(err.response);
-            alert(err.response.data)
+            alert(err.response.data);
           });
       }
     }

@@ -31,6 +31,9 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
           </li>
+          <li class="nav-item">
+            <p class="nav-link mb-0" active-class="active" @click="logout">Log out</p>
+          </li>
         </ul>
       </div>
     </nav>
@@ -39,7 +42,30 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  methods: {
+    logout() {
+      window.console.log(
+        "getters.isLoggedIn: ",
+        this.$store.getters.isLoggedIn
+      );
+      if (this.$store.getters.isLoggedIn) {
+        this.$axios
+          .get("/api/users/logout/" + this.$store.getters.getUserId)
+          .then(res => {
+            if (res.status == 200) {
+              this.$store.commit("logout");
+              window.console.log("user logged out");
+              alert("logged out!");
+            }
+          })
+          .catch(err => window.console.log(err));
+      } else {
+        window.console.log("You are not logged in!");
+        alert("You are not logged in!");
+      }
+    }
+  }
 };
 </script>
 

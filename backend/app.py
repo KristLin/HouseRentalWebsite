@@ -151,7 +151,8 @@ class Users(Resource):
 
         # store active user info
         active_users[user_id] = user_data
-        return "Registered successfully", 200
+        # return user id
+        return user_id + " " + user_data["role"], 200
 
     @api.doc(description="get all users (only used for test)")
     def get(self):
@@ -183,7 +184,8 @@ class Login(Resource):
 
             # store active user info
             active_users[login_user["_id"]] = login_user
-            return "Log in successfully", 200
+            # return user id
+            return login_user["_id"] + " " + login_user["role"], 200
         else:
             return "Unauthorized login request", 401
 
