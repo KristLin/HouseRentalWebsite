@@ -105,4 +105,9 @@ export default {
     display: none;
   }
 }
+@media screen and (min-width: 1040px) {
+  .sidebar {
+    width: 207px;
+  }
+}
 </style>
