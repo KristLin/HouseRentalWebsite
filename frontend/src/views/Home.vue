@@ -104,10 +104,42 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-      <div class="features">
-        <p>--------------------</p>
-        <p>Features Intro (后续)</p>
-        <p>--------------------</p>
+      <div class="features mx-auto my-8">
+        <div class="text-center my-5">
+          <h2 class="font-weight-bold my-5">Why is it so great?</h2>
+          <p class="lead mx-auto mb-5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+          </p>
+          <div class="row">
+            <div class="col-md-4">
+              <i class="fas fa-chart-area fa-3x red-text"></i>
+              <h5 class="font-weight-bold my-4">Analytics</h5>
+              <p class="grey-text mb-md-0 mb-5">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+                maiores aperiam minima assumenda deleniti hic.
+              </p>
+            </div>
+
+            <div class="col-md-4">
+              <i class="fas fa-book fa-3x cyan-text"></i>
+              <h5 class="font-weight-bold my-4">Tutorials</h5>
+              <p class="grey-text mb-md-0 mb-5">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
+                maiores aperiam minima assumenda deleniti hic.
+              </p>
+            </div>
+
+            <div class="col-md-4">
+              <i class="far fa-comments fa-3x orange-text"></i>
+              <h5 class="font-weight-bold my-4">Support</h5>
+              <p class="grey-text mb-0">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores
+                aperiam minima assumenda deleniti hic.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- <div class="card-body">
         <h2 class="card-title">Find your favorite accommodation</h2>
@@ -160,10 +192,10 @@ export default {
   methods: {
     learnMore() {
       this.$router.push({
-        name: "search",
+        name: "search"
       });
     }
-  },
+  }
 
   // get random houses for homepage display
   // created() {
@@ -232,6 +264,7 @@ export default {
 }
 
 .features {
-  min-height: 400px;
+  width: 80%;
+  min-height: 500px;
 }
 </style>
