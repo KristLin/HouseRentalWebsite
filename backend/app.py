@@ -234,6 +234,7 @@ class User(Resource):
 
             if user_id == delete_user["_id"]:
                 db.delete_user(user_id)
+                del active_users[user_id]
                 msg = {"message": f"User = {user_id} is removed from the database!"}
                 return msg, 200
             else:

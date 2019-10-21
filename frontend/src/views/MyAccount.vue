@@ -120,19 +120,29 @@ export default {
       let usedUpdatedUserData = this.updatedUserData;
       // remove unused field
       delete usedUpdatedUserData["password2"];
-      window.console.log(usedUpdatedUserData)
+      window.console.log(usedUpdatedUserData);
       this.$axios
         .patch(
           "/api/users/" + this.$store.getters.getUserId,
           usedUpdatedUserData
         )
         .then(response => {
-          window.console.log(response)
+          window.console.log(response);
           alert("User info is updated!");
         })
         .catch(error => window.console.log(error.response));
     },
-    deleteAccount() {}
+    deleteAccount() {
+      this.$axios
+        .delete("/api/users/" + this.$store.getters.getUserId)
+        .then(response => {
+          window.console.log(response);
+          alert("User account is deleted!");
+          this.$store.commit("logout");
+          this.$router.push({ name: "home" });
+        })
+        .catch(error => window.console.log(error.response));
+    }
   },
   created() {
     this.$axios
