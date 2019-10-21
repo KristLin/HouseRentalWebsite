@@ -330,7 +330,7 @@ class House(Resource):
 
 
 @houses.route("/<string:provider_id>/<string:house_id>")
-class HousesOfProvider(Resource):
+class HouseOfProvider(Resource):
     # @requires_provider
     @api.doc(description="Delete a house by its ID")
     # delete a house
@@ -373,6 +373,13 @@ class HousesOfProvider(Resource):
         else:
             return f"House with id {house_id} is not in the database!", 404
 
+
+@houses.route("/providedby/<string:provider_id>")
+class HousesOfProvider(Resource):
+    @api.doc(description="Get the provider's house list")
+    def get(self, provider_id):
+        houses_of_provider = db.find_user_houses(provider_id)
+        return houses_of_provider, 200
 
 # ============ house API part end ============
 

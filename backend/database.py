@@ -89,6 +89,15 @@ class DB(object):
             all_houses.append(house)
         return all_houses
 
+    def find_user_houses(self, user_id):
+        cursor = self.houses.find()
+        all_houses = []
+        for house in cursor:
+            if house["provider"] == user_id:
+                house['_id'] = str(house['_id'])
+                all_houses.append(house)
+        return all_houses
+
     def add_house(self, house):
         _id = str(self.houses.insert_one(house).inserted_id)
         return _id
