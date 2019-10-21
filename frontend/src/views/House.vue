@@ -1,6 +1,6 @@
 <template>
   <!-- Page Content -->
-  <div class="container">
+  <div class="container" v-if="house">
     <div class="row">
       <div class="col-lg-3">
         <div class="list-group my-4 sidebar">
@@ -50,7 +50,7 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
             <small class="text-muted">Posted by Anonymous on 3/1/17</small>
             <hr />
-            <a href="#" class="btn btn-success">Leave a Review</a>
+            <button class="my-btn form-control">Leave a Review</button>
           </div>
         </div>
         <!-- /.card -->
@@ -73,30 +73,30 @@ export default {
   },
   // check if the params are lost
   components: {},
-  beforeRouteEnter: (to, from, next) => {
+  created() {
     // if the params is empty, call the backend to get the house data.
-    if (Object.keys(to.params).length === 0) {
-      to.params.house = {
-        _id: 1,
-        title: "Title 1",
-        description:
-          "Aliquam mi massa, finibus ut elementum sed, tincidunt ac erat. Sed sagittis consectetur velit at tempor. In non tempor diam, eget pretium purus. Aliquam vel dictum odio, et cursus urna. Fusce convallis sapien dui, blandit convallis enim malesuada aliquam. Maecenas vestibulum tortor ac odio fringilla, in feugiat risus pretium. Donec iaculis eros at bibendum sollicitudin. Proin ultrices est tristique finibus ullamcorper. Pellentesque eleifend, dolor nec viverra luctus, mauris massa maximus libero, quis feugiat dolor diam a dui. Ut pharetra, dui sit amet condimentum mattis, metus ipsum eleifend lorem, vitae varius velit risus nec ipsum. Maecenas vehicula vulputate urna ut pulvinar. Aliquam erat volutpat. Praesent sapien sapien, fringilla sit amet placerat et, gravida interdum nunc. Nullam id tincidunt augue, quis porttitor risus.",
-        cover: "/house_images/1.jpg",
-        suburb: "Zetland",
-        price: "200"
-      };
+    if (Object.keys(this.$route.params).length === 0) {
+      this.$axios
+        .get("/api/houses/" + this.$route.query.houseId)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.house = response.data;
+        })
+        .catch(err => {
+          window.console.log(err.response);
+        });
       // house = this.$axios
       //   .get("/api/houses/" + this.houseId)
       //   .then(res => window.console.log(res))
       //   .catch(err => window.console.log(err));
     }
-    next();
   }
 };
 </script>
 
 <style>
 .sidebar {
+  background-color: #3c9d9b;
   position: fixed;
   width: 20%;
 }
@@ -109,5 +109,17 @@ export default {
   .sidebar {
     width: 207px;
   }
+}
+
+.my-btn {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: black;
+  color: white;
 }
 </style>
