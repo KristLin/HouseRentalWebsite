@@ -155,7 +155,7 @@ export default {
                 userId: userId,
                 userRole: userRole
               };
-              this.$store.commit("authUser", authUserData);
+              this.$store.commit("login", authUserData);
 
               window.console.log("user rigistered!");
               window.console.log("user id: " + userId);

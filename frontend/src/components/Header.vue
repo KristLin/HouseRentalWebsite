@@ -77,6 +77,10 @@ export default {
 .navbar {
   min-height: 100px;
 }
+.navbar-light .navbar-nav .nav-link.active {
+  color: #3c9d9b;
+}
+
 .nav-item::after {
   content: "";
   display: block;
@@ -88,19 +92,16 @@ export default {
 .nav-item:hover::after {
   width: 100%;
 }
-.navbar-dark .navbar-nav .active > .nav-link,
-.navbar-dark .navbar-nav .nav-link.active,
-.navbar-dark .navbar-nav .nav-link.show,
-.navbar-dark .navbar-nav .show > .nav-link,
-.navbar-dark .navbar-nav .nav-link:focus,
-.navbar-dark .navbar-nav .nav-link:hover {
-  color: #3c9d9b;
-}
+
 .nav-link {
   padding: 15px 5px;
   transition: 0.2s;
 }
-.dropdown-item.active,
+.dropdown-item {
+  font-size: 14px;
+  color: gray;
+}
+
 .dropdown-item:active {
   color: #212529;
 }
