@@ -276,8 +276,9 @@ class Houses(Resource):
     def get(self):
         keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
-        min_price = int(request.args.get("min_price")) if request.args.get("min_price") else None
-        max_price = int(request.args.get("max_price")) if request.args.get("max_price") else None
+        min_price = int(request.args.get("minPrice")) if request.args.get("minPrice") else None
+        max_price = int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        print(min_price, max_price)
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 

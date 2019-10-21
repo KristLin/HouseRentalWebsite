@@ -28,7 +28,7 @@ def filter_houses_with_keyword(houses, keyword):
     if keyword != None:
         for house in houses:
             # simple keyword search
-            if keyword in house["description"]:
+            if keyword.lower() in house["description"].lower():
                 filtered_houses.append(house)
         return filtered_houses
     else:
@@ -39,7 +39,7 @@ def filter_houses_with_suburb(houses, suburb):
     filtered_houses = []
     if suburb != None:
         for house in houses:
-            if house["suburb"] == suburb:
+            if house["suburb"].lower() == suburb.lower():
                 filtered_houses.append(house)
         return filtered_houses
     else:
@@ -50,7 +50,7 @@ def filter_houses_with_min_price(houses, min_price):
     filtered_houses = []
     if min_price!= None:
         for house in houses:
-            if min_price <= house["price"]:
+            if min_price <= int(house["price"]):
                 filtered_houses.append(house)
         return filtered_houses
     else:
@@ -61,7 +61,7 @@ def filter_houses_with_max_price(houses, max_price):
     filtered_houses = []
     if max_price!= None:
         for house in houses:
-            if house["price"] <= max_price:
+            if int(house["price"]) <= max_price:
                 filtered_houses.append(house)
         return filtered_houses
     else:
