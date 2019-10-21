@@ -167,9 +167,10 @@ class Login(Resource):
     @api.doc(description="Log in an user account")
     def post(self):
         user_login_data = request.json
-        if utils.check_logged_in(active_users, user_login_data["email"]):
-            return user_login_data["email"] + " has Already logged in", 404
         login_user = db.find_user_by_email(user_login_data["email"])
+        if utils.check_logged_in(active_users, user_login_data["email"]):
+            print(user_login_data["email"] + " has Already logged in")
+            return login_user["_id"] + " " + login_user["role"], 200
         if login_user == None:
             return "The user email does not exist", 404
 
