@@ -216,6 +216,7 @@ export default {
           // JSON responses are automatically parsed.
           if (response.status == 201) {
             window.console.log("uploaded!");
+            alert("House is uploaded!")
           }
         })
         .catch(err => {

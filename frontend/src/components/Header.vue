@@ -57,7 +57,7 @@ export default {
               this.$store.commit("logout");
               window.console.log("user logged out");
               alert("logged out!");
-              this.$router.push({ name: "home" });
+              // this.$router.push({ name: "home" });
             }
           })
           .catch(err => window.console.log(err));

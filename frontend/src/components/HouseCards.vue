@@ -11,6 +11,7 @@
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
+            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
             <!-- <p class="card-text text-left">{{ handleDescription(house.description) }}</p> -->
           </div>
           <div class="card-footer">
@@ -50,8 +51,5 @@ img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-}
-.card-title {
-  min-height: 50px;
 }
 </style>
