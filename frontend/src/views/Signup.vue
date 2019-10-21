@@ -4,106 +4,81 @@
       <div class="container">
         <h2>Join us.</h2>
         <hr />
-        <div class="row">
-          <!-- for layout purpose -->
-          <div class="col-md-2"></div>
-
-          <!-- input user data -->
-          <div class="col-md-4 user-info">
-            <div class="form-group">
-              <input
-                type="email"
-                v-model.lazy="userData.email"
-                class="form-control input-lg"
-                placeholder="Email Address"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                v-model.lazy="userData.name"
-                class="form-control input-lg"
-                placeholder="Your Name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="tel"
-                v-model.lazy="userData.phone"
-                class="form-control input-lg"
-                placeholder="Phone Number"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <input
-                type="password"
-                v-model.lazy="userData.password"
-                class="form-control input-lg"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                type="password"
-                v-model.lazy="checkedData.password2"
-                class="form-control input-lg"
-                placeholder="Password Confirm"
-                required
-              />
-            </div>
-            <!-- choose role -->
-            <div class="form-group">
-              <div class="role-pick">
-                <input
-                  type="radio"
-                  name="role"
-                  value="tenant"
-                  v-model.lazy="userData.role"
-                  required
-                />
-                <label>Tenant</label>
-              </div>
-              <div class="role-pick">
-                <input
-                  type="radio"
-                  name="role"
-                  value="provider"
-                  v-model.lazy="userData.role"
-                  required
-                />
-                <label>Provider</label>
-              </div>
-            </div>
+        <!-- input user data -->
+        <div class="register-form m-auto">
+          <div class="form-group">
+            <input
+              type="email"
+              v-model.lazy="userData.email"
+              class="form-control input-lg"
+              placeholder="Email Address"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              v-model.lazy="userData.name"
+              class="form-control input-lg"
+              placeholder="Your Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="tel"
+              v-model.lazy="userData.phone"
+              class="form-control input-lg"
+              placeholder="Phone Number"
+              required
+            />
           </div>
 
-          <!-- for layout purpose -->
-          <div class="col-md-1"></div>
-
-          <!-- show user info -->
-          <div class="col-md-3 confirm-box">
-            <h6>Please Confirm Your Information:</h6>
-            <hr />
-            <div class="confirm-info">
-              <p>Email: {{ userData.email }}</p>
-              <p>Name: {{ userData.name }}</p>
-              <p>Phone: {{ userData.phone }}</p>
-            </div>
-            <hr />
+          <div class="form-group">
+            <input
+              type="password"
+              v-model.lazy="userData.password"
+              class="form-control input-lg"
+              placeholder="Password"
+              required
+            />
           </div>
-        </div>
-
-        <!-- check policy & terms and submit button -->
-        <div>
-          <p>
-            <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
-            By clicking the checkbox you're agree to our policy & terms
-          </p>
-          <div class="register-button-div">
-            <button @click="registerAccount" class="my-btn form-control my-4">Register</button>
+          <div class="form-group">
+            <input
+              type="password"
+              v-model.lazy="checkedData.password2"
+              class="form-control input-lg"
+              placeholder="Password Confirm"
+              required
+            />
+          </div>
+          <!-- choose role -->
+          <div class="form-group">
+            <div class="role-pick">
+              <input type="radio" name="role" value="tenant" v-model.lazy="userData.role" required />
+              <label>Tenant</label>
+            </div>
+            <div class="role-pick">
+              <input
+                type="radio"
+                name="role"
+                value="provider"
+                v-model.lazy="userData.role"
+                required
+              />
+              <label>Provider</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- check policy & terms and submit button -->
+            <div>
+              <p>
+                <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
+                By clicking the checkbox you're agree to our policy & terms
+              </p>
+              <div class="register-button-div">
+                <button @click="registerAccount" class="my-btn form-control my-4">Register</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -182,9 +157,8 @@ export default {
   min-height: 500px;
 }
 
-.user-info {
-  margin-top: 1rem;
-  margin-bottom: auto;
+.register-form {
+  max-width: 350px;
 }
 
 .role-pick {
