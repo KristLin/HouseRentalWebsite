@@ -106,7 +106,4 @@ export default {
 .filter-input {
   margin: auto;
 }
-.datepicker-height {
-  height: 50%;
-}
 </style>

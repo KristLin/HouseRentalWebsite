@@ -20,19 +20,25 @@
             <router-link class="nav-link" to="/" active-class="active" exact>Home</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/search" active-class="active" exact>Search</router-link>
+          </li>
+          <li class="nav-item" v-if="!this.$store.getters.isLoggedIn">
+            <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
+          </li>
+          <li class="nav-item dropdown" v-if="this.$store.getters.isLoggedIn">
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Account</a>
+            <div class="dropdown-menu">
+              <span class="dropdown-item" @click="$router.push({name:'myAccount'})">My Account</span>
+              <span class="dropdown-item" @click="$router.push({name:'myHouses'})">My Houses</span>
+              <div class="dropdown-divider"></div>
+              <span class="dropdown-item" @click="logout">Log out</span>
+            </div>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/contact" active-class="active" exact>Contact us</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/about" active-class="active" exact>About us</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/uploadHouse" active-class="active" exact>Upload</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
-          </li>
-          <li class="nav-item">
-            <p class="nav-link mb-0" active-class="active" @click="logout">Log out</p>
           </li>
         </ul>
       </div>
@@ -43,6 +49,8 @@
 <script>
 export default {
   name: "Header",
+  data() {
+  },
   methods: {
     logout() {
       window.console.log(
@@ -55,6 +63,7 @@ export default {
           .then(res => {
             if (res.status == 200) {
               this.$store.commit("logout");
+              this.$forceUpdate();
               window.console.log("user logged out");
               alert("logged out!");
               // this.$router.push({ name: "home" });
@@ -96,6 +105,10 @@ export default {
 .nav-link {
   padding: 15px 5px;
   transition: 0.2s;
+}
+
+.dropdown-menu {
+  min-width: 0;
 }
 .dropdown-item {
   font-size: 14px;
