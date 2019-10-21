@@ -49,8 +49,6 @@
 <script>
 export default {
   name: "Header",
-  data() {
-  },
   methods: {
     logout() {
       window.console.log(

@@ -2,25 +2,63 @@
   <div>
     <div class="container">
       <p>My Houses</p>
-      <router-link class="nav-link" to="/uploadHouse" active-class="active" exact>Upload</router-link>
+      <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
+      <hr />
+      <button class="my-btn form-control" @click="$router.push({name: 'uploadHouse'})">Upload House</button>
+      <hr />
+      <MyHouseCards v-bind:houses="userHouses" />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import SearchInput from "@/components/SearchInput.vue";
+import MyHouseCards from "@/components/MyHouseCards.vue";
 
 export default {
   name: "myHouses",
-  components: {},
+  components: {
+    SearchInput,
+    MyHouseCards
+  },
 
   data() {
     return {
+      searchData: {},
       userHouses: []
     };
   },
 
-  methods: {}
+  methods: {
+    searchHouse() {
+      window.console.log("searching...");
+      window.console.log(this.searchData);
+      this.$axios
+        .get("/api/houses/providedby/" + this.$store.getters.getUserId, {
+          params: this.searchData
+        })
+        .then(response => {
+          // JSON responses are automatically parsed.
+          window.console.log(response.data);
+          this.userHouses = response.data;
+        })
+        .catch(err => {
+          window.console.log(err.response);
+        });
+    }
+  },
+  created() {
+    this.$axios
+      .get("/api/houses/providedby/" + this.$store.getters.getUserId)
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.userHouses = response.data;
+      })
+      .catch(err => {
+        window.console.log(err.response);
+      });
+  }
 };
 </script>
 
@@ -28,5 +66,17 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+}
+
+.my-btn {
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
 }
 </style>

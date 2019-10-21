@@ -52,14 +52,7 @@ export default {
   name: "SearchInput",
   components: {},
   props: {
-    searchData: {
-      keyword: "",
-      suburb: "",
-      min_price: "",
-      max_price: "",
-      start_date: "",
-      end_date: ""
-    }
+    searchData: {}
   },
   methods: {
     searchHouse() {

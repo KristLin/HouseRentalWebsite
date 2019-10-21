@@ -17,7 +17,7 @@ export default new Vuex.Store({
       }
     },
     isProvider: state => {
-      if (state.userRole === "provider" || localStorage.getItem("userId") === "provider") {
+      if (state.userRole === "provider" || localStorage.getItem("userRole") === "provider") {
         return true
       } else {
         return false

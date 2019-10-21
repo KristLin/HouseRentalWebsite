@@ -19,6 +19,8 @@
             <br />
             <small class="text-muted">${{house.price}}</small>
           </div>
+          <button class="btn btn-success form-control" @click="updateHouse(house._id)">Update House</button>
+          <button class="btn btn-danger form-control my-1" @click="deleteHouse(house._id)">Delete House</button>
         </div>
       </div>
     </div>
@@ -27,7 +29,7 @@
 
 <script>
 export default {
-  name: "HouseCards",
+  name: "MyHouseCards",
   props: {
     houses: Array
   },
@@ -43,6 +45,18 @@ export default {
       return (
         description.substring(0, 150) + (description.length > 150 ? " ..." : "")
       );
+    },
+    deleteHouse(house_id) {
+      this.$axios
+        .delete("/api/houses/" + this.$store.getters.getUserId + "/" + house_id)
+        .then(response => {
+          window.console.log(response);
+          alert("House Deleted!");
+          this.$forceUpdate();
+        })
+        .catch(error => {
+          window.console.log(error.response);
+        });
     }
   }
 };

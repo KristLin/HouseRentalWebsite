@@ -48,7 +48,7 @@ user_model = api.model(
     "user",
     {
         "email": fields.String(
-            required=True,
+            # required=True,
             description="Email of the user",
             help="Email cannot be blank.",
         ),
@@ -211,6 +211,15 @@ class Logout(Resource):
 
 @users.route("/<string:user_id>")
 class User(Resource):
+    @api.doc(description="Return user info (except password)")
+    def get(self, user_id):
+        userData = db.find_user_by_id(user_id)
+        if userData:
+            del userData["password"]
+            return userData, 200
+        else:
+            return f"User with id {user_id} is not in the database!", 404
+
     @api.doc(description="Delete a user by its ID")
     # @requires_user
     # delete user account
@@ -279,7 +288,6 @@ class Houses(Resource):
         suburb = request.args.get("suburb")
         min_price = int(request.args.get("minPrice")) if request.args.get("minPrice") else None
         max_price = int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
-        print(min_price, max_price)
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
@@ -376,9 +384,36 @@ class HouseOfProvider(Resource):
 
 @houses.route("/providedby/<string:provider_id>")
 class HousesOfProvider(Resource):
+    @api.param("keyword", "keyword for filtering houses")
+    @api.param("suburb", "suburb for filtering houses")
+    @api.param("min_price", "minimum price for filtering houses")
+    @api.param("max_price", "maximum price for filtering houses")
+    @api.param("start_date", "start date for filtering houses")
+    @api.param("end_date", "end date for filtering houses")
+    # @api.param("pet_allowed", "end date for filtering houses")
+    # @api.param("party_allowed", "end date for filtering houses")
+    # @api.param("smoke_allowed", "end date for filtering houses")
+    # @api.param("has_wifi", "end date for filtering houses")
     @api.doc(description="Get the provider's house list")
     def get(self, provider_id):
+        keyword = request.args.get("keyword")
+        suburb = request.args.get("suburb")
+        min_price = int(request.args.get("minPrice")) if request.args.get("minPrice") else None
+        max_price = int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        print(min_price, max_price)
+        start_date = request.args.get("start_date")
+        end_date = request.args.get("end_date")
+
         houses_of_provider = db.find_user_houses(provider_id)
+        houses_of_provider = utils.filter_houses(
+            houses=houses_of_provider,
+            keyword=keyword,
+            suburb=suburb,
+            min_price=min_price,
+            max_price=max_price,
+            start_date=start_date,
+            end_date=end_date,
+        )
         return houses_of_provider, 200
 
 # ============ house API part end ============

@@ -26,7 +26,7 @@ export default {
 
   data() {
     return {
-      searchData: this.$route.query,
+      searchData: {},
       // houses: this.$route.params.houses
       houses: []
     };
@@ -35,6 +35,7 @@ export default {
   methods: {
     searchHouse() {
       window.console.log("searching...");
+      window.console.log(this.searchData);
       this.$axios
         .get("/api/houses/", { params: this.searchData })
         .then(response => {
@@ -67,27 +68,15 @@ export default {
   //   next();
   // },
   created() {
-    if (Object.keys(this.$route.query).length !== 0) {
-      this.$axios
-        .get("/api/houses/", { params: this.searchData })
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.houses = response.data;
-        })
-        .catch(err => {
-          window.console.log(err.response);
-        });
-    } else {
-      this.$axios
-        .get("/api/houses/")
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.houses = response.data;
-        })
-        .catch(err => {
-          window.console.log(err.response);
-        });
-    }
+    this.$axios
+      .get("/api/houses/")
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.houses = response.data;
+      })
+      .catch(err => {
+        window.console.log(err.response);
+      });
   }
 };
 </script>
