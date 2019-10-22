@@ -26,10 +26,10 @@
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
           </li>
           <li class="nav-item dropdown" v-if="this.$store.getters.isLoggedIn">
-            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">Account</a>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
             <div class="dropdown-menu">
-              <span class="dropdown-item" @click="$router.push({name:'myAccount'})">My Account</span>
-              <span class="dropdown-item" @click="$router.push({name:'myHouses'})">My Houses</span>
+              <span class="dropdown-item" @click="goToMyAccount">My Account</span>
+              <span class="dropdown-item" @click="goToMyHouses">My Houses</span>
               <div class="dropdown-divider"></div>
               <span class="dropdown-item" @click="logout">Log out</span>
             </div>
@@ -63,7 +63,7 @@ export default {
               this.$store.commit("logout");
               // this.$router.go()
               // refresh the web page
-              
+
               window.console.log("user logged out");
               if (this.$router.currentRoute.name !== "home") {
                 this.$router.push({ name: "home" });
@@ -80,6 +80,16 @@ export default {
         window.console.log("You are not logged in!");
         alert("You are not logged in!");
       }
+    },
+    goToMyAccount() {
+      if (this.$router.currentRoute.name !== "myAccount") {
+        this.$router.push({ name: "myAccount" });
+      }
+    },
+    goToMyHouses() {
+      if (this.$router.currentRoute.name !== "myHouses") {
+        this.$router.push({ name: "myHouses" });
+      }
     }
   }
 };
@@ -92,6 +102,7 @@ export default {
 .navbar {
   min-height: 100px;
 }
+
 .navbar-light .navbar-nav .nav-link.active {
   color: #3c9d9b;
 }
@@ -111,6 +122,10 @@ export default {
 .nav-link {
   padding: 15px 5px;
   transition: 0.2s;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  color: #3c9d9b;
 }
 
 .dropdown-menu {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <p>My Houses</p>
+      <h3 class="mb-4">My Houses</h3>
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <hr />
       <button
@@ -9,6 +9,7 @@
         @click="$router.push({name: 'uploadHouse'})"
       >Upload House</button>
       <hr />
+      
       <MyHouseCards v-bind:houses="userHouses" />
     </div>
   </div>

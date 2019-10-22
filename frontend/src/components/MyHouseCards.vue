@@ -1,13 +1,8 @@
 <template>
   <div>
     <div class="row house-cards-area">
-      <div
-        class="col-lg-4 col-sm-6 mb-4"
-        @click="clickHouse(house)"
-        :key="house._id"
-        v-for="house in houses"
-      >
-        <div class="card h-100">
+      <div class="col-lg-4 col-sm-6 mb-4" :key="house._id" v-for="house in houses">
+        <div class="card" @click="clickHouse(house)">
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
@@ -19,12 +14,9 @@
             <br />
             <small class="text-muted">${{house.price}}</small>
           </div>
-          <button class="my-btn form-control" @click="updateHouse(house._id)">Update House</button>
-          <button
-            class="btn btn-danger form-control my-1"
-            @click="deleteHouse(house._id)"
-          >Delete House</button>
         </div>
+        <button class="my-btn form-control my-1" @click="updateHouse(house._id)">Update House</button>
+        <button class="btn btn-danger form-control" @click="deleteHouse(house._id)">Delete House</button>
       </div>
     </div>
   </div>
@@ -50,17 +42,17 @@ export default {
       );
     },
     updateHouse(house_id) {
-        window.console.log(house_id)
-    //   this.$axios
-    //     .patch(
-    //       "/api/houses/" + this.$store.getters.getUserId + "/" + house_id,
-    //       usedUpdatedUserData
-    //     )
-    //     .then(response => {
-    //       window.console.log(response);
-    //       alert("User info is updated!");
-    //     })
-    //     .catch(error => window.console.log(error.response));
+      window.console.log(house_id);
+      //   this.$axios
+      //     .patch(
+      //       "/api/houses/" + this.$store.getters.getUserId + "/" + house_id,
+      //       usedUpdatedUserData
+      //     )
+      //     .then(response => {
+      //       window.console.log(response);
+      //       alert("User info is updated!");
+      //     })
+      //     .catch(error => window.console.log(error.response));
     },
 
     deleteHouse(house_id) {

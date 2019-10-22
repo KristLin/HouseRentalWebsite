@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container">
+      <h3 class="mb-4">My Account</h3>
       <div class="row">
         <div class="col-lg-5 col-md-6 col-sm-4">
           <img :src="userData.profile" class="user-profile" />
@@ -11,7 +12,7 @@
               class="my-btn btn-sm form-control my-2"
               @click="$refs.fileInput.click()"
             >Select Profile</button>
-            <button class="my-btn btn-sm form-control" @click="uploadProfile">Upload Profile</button>
+            <!-- <button class="my-btn btn-sm form-control" @click="uploadProfile">Upload Profile</button> -->
           </div>
         </div>
         <hr class="small-screen-layout" display="none" />
@@ -126,33 +127,33 @@ export default {
       this.userData.profile = URL.createObjectURL(this.updatedUserData.profile);
       this.$forceUpdate();
     },
-    uploadProfile() {
-      let formData = new FormData();
-      formData.append(
-        "profile",
-        this.updatedUserData.profile,
-        this.updatedUserData.profile.name
-      );
-      this.$axios
-        .post("/api/users/profile/" + this.$store.getters.getUserId, formData, {
-          onUploadProgress: function(progressEvent) {
-            let percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            window.console.log("Upload Progress: ", percentCompleted + "%");
-          }
-        })
-        .then(response => {
-          this.userData.profile = URL.createObjectURL(
-            this.updatedUserData.profile
-          );
-          this.$forceUpdate();
-          window.console.log(response);
-        })
-        .catch(error => {
-          window.console.log(error);
-        });
-    },
+    // uploadProfile() {
+    //   let formData = new FormData();
+    //   formData.append(
+    //     "profile",
+    //     this.updatedUserData.profile,
+    //     this.updatedUserData.profile.name
+    //   );
+    //   this.$axios
+    //     .post("/api/users/profile/" + this.$store.getters.getUserId, formData, {
+    //       onUploadProgress: function(progressEvent) {
+    //         let percentCompleted = Math.round(
+    //           (progressEvent.loaded * 100) / progressEvent.total
+    //         );
+    //         window.console.log("Upload Progress: ", percentCompleted + "%");
+    //       }
+    //     })
+    //     .then(response => {
+    //       this.userData.profile = URL.createObjectURL(
+    //         this.updatedUserData.profile
+    //       );
+    //       this.$forceUpdate();
+    //       window.console.log(response);
+    //     })
+    //     .catch(error => {
+    //       window.console.log(error);
+    //     });
+    // },
 
     updateAccount() {
       // if one of the password input are not empty, check if they are matched
@@ -191,7 +192,7 @@ export default {
         return;
       }
       // window.console.log(usedUpdatedUserData)
-      
+
       // transform Object to a File-like object
       let json = JSON.stringify(usedUpdatedUserData);
       let blob = new Blob([json], {

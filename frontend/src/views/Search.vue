@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container">
+      <h3 class="mb-4">Search Houses</h3>
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <div>
         <hr />
