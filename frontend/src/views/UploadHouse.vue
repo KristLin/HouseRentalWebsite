@@ -4,14 +4,66 @@
     <div class="row">
       <!-- house info display start -->
       <div class="col-lg-5 col-md-5 my-auto">
-        <div class="card h-100">
-          <img
+        <div class="row card">
+          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" v-if="displayData.cover">
+            <ol class="carousel-indicators active">
+              <!-- cover image -->
+              <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
+              <!-- other images -->
+              <li
+                data-target="#carouselExampleIndicators"
+                :key="idx"
+                v-for="(index, idx) in displayData.images"
+                :data-slide-to="idx+1"
+              ></li>
+              <!-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="card-img-top house-cover-display" :src="displayData.cover" />
+              </div>
+              <div class="carousel-item" :key="idx" v-for="(index, idx) in displayData.images">
+                <img class="card-img-top house-cover-display" :src="displayData.images[idx]" />
+              </div>
+
+              <!-- <div class="carousel-item active">
+              <img class="d-block w-100" src="..." alt="First slide" />
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="..." alt="Second slide" />
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="..." alt="Third slide" />
+              </div>-->
+            </div>
+            <a
+              class="carousel-control-prev"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="prev"
+            >
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a
+              class="carousel-control-next"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="next"
+            >
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          <!-- <img
             class="card-img-top house-cover-display"
-            v-if="houseData.cover"
-            :src="houseData.cover"
+            v-if="displayData.cover"
+            :src="displayData.cover"
             alt="house-cover"
-          />
-          <div class="house-cover-display" v-if="!houseData.cover">
+          />-->
+          <div class="house-cover-display" v-if="!displayData.cover">
             <p class="mt-3">House Cover</p>
           </div>
           <div class="card-body">
@@ -44,9 +96,13 @@
         <!-- input title end -->
 
         <!-- input cover start -->
-        <div class="row mt-2">
+        <!-- <div class="row mt-2">
           <label class="input-label">Cover Url:</label>
           <input type="text" class="form-control" placeholder="Cover Url" v-model="houseData.cover" />
+        </div>-->
+        <div class="row mt-2">
+          <input type="file" style="display: none" ref="coverInput" @change="selectCover" />
+          <button class="my-btn form-control" @click="$refs.coverInput.click()">Select Cover</button>
         </div>
         <!-- input cover end -->
 
@@ -64,7 +120,7 @@
         <!-- input description end -->
 
         <!-- input images start -->
-        <div class="row mt-2">
+        <!-- <div class="row mt-2">
           <label class="input-label">Image Urls (Please separate Urls with return):</label>
           <textarea
             cols="30"
@@ -73,6 +129,16 @@
             placeholder="Image Urls"
             v-model="houseData.images"
           ></textarea>
+        </div>-->
+        <div class="row mt-2">
+          <input
+            type="file"
+            style="display: none"
+            ref="imagesInput"
+            @change="selectImages"
+            multiple
+          />
+          <button class="my-btn form-control" @click="$refs.imagesInput.click()">Select Images</button>
         </div>
         <!-- input images end -->
 
@@ -173,6 +239,10 @@ export default {
   components: {},
   data() {
     return {
+      displayData: {
+        cover: "",
+        images: []
+      },
       houseData: {
         title: "",
         cover: "",
@@ -185,6 +255,30 @@ export default {
     };
   },
   methods: {
+    selectCover(event) {
+      window.console.log(event.target.files[0]);
+      this.houseData.cover = event.target.files[0];
+      this.displayData.cover = URL.createObjectURL(this.houseData.cover);
+      this.$forceUpdate();
+    },
+    selectImages(event) {
+      if (!this.displayData.cover) {
+        alert("Please select cover first!");
+        return;
+      }
+      this.houseData.images = Array.from(event.target.files);
+      window.console.log(this.houseData.images);
+
+      this.displayData.images = [];
+      for (let key in this.houseData.images) {
+        window.console.log(this.houseData.images[key]);
+        this.displayData.images.push(
+          URL.createObjectURL(this.houseData.images[key])
+        );
+      }
+      window.console.log(this.displayData.images);
+      this.$forceUpdate();
+    },
     handleDescription(description) {
       if (description) {
         return (
@@ -216,7 +310,7 @@ export default {
           // JSON responses are automatically parsed.
           if (response.status == 201) {
             window.console.log("uploaded!");
-            alert("House is uploaded!")
+            alert("House is uploaded!");
           }
         })
         .catch(err => {
@@ -272,7 +366,7 @@ export default {
 
 .house-cover-display {
   width: 100%;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
 }
 
@@ -281,6 +375,7 @@ export default {
 }
 
 .house-description-display {
+  word-wrap: break-word;
   min-height: 100px;
 }
 
