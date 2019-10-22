@@ -61,9 +61,15 @@ export default {
           .then(res => {
             if (res.status == 200) {
               this.$store.commit("logout");
-              this.$forceUpdate();
+              // this.$router.go()
+              // refresh the web page
+              window.location.reload(true);
               window.console.log("user logged out");
+              if (this.$router.currentRoute.name !== "home") {
+                this.$router.push({ name: "home" });
+              }
               alert("logged out!");
+
               // this.$router.push({ name: "home" });
             }
           })

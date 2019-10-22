@@ -4,7 +4,10 @@
       <p>My Houses</p>
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <hr />
-      <button class="my-btn form-control" @click="$router.push({name: 'uploadHouse'})">Upload House</button>
+      <button
+        class="my-btn w-50 m-auto form-control"
+        @click="$router.push({name: 'uploadHouse'})"
+      >Upload House</button>
       <hr />
       <MyHouseCards v-bind:houses="userHouses" />
     </div>
@@ -49,6 +52,15 @@ export default {
     }
   },
   created() {
+    if (!this.$store.getters.isLoggedIn) {
+      window.console.log("state.isProvider: " + this.$store.getters.isProvider);
+      if (this.$store.getters.isProvider) {
+        window.console.log("current user is provider.");
+      } else {
+        alert("Require provider login!");
+        this.$router.push({ name: "home" });
+      }
+    }
     this.$axios
       .get("/api/houses/providedby/" + this.$store.getters.getUserId)
       .then(response => {

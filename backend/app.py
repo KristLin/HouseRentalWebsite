@@ -53,6 +53,7 @@ user_model = api.model(
             help="Email cannot be blank.",
         ),
         "name": fields.String,
+        "profile": fields.Raw,
         "password": fields.String,
         "phone": fields.String,
         "role": fields.String,
@@ -204,9 +205,8 @@ class Logout(Resource):
 
         if user_id in active_users:
             del active_users[user_id]
-            return "Log out successfully", 200
-        else:
-            return "Unauthorized logout request", 401
+        print("User is not in the active list, maybe the server has restarted.")
+        return "Log out successfully", 200
 
 
 @users.route("/<string:user_id>")
@@ -234,7 +234,8 @@ class User(Resource):
 
             if user_id == delete_user["_id"]:
                 db.delete_user(user_id)
-                del active_users[user_id]
+                if user_id in active_users:
+                    del active_users[user_id]
                 msg = {"message": f"User = {user_id} is removed from the database!"}
                 return msg, 200
             else:
@@ -242,11 +243,34 @@ class User(Resource):
         else:
             return f"User with id {user_id} is not in the database!", 404
 
-    @api.expect(user_model, validate=True)
+    # @api.expect(user_model, validate=True)
     @api.doc(description="Update user info")
     # update user account
     def patch(self, user_id):
-        update_info = request.json
+        update_files = request.files.to_dict()
+        # get blob object from request and convert it to json
+        update_info_blob = update_files['userData']
+        if update_info_blob:
+            update_info = json.load(update_info_blob)
+        
+        if "profile" in update_files:
+            # get image file object from request and convert it to a string
+            update_profile = update_files['profile']
+            if update_profile:
+                # encode image file to bytes using base64
+                profile_encoded = utils.b64encode(update_profile.read())
+
+                # decode bytes to string (for transfering data)
+                # profile_str = utils.utf8decode(profile_encoded)
+
+                # decode string to bytes (for writing in file)
+                # profile_bytes = utils.b64decode(profile_str)
+
+                # with open("./images/1.png", 'wb') as f:
+                    # f.write(profile_bytes)
+                # return "", 200
+                update_info['profile'] = profile_encoded
+
         # remove empty property in update info
         update_info = utils.get_valid_update_info(update_info)
         update_user = db.find_user_by_id(user_id)
@@ -257,15 +281,19 @@ class User(Resource):
             #     msg = {"message": "The user info is updated!"}
             #     return msg, 200
 
-            if user_id == update_user["_id"]:
-                db.update_user(user_id, update_info)
-                msg = {"message": "The user info is updated!"}
-                return msg, 200
-            else:
-                return "Unauthorized patch request", 401
+            db.update_user(user_id, update_info)
+            msg = {"message": "The user info is updated!"}
+            return msg, 200
         else:
             return f"User with id {user_id} is not in the database!", 404
 
+
+@users.route("/profile/<string:user_id>")
+class TestProfile(Resource):
+    @api.doc(description="Upload user profile")
+    def post(self, user_id):
+        print(request.files.to_dict())
+        return "Test over", 200
 
 # ============ user API part end ============
 

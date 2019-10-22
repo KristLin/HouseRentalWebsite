@@ -1,3 +1,6 @@
+import base64
+
+
 def filter_houses(
     houses,
     keyword=None,
@@ -114,3 +117,27 @@ def check_logged_in(active_users, email):
         if active_users[user_id]["email"] == email:
             return True
     return False
+
+
+def b64encode(file):
+    return base64.b64encode(file)
+
+def b64decode(str):
+    return base64.b64decode(str)
+
+def utf8decode(file):
+    return file.decode('utf-8')
+
+def parse_data(res):
+    if type(res) == dict:
+        for key in res:
+            if type(res[key]) == bytes:
+                res[key] = utf8decode(res[key])
+            if type(res[key]) == list:
+                altered_list = []
+                for item in res[key]:
+                    if type(item) == bytes:
+                        altered_list.append(utf8decode(item))
+                if altered_list:
+                    res[key] = altered_list
+    return res

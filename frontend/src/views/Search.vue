@@ -3,9 +3,8 @@
     <div class="container">
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <div>
-        <h5>Search Result:</h5>
         <hr />
-        <p v-if="!this.houses.length" class="my-4">Sorry, there is not result...</p>
+        <h5 v-if="!this.houses.length" class="my-4">Sorry, there is not result...</h5>
         <HouseCards v-bind:houses="houses" />
       </div>
     </div>
@@ -86,6 +85,7 @@ export default {
   padding-top: 2rem;
   min-height: 500px;
 }
+
 .filter-label {
   font-size: 13px;
 }

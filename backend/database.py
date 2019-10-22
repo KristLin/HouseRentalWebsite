@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from dotenv import load_dotenv
 import os
+import utils
 
 # Database to manipulate user & house data
 load_dotenv()
@@ -11,7 +12,6 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 
 class DB(object):
     def __init__(self):
-        # self.dbclient = MongoClient(host='mongodb://useradmin:useradmin1@ds257752.mlab.com:57752/ass2')
 
         # connect to local mongoDB
         # self.dbclient = MongoClient('mongodb://localhost:27017/')
@@ -36,13 +36,13 @@ class DB(object):
         found_user = self.users.find_one({"_id": ObjectId(user_id)})
         if found_user:
             found_user["_id"] = str(found_user["_id"])
-        return found_user
+        return utils.parse_data(found_user)
 
     def find_user_by_email(self, email):
         found_user = self.users.find_one({"email": email})
         if found_user:
             found_user["_id"] = str(found_user["_id"])
-        return found_user
+        return utils.parse_data(found_user)
 
     def find_all_users(self):
         cursor = self.users.find()
@@ -50,7 +50,7 @@ class DB(object):
         for user in cursor:
             user['_id'] = str(user['_id'])
             all_users.append(user)
-        return all_users
+        return utils.parse_data(all_users)
 
     def add_user(self, user):
         _id = str(self.users.insert_one(user).inserted_id)
@@ -60,6 +60,10 @@ class DB(object):
     def update_user(self, user_id, update_info):
         query = {"_id": ObjectId(user_id)}
         return self.users.update_one(query, {"$set": update_info})
+    
+    def update_user_profile(self, user_id, update_profile):
+        query = {"_id": ObjectId(user_id)}
+        return self.users.update_one(query, {"$set": {"profile": update_profile}})
 
     def delete_user(self, user_id):
         self.users.delete_one({"_id": ObjectId(user_id)})
@@ -70,7 +74,7 @@ class DB(object):
         if found_house:
             # change the ObjectId to string format
             found_house['_id'] = str(found_house['_id'])
-        return found_house
+        return utils.parse_data(found_house)
 
     def find_random_houses(self):
         cursor = self.houses.find()
@@ -79,7 +83,7 @@ class DB(object):
             house['_id'] = str(house['_id'])
             all_houses.append(house)
         random_houses = all_houses[:3]
-        return random_houses
+        return utils.parse_data(random_houses)
 
     def find_all_houses(self):
         cursor = self.houses.find()
@@ -87,7 +91,7 @@ class DB(object):
         for house in cursor:
             house['_id'] = str(house['_id'])
             all_houses.append(house)
-        return all_houses
+        return utils.parse_data(all_houses)
 
     def find_user_houses(self, user_id):
         cursor = self.houses.find()
@@ -96,7 +100,7 @@ class DB(object):
             if house["provider"] == user_id:
                 house['_id'] = str(house['_id'])
                 all_houses.append(house)
-        return all_houses
+        return utils.parse_data(all_houses)
 
     def add_house(self, house):
         _id = str(self.houses.insert_one(house).inserted_id)

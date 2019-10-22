@@ -252,7 +252,7 @@ export default {
       return imageUrls;
     }
   },
-  beforeMount() {
+  created() {
     window.console.log("state.isProvider: " + this.$store.getters.isProvider);
     if (this.$store.getters.isProvider) {
       window.console.log("current user is provider.");
