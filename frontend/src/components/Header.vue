@@ -63,10 +63,12 @@ export default {
               this.$store.commit("logout");
               // this.$router.go()
               // refresh the web page
-              window.location.reload(true);
+              
               window.console.log("user logged out");
               if (this.$router.currentRoute.name !== "home") {
                 this.$router.push({ name: "home" });
+              } else {
+                window.location.reload(true);
               }
               alert("logged out!");
 
