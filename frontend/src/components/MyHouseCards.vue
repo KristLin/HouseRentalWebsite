@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row house-cards-area">
+    <div class="row">
       <div class="col-lg-4 col-sm-6 mb-4" :key="house._id" v-for="house in houses">
         <div class="card" @click="clickHouse(house)">
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
@@ -61,7 +61,14 @@ export default {
         .then(response => {
           window.console.log(response);
           alert("House Deleted!");
-          this.$forceUpdate();
+          //   this.houses = this.houses.filter(function(house) {
+          //     return house._id != house_id;
+          //   });
+          for (var i = this.houses.length - 1; i >= 0; i--) {
+            if (this.houses[i]._id === house_id) {
+              this.houses.splice(i, 1);
+            }
+          }
         })
         .catch(error => {
           window.console.log(error.response);
@@ -72,10 +79,6 @@ export default {
 </script>
 
 <style scoped>
-.house-cards-area {
-  margin-top: 30px;
-  margin-bottom: 80px;
-}
 
 img {
   width: 100%;

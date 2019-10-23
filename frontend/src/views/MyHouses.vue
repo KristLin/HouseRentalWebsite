@@ -9,7 +9,7 @@
         @click="$router.push({name: 'uploadHouse'})"
       >Upload House</button>
       <hr />
-      
+
       <MyHouseCards v-bind:houses="userHouses" />
     </div>
   </div>
@@ -79,6 +79,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 30px;
+  margin-bottom: 80px;
 }
 
 .my-btn {

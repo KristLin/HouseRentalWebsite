@@ -85,6 +85,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 30px;
+  margin-bottom: 80px;
 }
 
 .filter-label {

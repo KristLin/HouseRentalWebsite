@@ -128,6 +128,7 @@ def b64decode(str):
 def utf8decode(file):
     return file.decode('utf-8')
 
+# parse data to json string
 def parse_data(res):
     if type(res) == dict:
         for key in res:

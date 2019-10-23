@@ -3,7 +3,6 @@ from pymongo import MongoClient
 from bson import ObjectId
 from dotenv import load_dotenv
 import os
-import utils
 
 # Database to manipulate user & house data
 load_dotenv()
@@ -36,13 +35,13 @@ class DB(object):
         found_user = self.users.find_one({"_id": ObjectId(user_id)})
         if found_user:
             found_user["_id"] = str(found_user["_id"])
-        return utils.parse_data(found_user)
+        return found_user
 
     def find_user_by_email(self, email):
         found_user = self.users.find_one({"email": email})
         if found_user:
             found_user["_id"] = str(found_user["_id"])
-        return utils.parse_data(found_user)
+        return found_user
 
     def find_all_users(self):
         cursor = self.users.find()
@@ -50,7 +49,7 @@ class DB(object):
         for user in cursor:
             user['_id'] = str(user['_id'])
             all_users.append(user)
-        return utils.parse_data(all_users)
+        return all_users
 
     def add_user(self, user):
         _id = str(self.users.insert_one(user).inserted_id)
@@ -74,7 +73,7 @@ class DB(object):
         if found_house:
             # change the ObjectId to string format
             found_house['_id'] = str(found_house['_id'])
-        return utils.parse_data(found_house)
+        return found_house
 
     def find_random_houses(self):
         cursor = self.houses.find()
@@ -83,7 +82,7 @@ class DB(object):
             house['_id'] = str(house['_id'])
             all_houses.append(house)
         random_houses = all_houses[:3]
-        return utils.parse_data(random_houses)
+        return random_houses
 
     def find_all_houses(self):
         cursor = self.houses.find()
@@ -91,7 +90,7 @@ class DB(object):
         for house in cursor:
             house['_id'] = str(house['_id'])
             all_houses.append(house)
-        return utils.parse_data(all_houses)
+        return all_houses
 
     def find_user_houses(self, user_id):
         cursor = self.houses.find()
@@ -100,7 +99,7 @@ class DB(object):
             if house["provider"] == user_id:
                 house['_id'] = str(house['_id'])
                 all_houses.append(house)
-        return utils.parse_data(all_houses)
+        return all_houses
 
     def add_house(self, house):
         _id = str(self.houses.insert_one(house).inserted_id)

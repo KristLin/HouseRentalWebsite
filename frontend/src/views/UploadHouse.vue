@@ -5,7 +5,12 @@
       <!-- house info display start -->
       <div class="col-lg-5 col-md-5 my-auto">
         <div class="row card">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" v-if="displayData.cover">
+          <div
+            id="carouselExampleIndicators"
+            class="carousel slide"
+            data-ride="carousel"
+            v-if="displayData.cover"
+          >
             <ol class="carousel-indicators active">
               <!-- cover image -->
               <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
@@ -168,68 +173,6 @@
       <!-- input part end -->
     </div>
     <!-- row end -->
-
-    <!-- inputs with file picker -->
-    <!-- <div class="row">
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Title:</label>
-        <input type="text" class="form-control" placeholder="Title" v-model="houseData.title" />
-      </div>
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Description:</label>
-        <textarea
-          type="text"
-          class="form-control"
-          placeholder="Description"
-          v-model="houseData.description"
-        />
-      </div>
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Cover:</label>
-        <input
-          type="file"
-          class="form-control"
-          placeholder="Cover Url"
-          @change="uploadCover"
-          accept="image/png, image/jpeg, image/jpg"
-        />
-      </div>
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Images:</label>
-        <input
-          type="file"
-          class="form-control"
-          placeholder="Image Url"
-          @change="uploadImages"
-          accept="image/png, image/jpeg, image/jpg"
-          multiple
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Suburb:</label>
-        <input type="text" class="form-control" placeholder="Suburb" v-model="houseData.suburb" />
-      </div>
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Price per night:</label>
-        <input type="text" class="form-control" placeholder="Price" v-model="houseData.price" />
-      </div>
-
-      <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Provider ID:</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Provider ID"
-          v-model="houseData.provider"
-        />
-      </div>
-      <div class="col-lg-3 col-md-6 orm-group">
-        <label class="filter-label">Upload House:</label>
-        <button class="btn btn-dark form-control" @click="uploadHouse">Upload House</button>
-      </div>
-    </div>-->
   </div>
 </template>
 
@@ -289,19 +232,31 @@ export default {
         return "House Description";
       }
     },
-    uploadCover(event) {
-      this.houseData.cover = event.target.files[0];
-      window.console.log(this.houseData.cover);
+    async imageToUrl(imageFile) {
+      let KEY = "587e7ebff1f6ee9c2fc6501859d37864";
+      let HOST = "https://api.imgbb.com/1/upload?key=" + KEY;
+      let formData = new FormData();
+      formData.append("image", imageFile);
+      return await this.$axios.post(HOST, formData);
     },
-    uploadImages(event) {
-      this.houseData.images = event.target.files;
-      //   window.console.log(this.houseData.images[0]);
-    },
-    uploadHouse() {
-      // convert imageUrls from text to list
-      this.houseData.images = this.parseImagesUrls(this.houseData.images);
-      this.houseData.provider = this.$store.getters.getUserId;
-      // window.console.log(this.houseData);
+    async uploadHouse() {
+      for (let key in this.houseData) {
+        if (this.houseData[key] === "") {
+          alert("The house data is not complete!");
+          return;
+        }
+      }
+      // get cover url
+      let res = await this.imageToUrl(this.houseData.cover)
+      this.houseData.cover = res.data.data.url;
+      // get images urls
+      let imageUrls = [];
+      for (let idx in this.houseData.images) {
+        let res = await this.imageToUrl(this.houseData.images[idx])
+        imageUrls.push(res.data.data.url);
+      }
+      this.houseData.images = imageUrls;
+      window.console.log(this.houseData);
 
       // upload images in url form to backend
       this.$axios
@@ -316,40 +271,17 @@ export default {
         .catch(err => {
           window.console.log(err.response);
         });
-
-      // upload images in file form to backend (failed)
-      // let formData = new FormData();
-      // formData.append("title", this.houseData.title);
-      // formData.append("description", this.houseData.description);
-      // formData.append("cover", this.houseData.cover);
-      // formData.append("images", this.houseData.images);
-      // formData.append("suburb", this.houseData.suburb);
-      // formData.append("price", this.houseData.price);
-      // formData.append("provider", this.houseData.provider);
-      // let config = {
-      //   headers: { "Content-Type": "multipart/form-data" }
-      // };
-      // this.$axios
-      //   .post("/api/houses/", formData, config)
-      //   .then(response => {
-      //     // JSON responses are automatically parsed.
-      //     if (response.status == 200) {
-      //       window.console.log("uploaded!");
-      //     }
-      //   })
-      //   .catch(err => {
-      //     window.console.log(err.response);
-      //   });
-    },
-    parseImagesUrls(imagesUrlText) {
-      let imageUrls = imagesUrlText.split("\n");
-      return imageUrls;
     }
+    // parseImagesUrls(imagesUrlText) {
+    //   let imageUrls = imagesUrlText.split("\n");
+    //   return imageUrls;
+    // }
   },
   created() {
     window.console.log("state.isProvider: " + this.$store.getters.isProvider);
     if (this.$store.getters.isProvider) {
       window.console.log("current user is provider.");
+      this.houseData.provider = this.$store.getters.getUserId;
     } else {
       alert("Require provider login!");
       this.$router.push({ name: "home" });

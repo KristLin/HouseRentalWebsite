@@ -115,8 +115,7 @@ export default {
   data() {
     return {
       userData: {},
-      updatedUserData: {},
-      userProfile: ""
+      updatedUserData: {}
     };
   },
 
@@ -127,35 +126,14 @@ export default {
       this.userData.profile = URL.createObjectURL(this.updatedUserData.profile);
       this.$forceUpdate();
     },
-    // uploadProfile() {
-    //   let formData = new FormData();
-    //   formData.append(
-    //     "profile",
-    //     this.updatedUserData.profile,
-    //     this.updatedUserData.profile.name
-    //   );
-    //   this.$axios
-    //     .post("/api/users/profile/" + this.$store.getters.getUserId, formData, {
-    //       onUploadProgress: function(progressEvent) {
-    //         let percentCompleted = Math.round(
-    //           (progressEvent.loaded * 100) / progressEvent.total
-    //         );
-    //         window.console.log("Upload Progress: ", percentCompleted + "%");
-    //       }
-    //     })
-    //     .then(response => {
-    //       this.userData.profile = URL.createObjectURL(
-    //         this.updatedUserData.profile
-    //       );
-    //       this.$forceUpdate();
-    //       window.console.log(response);
-    //     })
-    //     .catch(error => {
-    //       window.console.log(error);
-    //     });
-    // },
-
-    updateAccount() {
+    async imageToUrl(imageFile) {
+      let KEY = "587e7ebff1f6ee9c2fc6501859d37864";
+      let HOST = "https://api.imgbb.com/1/upload?key=" + KEY;
+      let formData = new FormData();
+      formData.append("image", imageFile);
+      return await this.$axios.post(HOST, formData);
+    },
+    async updateAccount() {
       // if one of the password input are not empty, check if they are matched
       if (this.updatedUserData.password || this.updatedUserData.password2) {
         if (this.updatedUserData.password !== this.updatedUserData.password2) {
@@ -164,25 +142,22 @@ export default {
         }
       }
 
-      let formData = new FormData();
+      let validUpdatedData = {};
       let validData = 0;
 
       if ("profile" in this.updatedUserData) {
+        let profile = this.updatedUserData.profile;
+        window.console.log("profile: ", profile);
         validData += 1;
-        formData.append(
-          "profile",
-          this.updatedUserData.profile,
-          this.updatedUserData.profile.name
-        );
+        let res = await this.imageToUrl(profile);
+        validUpdatedData.profile = res.data.data.url;
       }
-
-      let usedUpdatedUserData = {};
-      // remove invalid update data
+      window.console.log(validUpdatedData);
       for (let key in this.updatedUserData) {
-        if (this.updatedUserData[key] !== "" && key !=="password2" && key !== "profile") {
+        if (key !== "profile" && key !== "password2") {
           if (this.updatedUserData[key] !== this.userData[key]) {
-            usedUpdatedUserData[key] = this.updatedUserData[key]
             validData += 1;
+            validUpdatedData[key] = this.updatedUserData[key];
           }
         }
       }
@@ -191,53 +166,14 @@ export default {
         alert("Nothing to update!");
         return;
       }
-      // window.console.log(usedUpdatedUserData)
-
-      // transform Object to a File-like object
-      let json = JSON.stringify(usedUpdatedUserData);
-      let blob = new Blob([json], {
-        type: "application/json"
-      });
-
-      // append transformed userData to form data
-      formData.append("userData", blob);
-
       this.$axios
-        .patch("/api/users/" + this.$store.getters.getUserId, formData, {
-          onUploadProgress: function(progressEvent) {
-            let percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            window.console.log("Upload Progress: ", percentCompleted + "%");
-          }
-        })
+        .patch("/api/users/" + this.$store.getters.getUserId, validUpdatedData)
         .then(response => {
-          if (response.status === 200) {
-            if ("profile" in this.updatedUserData) {
-              this.userData.profile = URL.createObjectURL(
-                this.updatedUserData.profile
-              );
-              this.$forceUpdate();
-            }
-
-            window.console.log(response);
-            alert("User info is updated!");
-          }
+          window.console.log(response);
+          alert("User info is updated!");
+          this.$forceUpdate();
         })
-        .catch(error => {
-          window.console.log(error);
-        });
-
-      // this.$axios
-      //   .patch(
-      //     "/api/users/" + this.$store.getters.getUserId,
-      //     usedUpdatedUserData
-      //   )
-      //   .then(response => {
-      //     window.console.log(response);
-      //     alert("User info is updated!");
-      //   })
-      //   .catch(error => window.console.log(error.response));
+        .catch(error => window.console.log(error.response));
     },
 
     deleteAccount() {
@@ -263,10 +199,7 @@ export default {
         this.userData = response.data;
         this.updatedUserData.role = this.userData.role;
 
-        if ("profile" in this.userData) {
-          this.userData.profile="data:image/png;base64," + this.userData.profile
-          // window.console.log(this.userData.profile)
-        } else {
+        if (!("profile" in this.userData)) {
           this.userData.profile = defaultProfile;
         }
       })
@@ -281,6 +214,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 30px;
+  margin-bottom: 80px;
 }
 
 .user-profile {

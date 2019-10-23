@@ -1,5 +1,5 @@
 <template>
-  <div class="house-cards-area">
+  <div>
     <div class="row">
       <div
         class="col-lg-4 col-sm-6 mb-4"
@@ -49,11 +49,6 @@ export default {
 </script>
 
 <style scoped>
-.house-cards-area {
-  margin-top: 30px;
-  margin-bottom: 80px;
-}
-
 img {
   width: 100%;
   height: 200px;

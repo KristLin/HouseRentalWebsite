@@ -4,6 +4,7 @@ from flask_cors import CORS
 
 import json
 import datetime
+
 # import bcrypt
 from functools import wraps
 from dotenv import load_dotenv
@@ -247,32 +248,11 @@ class User(Resource):
     @api.doc(description="Update user info")
     # update user account
     def patch(self, user_id):
-        update_files = request.files.to_dict()
-        # get blob object from request and convert it to json
-        update_info_blob = update_files['userData']
-        if update_info_blob:
-            update_info = json.load(update_info_blob)
-        
-        if "profile" in update_files:
-            # get image file object from request and convert it to a string
-            update_profile = update_files['profile']
-            if update_profile:
-                # encode image file to bytes using base64
-                profile_encoded = utils.b64encode(update_profile.read())
-
-                # decode bytes to string (for transfering data)
-                # profile_str = utils.utf8decode(profile_encoded)
-
-                # decode string to bytes (for writing in file)
-                # profile_bytes = utils.b64decode(profile_str)
-
-                # with open("./images/1.png", 'wb') as f:
-                    # f.write(profile_bytes)
-                # return "", 200
-                update_info['profile'] = profile_encoded
-
+        update_info = request.json
+        print(update_info)
         # remove empty property in update info
         update_info = utils.get_valid_update_info(update_info)
+
         update_user = db.find_user_by_id(user_id)
         if update_user:
             # user can only modify his/her user data
@@ -287,13 +267,6 @@ class User(Resource):
         else:
             return f"User with id {user_id} is not in the database!", 404
 
-
-@users.route("/profile/<string:user_id>")
-class TestProfile(Resource):
-    @api.doc(description="Upload user profile")
-    def post(self, user_id):
-        print(request.files.to_dict())
-        return "Test over", 200
 
 # ============ user API part end ============
 
@@ -315,8 +288,12 @@ class Houses(Resource):
     def get(self):
         keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
-        min_price = int(request.args.get("minPrice")) if request.args.get("minPrice") else None
-        max_price = int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        min_price = (
+            int(request.args.get("minPrice")) if request.args.get("minPrice") else None
+        )
+        max_price = (
+            int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        )
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
@@ -390,25 +367,26 @@ class HouseOfProvider(Resource):
     @api.doc(description="Update house info")
     # update house info
     def patch(self, provider_id, house_id):
-        update_info = request.json
-        # remove empty update properties
-        update_info = utils.get_valid_update_info(update_info)
-        # change type to integer
-        # if "price" in update_info:
-        #     update_info["price"] == int(update_info["price"])
+        return "", 200
+        # update_info = request.json
+        # # remove empty update properties
+        # update_info = utils.get_valid_update_info(update_info)
+        # # change type to integer
+        # # if "price" in update_info:
+        # #     update_info["price"] == int(update_info["price"])
 
-        update_house = db.find_house_by_id(house_id)
-        if update_house:
-            house_provider = update_house["provider"]
-            # only the provider of the house can modify the advertisement
-            if provider_id == house_provider:
-                db.update_house(house_id, update_info)
-                msg = {"message": "The house info is updated!"}
-                return msg, 200
-            else:
-                return "Unauthorized patch request", 401
-        else:
-            return f"House with id {house_id} is not in the database!", 404
+        # update_house = db.find_house_by_id(house_id)
+        # if update_house:
+        #     house_provider = update_house["provider"]
+        #     # only the provider of the house can modify the advertisement
+        #     if provider_id == house_provider:
+        #         db.update_house(house_id, update_info)
+        #         msg = {"message": "The house info is updated!"}
+        #         return msg, 200
+        #     else:
+        #         return "Unauthorized patch request", 401
+        # else:
+        #     return f"House with id {house_id} is not in the database!", 404
 
 
 @houses.route("/providedby/<string:provider_id>")
@@ -427,8 +405,12 @@ class HousesOfProvider(Resource):
     def get(self, provider_id):
         keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
-        min_price = int(request.args.get("minPrice")) if request.args.get("minPrice") else None
-        max_price = int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        min_price = (
+            int(request.args.get("minPrice")) if request.args.get("minPrice") else None
+        )
+        max_price = (
+            int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        )
         print(min_price, max_price)
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
@@ -444,6 +426,7 @@ class HousesOfProvider(Resource):
             end_date=end_date,
         )
         return houses_of_provider, 200
+
 
 # ============ house API part end ============
 
