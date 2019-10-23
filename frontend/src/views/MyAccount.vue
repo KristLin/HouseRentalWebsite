@@ -2,6 +2,7 @@
   <div>
     <div class="container">
       <h3 class="mb-4">My Account</h3>
+      <hr />
       <div class="row">
         <div class="col-lg-5 col-md-6 col-sm-4">
           <img :src="userData.profile" class="user-profile" />
@@ -9,7 +10,7 @@
           <div class="profile-buttons-div mt-2">
             <input type="file" style="display: none" ref="fileInput" @change="selectFile" />
             <button
-              class="my-btn btn-sm form-control my-2"
+              class="my-btn btn-sm form-control my-4"
               @click="$refs.fileInput.click()"
             >Select Profile</button>
             <!-- <button class="my-btn btn-sm form-control" @click="uploadProfile">Upload Profile</button> -->

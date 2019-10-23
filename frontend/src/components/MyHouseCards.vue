@@ -42,7 +42,10 @@ export default {
       );
     },
     updateHouse(house_id) {
-      window.console.log(house_id);
+      this.$router.push({
+        name: "updateHouse",
+        query: { houseId: house_id }
+      });
       //   this.$axios
       //     .patch(
       //       "/api/houses/" + this.$store.getters.getUserId + "/" + house_id,
@@ -79,7 +82,6 @@ export default {
 </script>
 
 <style scoped>
-
 img {
   width: 100%;
   height: 200px;

@@ -48,17 +48,25 @@ export default new Router({
     {
       path: '/myAccount',
       name: 'myAccount',
-      component: () => import(/* webpackChunkName: "uploadHouse" */ './views/MyAccount.vue')
+      component: () => import(/* webpackChunkName: "myAccount" */ './views/MyAccount.vue')
     },
     {
       path: '/myHouses',
       name: 'myHouses',
-      component: () => import(/* webpackChunkName: "uploadHouse" */ './views/MyHouses.vue')
+      component: () => import(/* webpackChunkName: "myHouses" */ './views/MyHouses.vue')
     },
     {
       path: '/uploadHouse',
       name: 'uploadHouse',
       component: () => import(/* webpackChunkName: "uploadHouse" */ './views/UploadHouse.vue')
+    },
+    {
+      path: '/updateHouse',
+      name: 'updateHouse',
+      component: () => import(/* webpackChunkName: "updateHouse" */ './views/UpdateHouse.vue')
     }
-  ]
+  ],
+  scrollBehavior() {
+    return { x: 0, y: 0 }
+  }
 })

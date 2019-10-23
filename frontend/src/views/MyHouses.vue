@@ -2,6 +2,7 @@
   <div>
     <div class="container">
       <h3 class="mb-4">My Houses</h3>
+      <hr />
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <hr />
       <button

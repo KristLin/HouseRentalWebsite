@@ -72,16 +72,16 @@
             <p class="mt-3">House Cover</p>
           </div>
           <div class="card-body">
-            <h4 class="card-title mt-2">{{ houseData.title ? houseData.title : "House Title" }}</h4>
+            <h4 class="card-title mt-2">{{ displayData.title ? displayData.title : "House Title" }}</h4>
             <p
               class="card-text mt-2 house-description-display"
-              :class="{'text-left': houseData.description}"
-            >{{ handleDescription(houseData.description) }}</p>
+              :class="{'text-left': displayData.description}"
+            >{{ handleDescription(displayData.description) }}</p>
           </div>
           <div class="card-footer">
-            <small class="text-muted">{{ houseData.suburb ? houseData.suburb : "Suburb" }}</small>
+            <small class="text-muted">{{ displayData.suburb ? displayData.suburb : "Suburb" }}</small>
             <br />
-            <small class="text-muted">${{ houseData.price ? houseData.price : "0" }}</small>
+            <small class="text-muted">${{ displayData.price ? displayData.price : "0" }}</small>
           </div>
         </div>
       </div>
@@ -96,7 +96,12 @@
         <!-- input title start -->
         <div class="row mt-2">
           <label class="input-label">Title:</label>
-          <input type="text" class="form-control" placeholder="Title" v-model="houseData.title" />
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="displayData.title"
+            v-model="houseData.title"
+          />
         </div>
         <!-- input title end -->
 
@@ -118,7 +123,7 @@
             cols="30"
             rows="8"
             class="form-control"
-            placeholder="House Description"
+            :placeholder="displayData.description"
             v-model="houseData.description"
           ></textarea>
         </div>
@@ -150,7 +155,12 @@
         <!-- input suburb start -->
         <div class="row mt-2">
           <label class="input-label">Suburb:</label>
-          <input type="text" class="form-control" placeholder="Suburb" v-model="houseData.suburb" />
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="displayData.suburb"
+            v-model="houseData.suburb"
+          />
         </div>
         <!-- input title end -->
 
@@ -160,13 +170,13 @@
           <input
             type="text"
             class="form-control"
-            placeholder="Price per night"
+            :placeholder="displayData.price"
             v-model="houseData.price"
           />
         </div>
         <div class="row my-4">
-          <label class="input-label">Upload House:</label>
-          <button class="my-btn form-control" @click="uploadHouse">Upload House</button>
+          <label class="input-label">Update House:</label>
+          <button class="my-btn form-control" @click="updateHouse">Update House</button>
         </div>
         <!-- input title end -->
       </div>
@@ -178,13 +188,19 @@
 
 <script>
 export default {
-  name: "uploadHouse",
+  name: "updateHouse",
   components: {},
   data() {
     return {
+      houseId: this.$route.query.houseId,
       displayData: {
+        title: "",
         cover: "",
-        images: []
+        description: "",
+        images: [],
+        price: "",
+        suburb: "",
+        provider: ""
       },
       houseData: {
         title: "",
@@ -210,16 +226,13 @@ export default {
         return;
       }
       this.houseData.images = Array.from(event.target.files);
-      window.console.log(this.houseData.images);
 
       this.displayData.images = [];
       for (let key in this.houseData.images) {
-        window.console.log(this.houseData.images[key]);
         this.displayData.images.push(
           URL.createObjectURL(this.houseData.images[key])
         );
       }
-      window.console.log(this.displayData.images);
       this.$forceUpdate();
     },
     handleDescription(description) {
@@ -239,53 +252,77 @@ export default {
       formData.append("image", imageFile);
       return await this.$axios.post(HOST, formData);
     },
-    async uploadHouse() {
+    async updateHouse() {
+      let validData = 0;
+      window.console.log(this.houseData);
       for (let key in this.houseData) {
-        if (this.houseData[key] === "") {
-          alert("The house data is not complete!");
-          return;
+        if (this.houseData[key] !== "") {
+          if (this.houseData[key] !== this.displayData[key]) {
+            validData += 1;
+          }
         }
       }
-      // get cover url
-      let res = await this.imageToUrl(this.houseData.cover);
-      this.houseData.cover = res.data.data.url;
-      // get images urls
-      let imageUrls = [];
-      for (let idx in this.houseData.images) {
-        let res = await this.imageToUrl(this.houseData.images[idx]);
-        imageUrls.push(res.data.data.url);
+      if (validData === 0) {
+        alert("Nothing to update");
+        return;
       }
-      this.houseData.images = imageUrls;
-      window.console.log(this.houseData);
 
-      // upload images in url form to backend
+      if (this.houseData.cover !== "") {
+        // get cover url
+        let res = await this.imageToUrl(this.houseData.cover);
+        this.houseData.cover = res.data.data.url;
+      }
+
+      if (this.houseData.images !== []) {
+        // get images urls
+        let imageUrls = [];
+        for (let idx in this.houseData.images) {
+          let res = await this.imageToUrl(this.houseData.images[idx]);
+          imageUrls.push(res.data.data.url);
+        }
+        this.houseData.images = imageUrls;
+      }
+
       this.$axios
-        .post("/api/houses/", this.houseData)
+        .patch(
+          "/api/houses/" +
+            this.$store.getters.getUserId +
+            "/" +
+            this.displayData._id,
+          this.houseData
+        )
         .then(response => {
           // JSON responses are automatically parsed.
-          if (response.status == 201) {
-            window.console.log("uploaded!");
-            alert("House is uploaded!");
+          if (response.status == 200) {
+            window.console.log("House is updated!");
+            alert("House is updated!");
           }
         })
         .catch(err => {
           window.console.log(err.response);
         });
     }
-    // parseImagesUrls(imagesUrlText) {
-    //   let imageUrls = imagesUrlText.split("\n");
-    //   return imageUrls;
-    // }
   },
   created() {
-    window.console.log("state.isProvider: " + this.$store.getters.isProvider);
-    if (this.$store.getters.isProvider) {
-      window.console.log("current user is provider.");
-      this.houseData.provider = this.$store.getters.getUserId;
-    } else {
-      alert("Require provider login!");
-      this.$router.push({ name: "home" });
-    }
+    this.$axios
+      .get("/api/houses/" + this.$route.query.houseId)
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.displayData = response.data;
+
+        if (this.$store.getters.getUserId !== this.displayData.provider) {
+          window.console.log("current user is not the provider.");
+          alert("current user is not the provider.");
+          this.$router.push({ name: "myHouses" });
+        }
+      })
+      .catch(err => {
+        window.console.log(err.response);
+      });
+    // house = this.$axios
+    //   .get("/api/houses/" + this.houseId)
+    //   .then(res => window.console.log(res))
+    //   .catch(err => window.console.log(err));
   }
 };
 </script>

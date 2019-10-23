@@ -363,30 +363,27 @@ class HouseOfProvider(Resource):
             return f"House with id {house_id} is not in the database!", 404
 
     # @requires_provider
-    @api.expect(house_model, validate=True)
+    # @api.expect(house_model, validate=True)
     @api.doc(description="Update house info")
     # update house info
     def patch(self, provider_id, house_id):
-        return "", 200
-        # update_info = request.json
-        # # remove empty update properties
-        # update_info = utils.get_valid_update_info(update_info)
-        # # change type to integer
-        # # if "price" in update_info:
-        # #     update_info["price"] == int(update_info["price"])
+        update_info = request.json
+        
+        # remove empty update properties
+        update_info = utils.get_valid_update_info(update_info)
 
-        # update_house = db.find_house_by_id(house_id)
-        # if update_house:
-        #     house_provider = update_house["provider"]
-        #     # only the provider of the house can modify the advertisement
-        #     if provider_id == house_provider:
-        #         db.update_house(house_id, update_info)
-        #         msg = {"message": "The house info is updated!"}
-        #         return msg, 200
-        #     else:
-        #         return "Unauthorized patch request", 401
-        # else:
-        #     return f"House with id {house_id} is not in the database!", 404
+        update_house = db.find_house_by_id(house_id)
+        if update_house:
+            house_provider = update_house["provider"]
+            # only the provider of the house can modify the advertisement
+            if provider_id == house_provider:
+                db.update_house(house_id, update_info)
+                msg = {"message": "The house info is updated!"}
+                return msg, 200
+            else:
+                return "Unauthorized patch request", 401
+        else:
+            return f"House with id {house_id} is not in the database!", 404
 
 
 @houses.route("/providedby/<string:provider_id>")

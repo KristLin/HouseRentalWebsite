@@ -95,6 +95,11 @@ export default {
 </script>
 
 <style>
+.container {
+  padding-top: 2rem;
+  min-height: 500px;
+  margin-bottom: 80px;
+}
 .sidebar {
   background-color: #3c9d9b;
   position: fixed;
@@ -113,13 +118,13 @@ export default {
 
 .my-btn {
   border: none;
-  background-color: #3c9d9b;
+  background-color: black;
   color: white;
 }
 
 .my-btn:hover {
   border: none;
-  background-color: black;
+  background-color: #3c9d9b;
   color: white;
 }
 </style>
