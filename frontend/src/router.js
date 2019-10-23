@@ -64,6 +64,11 @@ export default new Router({
       path: '/updateHouse',
       name: 'updateHouse',
       component: () => import(/* webpackChunkName: "updateHouse" */ './views/UpdateHouse.vue')
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import(/* webpackChunkName: "updateHouse" */ './views/Test.vue')
     }
   ],
   scrollBehavior() {

@@ -7,10 +7,21 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import axios from 'axios'
 import store from './store'
+
+import * as VueGoogleMaps from 'vue2-google-maps'
+
 Vue.prototype.$axios = axios
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 Vue.config.productionTip = false
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: process.env.VUE_APP_GOOGLE_MAP_KEY,
+    libraries: 'places', // This is required if you use the Autocomplete plugin
+  },
+  installComponents: true
+})
 
 new Vue({
   router,

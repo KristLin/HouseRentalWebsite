@@ -5,8 +5,10 @@
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
       <div>
         <hr />
-        <h5 v-if="!this.houses.length" class="my-4">Sorry, there is not result...</h5>
-        <HouseCards v-bind:houses="houses" />
+        <div class="row">
+          <h5 v-if="!this.houses.length" class="my-4">Sorry, there is not result...</h5>
+          <HouseCards :houses="houses" />
+        </div>
       </div>
     </div>
   </div>
