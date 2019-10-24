@@ -28,6 +28,8 @@ class DB(object):
         self.dbclient = MongoClient(f"mongodb://krist123:{DB_PASSWORD}@ds335678.mlab.com:35678/9900-database", 123456).get_default_database()
         self.users = self.dbclient["users"]
         self.houses = self.dbclient["houses"]
+        self.savelists = self.dbclient["savelists"]
+        self.comments = self.dbclient["comments"]
         super().__init__()
 
     # =========== user data manipulation ===========
@@ -94,12 +96,21 @@ class DB(object):
 
     def find_user_houses(self, user_id):
         cursor = self.houses.find()
-        all_houses = []
+        user_houses = []
         for house in cursor:
             if house["provider"] == user_id:
                 house['_id'] = str(house['_id'])
-                all_houses.append(house)
-        return all_houses
+                user_houses.append(house)
+        return user_houses
+    
+    def find_savelist_houses(self, house_id_list):
+        cursor = self.houses.find()
+        savelist_houses = []
+        for house in cursor:
+            if house["_id"] in house_id_list:
+                house['_id'] = str(house['_id'])
+                savelist_houses.append(house)
+        return savelist_houses
 
     def add_house(self, house):
         _id = str(self.houses.insert_one(house).inserted_id)
@@ -111,3 +122,30 @@ class DB(object):
 
     def delete_house(self, house_id):
         self.houses.delete_one({'_id': ObjectId(house_id)})
+    
+    # =========== save list data manipulation ===========
+    def find_all_savelists(self):
+        cursor = self.savelists.find()
+        all_savelists = []
+        for savelist in cursor:
+            savelist['_id'] = str(savelist['_id'])
+            all_savelists.append(savelist)
+        return all_savelists
+
+    def find_savelist_of_user(self, user_id):
+        found_list = self.savelists.find_one({"user": ObjectId(user_id)})
+        if found_list:
+            # change the ObjectId to string format
+            found_list['_id'] = str(found_list['_id'])
+        return found_list
+
+    def add_to_user_savelist(self, user_id, house_id):
+        found_list = self.savelists.find_one({"user": ObjectId(user_id)})
+        if found_list:
+            query = {"user": ObjectId(user_id)}
+            savelist = found_list["savelist"]
+            savelist.append(house_id)
+            return self.savelists.update_one(query, {"$set": {"savelist": savelist}})
+        else:
+            savelist = {"user": user_id, "savelist": [house_id]}
+            return str(self.savelists.insert_one(savelist).inserted_id)

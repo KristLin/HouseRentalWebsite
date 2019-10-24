@@ -40,6 +40,7 @@ api = Api(
 api.namespaces.clear()
 users = api.namespace("users", description="User APIs")
 houses = api.namespace("houses", description="House APIs")
+savelists = api.namespace("savelists", description="Save List APIs")
 # =============== app setting part end ===============
 
 
@@ -75,16 +76,16 @@ house_model = api.model(
         # datetime.datetime.now() 获取当前时间
         # "date": fields.DateTime,
         "suburb": fields.String,
-        # "location": fields.String,
-        "price": fields.Integer,
-        # "size": fields.Integer,
-        # "bedroom_num": fields.Integer,
-        # "bathroom_num": fields.Integer,
-        # "carpark_num": fields.Integer,
-        # "has_wifi": fields.Boolean,
-        # "party_allowed": fields.Boolean,
-        # "pet_allowed": fields.Boolean,
-        # "smoke_allowed": fields.Boolean,
+        "location": fields.String,
+        "price": fields.String,
+        "size": fields.String,
+        "tenant_num": fields.String,
+        "has_wifi": fields.String,
+        "party_allowed": fields.String,
+        "pet_allowed": fields.String,
+        "smoke_allowed": fields.String,
+        "lat": fields.String,
+        "lng": fields.String
     },
 )
 
@@ -104,24 +105,24 @@ user_login_model = api.model(
 
 # =============== login authentication  part start ===============
 # require user login
-def requires_user(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if not "user_role" in session:
-            api.abort(401, "User login requried")
+# def requires_user(f):
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         if not "user_role" in session:
+#             api.abort(401, "User login requried")
 
-    return decorated
+#     return decorated
 
 
-# require provider(landlord or agent) login
-# provider is a user with more permission (house info manipulation)
-def requires_provider(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if not "user_role" in session or session["user_role"] != "provider":
-            api.abort(401, "Provider login requried")
+# # require provider(landlord or agent) login
+# # provider is a user with more permission (house info manipulation)
+# def requires_provider(f):
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         if not "user_role" in session or session["user_role"] != "provider":
+#             api.abort(401, "Provider login requried")
 
-    return decorated
+#     return decorated
 
 
 # =============== login authentication  part end ===============
@@ -279,10 +280,11 @@ class Houses(Resource):
     @api.param("max_price", "maximum price for filtering houses")
     @api.param("start_date", "start date for filtering houses")
     @api.param("end_date", "end date for filtering houses")
-    # @api.param("pet_allowed", "end date for filtering houses")
-    # @api.param("party_allowed", "end date for filtering houses")
-    # @api.param("smoke_allowed", "end date for filtering houses")
-    # @api.param("has_wifi", "end date for filtering houses")
+    @api.param("size", "house size for filtering houses")
+    @api.param("tenant_num", "tenant number for filtering houses")
+    @api.param("pet_allowed", "pet allowed for filtering houses")
+    @api.param("smoke_allowed", "smoke allowed for filtering houses")
+    @api.param("has_wifi", "has wifie for filtering houses")
     @api.doc(description="Retrieve all houses info")
     # get all houses
     def get(self):
@@ -368,7 +370,7 @@ class HouseOfProvider(Resource):
     # update house info
     def patch(self, provider_id, house_id):
         update_info = request.json
-        
+
         # remove empty update properties
         update_info = utils.get_valid_update_info(update_info)
 
@@ -394,10 +396,11 @@ class HousesOfProvider(Resource):
     @api.param("max_price", "maximum price for filtering houses")
     @api.param("start_date", "start date for filtering houses")
     @api.param("end_date", "end date for filtering houses")
-    # @api.param("pet_allowed", "end date for filtering houses")
-    # @api.param("party_allowed", "end date for filtering houses")
-    # @api.param("smoke_allowed", "end date for filtering houses")
-    # @api.param("has_wifi", "end date for filtering houses")
+    @api.param("size", "house size for filtering houses")
+    @api.param("tenant_num", "tenant number for filtering houses")
+    @api.param("pet_allowed", "pet allowed for filtering houses")
+    @api.param("smoke_allowed", "smoke allowed for filtering houses")
+    @api.param("has_wifi", "has wifie for filtering houses")
     @api.doc(description="Get the provider's house list")
     def get(self, provider_id):
         keyword = request.args.get("keyword")
@@ -424,10 +427,35 @@ class HousesOfProvider(Resource):
         )
         return houses_of_provider, 200
 
-
+@houses.route("/savelist/<string:user_id>")
+class HousesOfUserSavelist(Resource):
+    @api.doc(description="Get houses in the user's savelist")
+    def get(self, user_id):
+        user_savelist = db.find_savelist_of_user(user_id)
+        user_savelist_houses = db.find_savelist_houses(user_savelist)
+        return user_savelist_houses, 200
 # ============ house API part end ============
 
 # ============ user saved list part start ============
+@savelists.route("/savelists")
+class Savelists(Resource):
+    @api.doc(description="Get all savelist")
+    def get(self):
+        return db.find_all_savelists(), 200
+
+@savelists.route("/savelists/<string:user_id>")
+class SavelistOfUser(Resource):
+    @api.doc(description="Get the user's savelist")
+    def get(self, user_id):
+        user_savelist = db.find_savelist_of_user(user_id)
+        return user_savelist, 200
+
+@savelists.route("/savelists/<string:user_id>/add/<string:house_id>")
+class AddHouseToSavelist(Resource):
+    @api.doc(description="Add house id to user's savelist")
+    def get(self, user_id, house_id):
+        db.add_to_user_savelist(user_id, house_id)
+        return "Added", 201
 # ============ user saved list part end ============
 
 
