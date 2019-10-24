@@ -1,10 +1,9 @@
 <template>
   <div class="container">
-    <!-- row start -->
     <div class="row">
       <!-- house info display start -->
-      <div class="col-lg-5 col-md-5 my-auto">
-        <div class="row card">
+      <div class="col-lg-6 col-md-12 grid-col-div">
+        <div class="row card house-display-card">
           <div
             id="carouselExampleIndicators"
             class="carousel slide"
@@ -69,12 +68,7 @@
       </div>
       <!-- house info display end -->
 
-      <!-- spacing start -->
-      <div class="col-lg-1 col-md-1"></div>
-      <!-- spacing end -->
-
-      <!-- input part start -->
-      <div class="col-lg-6 col-md-6">
+      <div class="col-lg-6 col-md-12 grid-col-div">
         <!-- input title start -->
         <div class="row mt-2">
           <label class="input-label">Title:</label>
@@ -88,12 +82,14 @@
         <!-- input title end -->
 
         <!-- input cover start -->
-        <!-- <div class="row mt-2">
-          <label class="input-label">Cover Url:</label>
-          <input type="text" class="form-control" placeholder="Cover Url" v-model="houseData.cover" />
-        </div>-->
         <div class="row mt-2">
-          <input type="file" style="display: none" accept=".png, .jpg, .jpeg" ref="coverInput" @change="selectCover" />
+          <input
+            type="file"
+            style="display: none"
+            accept=".png, .jpg, .jpeg"
+            ref="coverInput"
+            @change="selectCover"
+          />
           <button class="my-btn form-control" @click="$refs.coverInput.click()">Select Cover</button>
         </div>
         <!-- input cover end -->
@@ -112,16 +108,6 @@
         <!-- input description end -->
 
         <!-- input images start -->
-        <!-- <div class="row mt-2">
-          <label class="input-label">Image Urls (Please separate Urls with return):</label>
-          <textarea
-            cols="30"
-            rows="3"
-            class="form-control"
-            placeholder="Image Urls"
-            v-model="houseData.images"
-          ></textarea>
-        </div>-->
         <div class="row mt-2">
           <input
             type="file"
@@ -157,15 +143,82 @@
             v-model="houseData.price"
           />
         </div>
-        <div class="row my-4">
+        <div class="row mt-2">
+          <label class="input-label">Size:</label>
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="displayData.size"
+            v-model="houseData.size"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-12 grid-col-div">
+        <div class="row mt-2">
+          <label class="input-label">Location:</label>
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="displayData.location"
+            v-model="houseData.location"
+          />
+        </div>
+        <div class="row mt-2">
+          <label class="input-label">Latitude and Longtitude (in Google Map):</label>
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="displayData.lat"
+            v-model="houseData.lat"
+          />
+          <input
+            type="text"
+            class="form-control"
+            :placeholder="displayData.lng"
+            v-model="houseData.lng"
+          />
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 grid-col-div">
+        <div class="row mt-2">
+          <label class="input-label">Conditions:</label>
+          <div class="row w-100">
+            <div class="col-6 m-auto text-left">
+              <input type="checkbox" class="mx-2 mt-2" v-model="houseData.has_wifi" />
+              <label for>
+                <i class="fas fa-wifi condition-icon"></i>
+                Has Wifi
+              </label>
+              <br />
+              <input type="checkbox" class="mx-2" v-model="houseData.party_allowed" />
+              <label for>
+                <i class="fas fa-glass-cheers condition-icon"></i>
+                Allow Party
+              </label>
+            </div>
+            <div class="col-6 m-auto text-left">
+              <input type="checkbox" class="mx-2" v-model="houseData.pet_allowed" />
+              <label for>
+                <i class="fas fa-dog condition-icon"></i>
+                Allow Pet
+              </label>
+              <br />
+              <input type="checkbox" class="mx-2" v-model="houseData.smoke_allowed" />
+              <label for>
+                <i class="fas fa-smoking condition-icon"></i>
+                Allow Smoke
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
           <label class="input-label">Update House:</label>
           <button class="my-btn form-control" @click="updateHouse">Update House</button>
         </div>
-        <!-- input title end -->
       </div>
-      <!-- input part end -->
     </div>
-    <!-- row end -->
   </div>
 </template>
 
@@ -176,24 +229,8 @@ export default {
   data() {
     return {
       houseId: this.$route.query.houseId,
-      displayData: {
-        title: "",
-        cover: "",
-        description: "",
-        images: [],
-        price: "",
-        suburb: "",
-        provider: ""
-      },
-      houseData: {
-        title: "",
-        cover: "",
-        description: "",
-        images: [],
-        price: "",
-        suburb: "",
-        provider: ""
-      }
+      displayData: {},
+      houseData: {}
     };
   },
   methods: {
@@ -298,6 +335,10 @@ export default {
           alert("current user is not the provider.");
           this.$router.push({ name: "myHouses" });
         }
+        this.houseData.has_wifi = this.displayData.has_wifi;
+        this.houseData.party_allowed = this.displayData.party_allowed;
+        this.houseData.pet_allowed = this.displayData.pet_allowed;
+        this.houseData.smoke_allowed = this.displayData.smoke_allowed;
       })
       .catch(err => {
         window.console.log(err.response);
@@ -314,8 +355,23 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
-  margin-top: 30px;
   margin-bottom: 80px;
+  margin-top: 20px;
+}
+
+.grid-col-div {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.house-display-card {
+  margin-top: 15%;
+}
+
+@media screen and (max-width: 991px) {
+  .house-display-card {
+    margin-top: 0;
+  }
 }
 
 .house-cover-display {
@@ -347,5 +403,9 @@ export default {
   border: none;
   background-color: #3c9d9b;
   color: white;
+}
+
+.condition-icon {
+  font-size: 1.5rem;
 }
 </style>

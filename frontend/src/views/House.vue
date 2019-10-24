@@ -214,10 +214,10 @@ export default {
       this.$axios
         .get("/api/comments/add", {
           params: {
-            "house": this.house._id,
-            "user": user_id,
-            "content": this.userComment,
-            "rating": this.userRating,
+            house: this.house._id,
+            user: user_id,
+            content: this.userComment,
+            rating: this.userRating
           }
         })
         .then(response => {
@@ -243,11 +243,7 @@ export default {
               "house from map, fetch isSaved: ",
               response.data
             );
-            if (response.data === "true") {
-              this.isSaved = true;
-            } else {
-              this.isSaved = false;
-            }
+            this.isSaved = response.data;
             this.$axios
               .get("/api/comments/" + this.house._id)
               .then(response => {
@@ -279,11 +275,7 @@ export default {
                       "only query left, fetch isSaved: ",
                       response.data
                     );
-                    if (response.data === "true") {
-                      this.isSaved = true;
-                    } else {
-                      this.isSaved = false;
-                    }
+                    this.isSaved = response.data;
                     this.$axios
                       .get("/api/comments/" + this.house._id)
                       .then(response => {
@@ -316,11 +308,7 @@ export default {
                 "has router params, fetch isSaved: ",
                 response.data
               );
-              if (response.data === "true") {
-                this.isSaved = true;
-              } else {
-                this.isSaved = false;
-              }
+              this.isSaved = response.data;
               this.$axios
                 .get("/api/comments/" + this.house._id)
                 .then(response => {

@@ -81,10 +81,10 @@ house_model = api.model(
         "price": fields.String,
         "size": fields.String,
         "tenant_num": fields.String,
-        "has_wifi": fields.String,
-        "party_allowed": fields.String,
-        "pet_allowed": fields.String,
-        "smoke_allowed": fields.String,
+        "has_wifi": fields.Boolean,
+        "party_allowed": fields.Boolean,
+        "pet_allowed": fields.Boolean,
+        "smoke_allowed": fields.Boolean,
         "lat": fields.String,
         "lng": fields.String,
         "rating_num": fields.String,
@@ -490,8 +490,8 @@ class CheckInSavelist(Resource):
         user_savelist = db.find_savelist_of_user(user_id)
         if user_savelist:
             if house_id in user_savelist["savelist"]:
-                return "true", 200
-        return "false", 200
+                return True, 200
+        return False, 200
 
 @savelists.route("/<string:user_id>/add/<string:house_id>")
 class AddHouseToSavelist(Resource):
