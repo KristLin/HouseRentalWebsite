@@ -3,11 +3,15 @@
   <div class="container" v-if="house">
     <div class="row">
       <div class="col-lg-3">
-        <div class="list-group my-4 sidebar">
-          <a href="#intro" class="list-group-item active">Intro</a>
-          <a href="#description" class="list-group-item">Description</a>
-          <a href="#facility" class="list-group-item">Facility</a>
-          <a href="#review" class="list-group-item">Review</a>
+        <div class="sidebar">
+            <button href="#" class="my-btn form-control my-4" @click="$router.go(-1)">Go Back</button>
+          <hr>
+          <ul class="list-group">
+            <a href="#intro" class="list-group-item">Intro</a>
+            <a href="#description" class="list-group-item">Description</a>
+            <a href="#facility" class="list-group-item">Facility</a>
+            <a href="#review" class="list-group-item">Review</a>
+          </ul>
         </div>
       </div>
       <!-- /.col-lg-3 -->
@@ -64,7 +68,9 @@
 <script>
 export default {
   name: "House",
-  props: {},
+  props: {
+    houseFromMap: {}
+  },
   data() {
     return {
       houseId: this.$route.query.houseId,
@@ -76,19 +82,25 @@ export default {
   created() {
     // if the params is empty, call the backend to get the house data.
     if (Object.keys(this.$route.params).length === 0) {
-      this.$axios
-        .get("/api/houses/" + this.$route.query.houseId)
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.house = response.data;
-        })
-        .catch(err => {
-          window.console.log(err.response);
-        });
-      // house = this.$axios
-      //   .get("/api/houses/" + this.houseId)
-      //   .then(res => window.console.log(res))
-      //   .catch(err => window.console.log(err));
+      if (Object.keys(this.$route.query).length !== 0) {
+        this.$axios
+          .get("/api/houses/" + this.$route.query.houseId)
+          .then(response => {
+            // JSON responses are automatically parsed.
+            this.house = response.data;
+          })
+          .catch(err => {
+            window.console.log(err.response);
+          });
+        // house = this.$axios
+        //   .get("/api/houses/" + this.houseId)
+        //   .then(res => window.console.log(res))
+        //   .catch(err => window.console.log(err));}
+      } else {
+        if (this.houseFromMap) {
+          this.house = this.houseFromMap;
+        }
+      }
     }
   }
 };
@@ -101,10 +113,14 @@ export default {
   margin-bottom: 80px;
 }
 .sidebar {
-  background-color: #3c9d9b;
   position: fixed;
   width: 20%;
 }
+
+a.list-group-item {
+  color: #3c9d9b;
+}
+
 @media screen and (max-width: 991px) {
   .sidebar {
     display: none;

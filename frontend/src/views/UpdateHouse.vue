@@ -21,9 +21,6 @@
                 v-for="(index, idx) in displayData.images"
                 :data-slide-to="idx+1"
               ></li>
-              <!-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -32,16 +29,6 @@
               <div class="carousel-item" :key="idx" v-for="(index, idx) in displayData.images">
                 <img class="card-img-top house-cover-display" :src="displayData.images[idx]" />
               </div>
-
-              <!-- <div class="carousel-item active">
-              <img class="d-block w-100" src="..." alt="First slide" />
-            </div>
-            <div class="carousel-item">
-              <img class="d-block w-100" src="..." alt="Second slide" />
-            </div>
-            <div class="carousel-item">
-              <img class="d-block w-100" src="..." alt="Third slide" />
-              </div>-->
             </div>
             <a
               class="carousel-control-prev"
@@ -62,12 +49,7 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
-          <!-- <img
-            class="card-img-top house-cover-display"
-            v-if="displayData.cover"
-            :src="displayData.cover"
-            alt="house-cover"
-          />-->
+          
           <div class="house-cover-display" v-if="!displayData.cover">
             <p class="mt-3">House Cover</p>
           </div>
