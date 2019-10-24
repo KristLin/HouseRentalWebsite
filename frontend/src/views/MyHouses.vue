@@ -54,24 +54,26 @@ export default {
     }
   },
   created() {
-    if (!this.$store.getters.isLoggedIn) {
-      window.console.log("state.isProvider: " + this.$store.getters.isProvider);
+    if (this.$store.getters.isLoggedIn) {
       if (this.$store.getters.isProvider) {
         window.console.log("current user is provider.");
+        this.$axios
+          .get("/api/houses/providedby/" + this.$store.getters.getUserId)
+          .then(response => {
+            // JSON responses are automatically parsed.
+            this.userHouses = response.data;
+          })
+          .catch(err => {
+            window.console.log(err.response);
+          });
       } else {
         alert("Require provider login!");
         this.$router.push({ name: "home" });
       }
+    } else {
+      alert("Require provider login!");
+      this.$router.push({ name: "home" });
     }
-    this.$axios
-      .get("/api/houses/providedby/" + this.$store.getters.getUserId)
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.userHouses = response.data;
-      })
-      .catch(err => {
-        window.console.log(err.response);
-      });
   }
 };
 </script>

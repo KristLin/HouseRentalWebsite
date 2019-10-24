@@ -30,6 +30,7 @@
             <div class="dropdown-menu">
               <span class="dropdown-item" @click="goToMyAccount">My Account</span>
               <span class="dropdown-item" @click="goToMyHouses">My Houses</span>
+              <span class="dropdown-item" @click="goToMySaveList">My Save List</span>
               <div class="dropdown-divider"></div>
               <span class="dropdown-item" @click="logout">Log out</span>
             </div>
@@ -89,6 +90,11 @@ export default {
     goToMyHouses() {
       if (this.$router.currentRoute.name !== "myHouses") {
         this.$router.push({ name: "myHouses" });
+      }
+    },
+    goToMySaveList() {
+      if (this.$router.currentRoute.name !== "mySaveList") {
+        this.$router.push({ name: "mySaveList" });
       }
     }
   }

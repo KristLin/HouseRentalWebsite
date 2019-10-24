@@ -414,7 +414,6 @@ class HousesOfProvider(Resource):
         max_price = (
             int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
         )
-        print(min_price, max_price)
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
@@ -432,10 +431,42 @@ class HousesOfProvider(Resource):
 
 @houses.route("/savelist/<string:user_id>")
 class HousesOfUserSavelist(Resource):
+    @api.param("keyword", "keyword for filtering houses")
+    @api.param("suburb", "suburb for filtering houses")
+    @api.param("min_price", "minimum price for filtering houses")
+    @api.param("max_price", "maximum price for filtering houses")
+    @api.param("start_date", "start date for filtering houses")
+    @api.param("end_date", "end date for filtering houses")
+    @api.param("size", "house size for filtering houses")
+    @api.param("tenant_num", "tenant number for filtering houses")
+    @api.param("pet_allowed", "pet allowed for filtering houses")
+    @api.param("smoke_allowed", "smoke allowed for filtering houses")
+    @api.param("has_wifi", "has wifie for filtering houses")
+    @api.doc(description="Get the provider's house list")
     @api.doc(description="Get houses in the user's savelist")
     def get(self, user_id):
-        user_savelist = db.find_savelist_of_user(user_id)
+        keyword = request.args.get("keyword")
+        suburb = request.args.get("suburb")
+        min_price = (
+            int(request.args.get("minPrice")) if request.args.get("minPrice") else None
+        )
+        max_price = (
+            int(request.args.get("maxPrice")) if request.args.get("maxPrice") else None
+        )
+        start_date = request.args.get("start_date")
+        end_date = request.args.get("end_date")
+
+        user_savelist = db.find_savelist_of_user(user_id)["savelist"]
         user_savelist_houses = db.find_savelist_houses(user_savelist)
+        user_savelist_houses = utils.filter_houses(
+            houses=user_savelist_houses,
+            keyword=keyword,
+            suburb=suburb,
+            min_price=min_price,
+            max_price=max_price,
+            start_date=start_date,
+            end_date=end_date,
+        )
         return user_savelist_houses, 200
 # ============ house API part end ============
 
@@ -453,12 +484,41 @@ class SavelistOfUser(Resource):
         user_savelist = db.find_savelist_of_user(user_id)
         return user_savelist, 200
 
+@savelists.route("/<string:user_id>/check/<string:house_id>")
+class CheckInSavelist(Resource):
+    @api.doc(description="Check if the house is in user's savelist")
+    def get(self, user_id, house_id):
+        user_savelist = db.find_savelist_of_user(user_id)
+        if user_savelist:
+            if house_id in user_savelist["savelist"]:
+                return "true", 200
+        return "false", 200
+
 @savelists.route("/<string:user_id>/add/<string:house_id>")
 class AddHouseToSavelist(Resource):
     @api.doc(description="Add house id to user's savelist")
     def get(self, user_id, house_id):
-        db.add_to_user_savelist(user_id, house_id)
-        return "Added", 201
+        user_savelist = db.find_savelist_of_user(user_id)
+        if user_savelist:
+            if house_id not in user_savelist["savelist"]:
+                db.add_to_user_savelist(user_id, house_id)
+                return "added", 200
+            else:
+                return "house is already in the savelist", 400
+        else:
+            db.add_to_user_savelist(user_id, house_id)
+            return "Created", 201
+
+@savelists.route("/<string:user_id>/remove/<string:house_id>")
+class RemoveHouseFromSavelist(Resource):
+    @api.doc(description="Remove house from user's savelist")
+    def get(self, user_id, house_id):
+        user_savelist = db.find_savelist_of_user(user_id)
+        if user_savelist:
+            if house_id in user_savelist["savelist"]:
+                db.remove_from_user_savelist(user_id, house_id)
+                return "removed", 200
+        return "house is not in the list", 400
 # ============ user saved list part end ============
 
 

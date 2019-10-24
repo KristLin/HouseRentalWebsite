@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="sidebar">
-          <button href="#" class="my-btn form-control my-4" @click="$router.go(-1)">Go Back</button>
+          <button class="my-btn form-control my-2" @click="$router.go(-1)">Go Back</button>
           <hr />
           <ul class="list-group">
             <a href="#intro" class="list-group-item">Intro</a>
@@ -12,12 +12,24 @@
             <a href="#facility" class="list-group-item">Facility</a>
             <a href="#review" class="list-group-item">Review</a>
           </ul>
+          <hr />
+          <button
+            class="my-btn form-control my-2"
+            @click="saveToMyList"
+            v-if="!isSaved"
+          >Save To My List</button>
+          <button
+            class="my-btn form-control my-2"
+            @click="removeFromMyList"
+            v-if="isSaved"
+          >Remove from My List</button>
+          <button class="my-btn form-control my-2" @click="bookThisHouse">Book This House</button>
         </div>
       </div>
       <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
-        <div id="intro" class="card mt-4">
+        <div id="intro" class="card mt-2">
           <div
             id="carouselExampleIndicators"
             class="carousel slide"
@@ -62,7 +74,7 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
-          
+
           <div class="card-body">
             <h3 class="card-title text-left">{{ house.title }}</h3>
             <h6 class="text-left">${{house.price}} per night</h6>
@@ -118,34 +130,133 @@ export default {
   data() {
     return {
       houseId: this.$route.query.houseId,
-      house: this.$route.params.house
+      house: this.$route.params.house,
+      isSaved: false
     };
   },
-  // check if the params are lost
-  components: {},
-  created() {
-    // if the params is empty, call the backend to get the house data.
-    if (Object.keys(this.$route.params).length === 0) {
-      if (Object.keys(this.$route.query).length !== 0) {
+  methods: {
+    saveToMyList() {
+      if (!this.$store.getters.isLoggedIn) {
+        alert("please login first!");
+        this.$router.push({ name: "login" });
+      } else {
+        let user_id = this.$store.getters.getUserId;
         this.$axios
-          .get("/api/houses/" + this.$route.query.houseId)
+          .get("/api/savelists/" + user_id + "/add/" + this.house._id)
           .then(response => {
             // JSON responses are automatically parsed.
-            this.house = response.data;
+            this.isSaved = !this.isSaved;
+            alert("house is saved to your list!");
+            window.console.log("saving request result:" + response.data);
           })
           .catch(err => {
             window.console.log(err.response);
           });
-        // house = this.$axios
-        //   .get("/api/houses/" + this.houseId)
-        //   .then(res => window.console.log(res))
-        //   .catch(err => window.console.log(err));}
+      }
+    },
+    removeFromMyList() {
+      if (!this.$store.getters.isLoggedIn) {
+        alert("please login first!");
+        this.$router.push({ name: "login" });
       } else {
-        if (this.houseFromMap) {
-          this.house = this.houseFromMap;
+        let user_id = this.$store.getters.getUserId;
+        this.$axios
+          .get("/api/savelists/" + user_id + "/remove/" + this.house._id)
+          .then(response => {
+            // JSON responses are automatically parsed.
+            this.isSaved = !this.isSaved;
+            alert("house is removed from your list!");
+            window.console.log(response.data);
+          })
+          .catch(err => {
+            window.console.log(err.response);
+          });
+      }
+    },
+    bookThisHouse() {
+      if (!this.$store.getters.isLoggedIn) {
+        alert("please login first!");
+        this.$router.push({ name: "login" });
+      } else {
+        alert("booked! (test)");
+      }
+    }
+  },
+  components: {},
+  created() {
+    // if the params is empty, call the backend to get the house data.
+    if (this.houseFromMap) {
+      this.house = this.houseFromMap;
+      if (this.$store.getters.isLoggedIn) {
+        let user_id = this.$store.getters.getUserId;
+        this.$axios
+          .get("/api/savelists/" + user_id + "/check/" + this.house._id)
+          .then(response => {
+            window.console.log("house from map, fetch isSaved: ", response.data)
+            if (response.data === "true") {
+              this.isSaved = true;
+            } else {
+              this.isSaved = false;
+            }
+          })
+          .catch(err => {
+            window.console.log(err);
+          });
+      }
+    } else {
+      if (Object.keys(this.$route.params).length === 0) {
+        if (Object.keys(this.$route.query).length !== 0) {
+          this.$axios
+            .get("/api/houses/" + this.$route.query.houseId)
+            .then(response => {
+              // JSON responses are automatically parsed.
+              this.house = response.data;
+              if (this.$store.getters.isLoggedIn) {
+                let user_id = this.$store.getters.getUserId;
+                this.$axios
+                  .get("/api/savelists/" + user_id + "/check/" + this.house._id)
+                  .then(response => {
+                    window.console.log("only query left, fetch isSaved: ", response.data)
+                    if (response.data === "true") {
+                      this.isSaved = true;
+                    } else {
+                      this.isSaved = false;
+                    }
+                  })
+                  .catch(err => {
+                    window.console.log(err);
+                  });
+              }
+            })
+            .catch(err => {
+              window.console.log(err.response);
+            });
+        } else {
+          alert("no house data to render");
+          this.$router.push({ name: "search" });
+        }
+      } else {
+        if (this.$store.getters.isLoggedIn) {
+          let user_id = this.$store.getters.getUserId;
+          this.$axios
+            .get("/api/savelists/" + user_id + "/check/" + this.house._id)
+            .then(response => {
+              window.console.log("has router params, fetch isSaved: ", response.data)
+              if (response.data === "true") {
+                this.isSaved = true;
+              } else {
+                this.isSaved = false;
+              }
+            })
+            .catch(err => {
+              window.console.log(err);
+            });
         }
       }
     }
+  },
+  mounted() {
+    window.console.log("isSaved: " + this.isSaved);
   }
 };
 </script>

@@ -109,7 +109,7 @@ class DB(object):
         cursor = self.houses.find()
         savelist_houses = []
         for house in cursor:
-            if house["_id"] in house_id_list:
+            if str(house["_id"]) in house_id_list:
                 house["_id"] = str(house["_id"])
                 savelist_houses.append(house)
         return savelist_houses
@@ -154,30 +154,37 @@ class DB(object):
         return all_savelists
 
     def find_savelist_of_user(self, user_id):
-        found_list = self.savelists.find_one({"user": ObjectId(user_id)})
+        found_list = self.savelists.find_one({"user": user_id})
         if found_list:
             # change the ObjectId to string format
             found_list["_id"] = str(found_list["_id"])
         return found_list
 
     def add_to_user_savelist(self, user_id, house_id):
-        found_list = self.savelists.find_one({"user": ObjectId(user_id)})
+        found_list = self.savelists.find_one({"user": user_id})
         if found_list:
-            query = {"user": ObjectId(user_id)}
+            query = {"user": user_id}
             savelist = found_list["savelist"]
             savelist.append(house_id)
             return self.savelists.update_one(query, {"$set": {"savelist": savelist}})
         else:
             savelist = {"user": user_id, "savelist": [house_id]}
             return str(self.savelists.insert_one(savelist).inserted_id)
+    
+    def remove_from_user_savelist(self, user_id, house_id):
+        found_list = self.savelists.find_one({"user": user_id})
+        query = {"user": user_id}
+        savelist = found_list["savelist"]
+        savelist.remove(house_id)
+        return self.savelists.update_one(query, {"$set": {"savelist": savelist}})
 
     # =========== comments data manipulation ===========
     def find_comments_of_house(self, house_id):
-        found_house_comments = self.comments.find_one({"house": ObjectId(house_id)})
+        found_house_comments = self.comments.find_one({"house": house_id})
         return found_house_comments
 
     def add_comment_to_house(self, house_id, user_id, new_comment):
-        found_house_comments = self.comments.find_one({"house": ObjectId(house_id)})
+        found_house_comments = self.comments.find_one({"house": house_id})
         if found_house_comments:
             query = {"house": ObjectId(house_id)}
             comments = found_house_comments["comments"]
