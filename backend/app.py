@@ -41,6 +41,7 @@ api.namespaces.clear()
 users = api.namespace("users", description="User APIs")
 houses = api.namespace("houses", description="House APIs")
 savelists = api.namespace("savelists", description="Save List APIs")
+comments = api.namespace("comments", description="Comments APIs")
 # =============== app setting part end ===============
 
 
@@ -85,7 +86,9 @@ house_model = api.model(
         "pet_allowed": fields.String,
         "smoke_allowed": fields.String,
         "lat": fields.String,
-        "lng": fields.String
+        "lng": fields.String,
+        "rating_num": fields.String,
+        "rating": fields.String,
     },
 )
 
@@ -437,20 +440,20 @@ class HousesOfUserSavelist(Resource):
 # ============ house API part end ============
 
 # ============ user saved list part start ============
-@savelists.route("/savelists")
+@savelists.route("/")
 class Savelists(Resource):
     @api.doc(description="Get all savelist")
     def get(self):
         return db.find_all_savelists(), 200
 
-@savelists.route("/savelists/<string:user_id>")
+@savelists.route("/<string:user_id>")
 class SavelistOfUser(Resource):
     @api.doc(description="Get the user's savelist")
     def get(self, user_id):
         user_savelist = db.find_savelist_of_user(user_id)
         return user_savelist, 200
 
-@savelists.route("/savelists/<string:user_id>/add/<string:house_id>")
+@savelists.route("/<string:user_id>/add/<string:house_id>")
 class AddHouseToSavelist(Resource):
     @api.doc(description="Add house id to user's savelist")
     def get(self, user_id, house_id):
@@ -460,6 +463,19 @@ class AddHouseToSavelist(Resource):
 
 
 # ============ comment API part start ============
+@comments.route("/<string:house_id>")
+class CommentsOfHouse(Resource):
+    @api.doc(description="Get full comments' info of house")
+    def get(self, house_id):
+        house_comments = db.find_comments_of_house(house_id)["comments"]
+        return house_comments, 200
+
+@comments.route("/<string:house_id>/add/<string:user_id>/content/<string:comment>")
+class AddCommentToHouse(Resource):
+    @api.doc(description="Add comment to house")
+    def get(self, house_id, user_id, comment):
+        db.add_comment_to_house(house_id, user_id, comment)
+        return "Added", 201
 # ============ comment API part end ============
 
 # run the app
