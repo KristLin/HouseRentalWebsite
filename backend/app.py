@@ -442,7 +442,6 @@ class HousesOfUserSavelist(Resource):
     @api.param("pet_allowed", "pet allowed for filtering houses")
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
-    @api.doc(description="Get the provider's house list")
     @api.doc(description="Get houses in the user's savelist")
     def get(self, user_id):
         keyword = request.args.get("keyword")
@@ -527,15 +526,22 @@ class RemoveHouseFromSavelist(Resource):
 class CommentsOfHouse(Resource):
     @api.doc(description="Get full comments' info of house")
     def get(self, house_id):
-        house_comments = db.find_comments_of_house(house_id)["comments"]
+        house_comments = db.find_comments_of_house(house_id)
         return house_comments, 200
 
-@comments.route("/<string:house_id>/add/<string:user_id>/content/<string:comment>")
+@comments.route("/add/house/<string:house_id>/user/<string:user_id>/content/<string:content>rating/<string:rating>")
 class AddCommentToHouse(Resource):
     @api.doc(description="Add comment to house")
-    def get(self, house_id, user_id, comment):
-        db.add_comment_to_house(house_id, user_id, comment)
-        return "Added", 201
+    def get(self, house_id, user_id, content, rating):
+        house_comments = db.find_comments_of_house(house_id)
+        for comment in house_comments:
+            if user_id == comment["user"]:
+                return "User has posted a comment already!", 400
+        
+        if db.add_comment_to_house(house_id, user_id, content, rating):
+            return "Added", 201
+        else:
+            return "someting is wrong, please try again later", 400
 # ============ comment API part end ============
 
 # run the app

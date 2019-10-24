@@ -181,12 +181,26 @@ class DB(object):
     # =========== comments data manipulation ===========
     def find_comments_of_house(self, house_id):
         found_house_comments = self.comments.find_one({"house": house_id})
-        return found_house_comments
+        if found_house_comments:
+            return found_house_comments["comments"]
+        else:
+            return []
 
-    def add_comment_to_house(self, house_id, user_id, new_comment):
+    def add_comment_to_house(self, house_id, user_id, content, rating):
         found_house_comments = self.comments.find_one({"house": house_id})
         if found_house_comments:
-            query = {"house": ObjectId(house_id)}
+            query = {"house": house_id}
             comments = found_house_comments["comments"]
-            comments.append({"user": user_id, "content": new_comment})
+            comments.append({"user": user_id, "rating": rating, "content": content})
             return self.comments.update_one(query, {"$set": {"comments": comments}})
+        else:
+            house_comments = {
+                "house": house_id,
+                "comments": [{
+                    "user": user_id,
+                    "content": content,
+                    "rating": rating
+                }]
+            }
+            return str(self.comments.insert_one(house_comments).inserted_id)
+            

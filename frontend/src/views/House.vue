@@ -4,7 +4,9 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="sidebar">
-          <button class="my-btn form-control my-2" @click="$router.go(-1)">Go Back</button>
+          <button class="my-btn form-control my-2" @click="$router.go(-1)">
+            <i class="fas fa-chevron-left"></i> Go Back
+          </button>
           <hr />
           <ul class="list-group">
             <a href="#intro" class="list-group-item">Intro</a>
@@ -43,7 +45,7 @@
               <li
                 data-target="#carouselExampleIndicators"
                 :key="idx"
-                v-for="(index, idx) in house.images"
+                v-for="(image, idx) in house.images"
                 :data-slide-to="idx+1"
               ></li>
             </ol>
@@ -51,8 +53,8 @@
               <div class="carousel-item active">
                 <img class="card-img-top house-cover-display" :src="house.cover" />
               </div>
-              <div class="carousel-item" :key="idx" v-for="(index, idx) in house.images">
-                <img class="card-img-top house-cover-display" :src="house.images[idx]" />
+              <div class="carousel-item" :key="idx" v-for="(image, idx) in house.images">
+                <img class="card-img-top house-cover-display" :src="image" />
               </div>
             </div>
             <a
@@ -92,25 +94,28 @@
         </div>
 
         <div id="facility" class="card card-outline-secondary my-4">
-          <div class="card-header">House Facility</div>
+          <div class="card-header">House Conditions</div>
           <div class="card-body">
-            <p>something</p>
+            <i class="fas fa-wifi condition-icon"></i>
+            <i class="fas fa-smoking condition-icon"></i>
+            <i class="fas fa-glass-cheers condition-icon"></i>
+            <i class="fas fa-dog condition-icon"></i>
           </div>
         </div>
 
         <div id="review" class="card card-outline-secondary my-4">
           <div class="card-header">House Reviews</div>
           <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr />
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr />
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr />
-            <button class="my-btn form-control">Leave a Review</button>
+            <div class="comment" :key="idx" v-for="(comment, idx) in houseComments">
+              <p class="text-left">{{ comment.content }}</p>
+              <p class="text-right"></p>
+              <hr />
+            </div>
+            <input type="text" v-model="userRating" placeholder="Rating Score">
+            <textarea v-model="userComment" cols="30" rows="10" class="form-control my-2" placeholder="Review Content"></textarea>
+            <button class="my-btn form-control" @click="uploadReview">Leave a Review</button>
+            <p>{{ userRating }}</p>
+            <p>{{ userComment }}</p>
           </div>
         </div>
         <!-- /.card -->
@@ -131,7 +136,10 @@ export default {
     return {
       houseId: this.$route.query.houseId,
       house: this.$route.params.house,
-      isSaved: false
+      isSaved: false,
+      houseComments: [],
+      userComment: "",
+      userRating: "",
     };
   },
   methods: {
@@ -180,6 +188,28 @@ export default {
       } else {
         alert("booked! (test)");
       }
+    },
+    uploadReview() {
+      let user_id = this.$store.getters.getUserId;
+      this.$axios
+        .get(
+          "/api/comments/add/house/" +
+            this.house._id +
+            "/user/" +
+            user_id +
+            "/content/" +
+            this.userComment +
+            "/rating/" +
+            this.userRating
+        )
+        .then(response => {
+          window.console.log(response.data);
+          alert("Review uploaded!");
+        })
+        .catch(error => {
+          window.console.log(error.response.data);
+          alert(error.response.data);
+        });
     }
   },
   components: {},
@@ -192,12 +222,24 @@ export default {
         this.$axios
           .get("/api/savelists/" + user_id + "/check/" + this.house._id)
           .then(response => {
-            window.console.log("house from map, fetch isSaved: ", response.data)
+            window.console.log(
+              "house from map, fetch isSaved: ",
+              response.data
+            );
             if (response.data === "true") {
               this.isSaved = true;
             } else {
               this.isSaved = false;
             }
+            this.$axios
+              .get("/api/comments/" + this.house._id)
+              .then(response => {
+                window.console.log(response);
+                this.houseComments = response.data;
+              })
+              .catch(error => {
+                window.console.log(error.response);
+              });
           })
           .catch(err => {
             window.console.log(err);
@@ -216,12 +258,24 @@ export default {
                 this.$axios
                   .get("/api/savelists/" + user_id + "/check/" + this.house._id)
                   .then(response => {
-                    window.console.log("only query left, fetch isSaved: ", response.data)
+                    window.console.log(
+                      "only query left, fetch isSaved: ",
+                      response.data
+                    );
                     if (response.data === "true") {
                       this.isSaved = true;
                     } else {
                       this.isSaved = false;
                     }
+                    this.$axios
+                      .get("/api/comments/" + this.house._id)
+                      .then(response => {
+                        window.console.log(response);
+                        this.houseComments = response.data;
+                      })
+                      .catch(error => {
+                        window.console.log(error.response);
+                      });
                   })
                   .catch(err => {
                     window.console.log(err);
@@ -241,12 +295,24 @@ export default {
           this.$axios
             .get("/api/savelists/" + user_id + "/check/" + this.house._id)
             .then(response => {
-              window.console.log("has router params, fetch isSaved: ", response.data)
+              window.console.log(
+                "has router params, fetch isSaved: ",
+                response.data
+              );
               if (response.data === "true") {
                 this.isSaved = true;
               } else {
                 this.isSaved = false;
               }
+              this.$axios
+                .get("/api/comments/" + this.house._id)
+                .then(response => {
+                  window.console.log(response);
+                  this.houseComments = response.data;
+                })
+                .catch(error => {
+                  window.console.log(error.response);
+                });
             })
             .catch(err => {
               window.console.log(err);
@@ -267,6 +333,13 @@ export default {
   min-height: 500px;
   margin-bottom: 80px;
 }
+
+.card-img-top {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
 .sidebar {
   position: fixed;
   width: 20%;
@@ -297,5 +370,11 @@ a.list-group-item {
   border: none;
   background-color: #3c9d9b;
   color: white;
+}
+
+.condition-icon {
+  font-size: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 </style>
