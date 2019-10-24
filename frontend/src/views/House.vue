@@ -4,8 +4,8 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="sidebar">
-            <button href="#" class="my-btn form-control my-4" @click="$router.go(-1)">Go Back</button>
-          <hr>
+          <button href="#" class="my-btn form-control my-4" @click="$router.go(-1)">Go Back</button>
+          <hr />
           <ul class="list-group">
             <a href="#intro" class="list-group-item">Intro</a>
             <a href="#description" class="list-group-item">Description</a>
@@ -18,7 +18,51 @@
 
       <div class="col-lg-9">
         <div id="intro" class="card mt-4">
-          <img class="card-img-top img-fluid" :src="house.cover" alt="house cover" />
+          <div
+            id="carouselExampleIndicators"
+            class="carousel slide"
+            data-ride="carousel"
+            v-if="house.cover"
+          >
+            <ol class="carousel-indicators active">
+              <!-- cover image -->
+              <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
+              <!-- other images -->
+              <li
+                data-target="#carouselExampleIndicators"
+                :key="idx"
+                v-for="(index, idx) in house.images"
+                :data-slide-to="idx+1"
+              ></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="card-img-top house-cover-display" :src="house.cover" />
+              </div>
+              <div class="carousel-item" :key="idx" v-for="(index, idx) in house.images">
+                <img class="card-img-top house-cover-display" :src="house.images[idx]" />
+              </div>
+            </div>
+            <a
+              class="carousel-control-prev"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="prev"
+            >
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a
+              class="carousel-control-next"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="next"
+            >
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          
           <div class="card-body">
             <h3 class="card-title text-left">{{ house.title }}</h3>
             <h6 class="text-left">${{house.price}} per night</h6>
