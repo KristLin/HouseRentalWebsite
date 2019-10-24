@@ -106,7 +106,7 @@
           <input type="text" class="form-control" placeholder="Cover Url" v-model="houseData.cover" />
         </div>-->
         <div class="row mt-2">
-          <input type="file" style="display: none" ref="coverInput" @change="selectCover" />
+          <input type="file" style="display: none" accept=".png, .jpg, .jpeg" ref="coverInput" @change="selectCover" />
           <button class="my-btn form-control" @click="$refs.coverInput.click()">Select Cover</button>
         </div>
         <!-- input cover end -->
@@ -139,6 +139,7 @@
           <input
             type="file"
             style="display: none"
+            accept=".png, .jpg, .jpeg"
             ref="imagesInput"
             @change="selectImages"
             multiple

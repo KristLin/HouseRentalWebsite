@@ -8,7 +8,7 @@
           <img :src="userData.profile" class="user-profile" />
           <!-- <br /> -->
           <div class="profile-buttons-div mt-2">
-            <input type="file" style="display: none" ref="fileInput" @change="selectFile" />
+            <input type="file" style="display: none" ref="fileInput" accept=".png, .jpg, .jpeg" @change="selectFile" />
             <button
               class="my-btn btn-sm form-control my-4"
               @click="$refs.fileInput.click()"
