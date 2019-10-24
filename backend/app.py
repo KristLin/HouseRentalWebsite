@@ -529,16 +529,29 @@ class CommentsOfHouse(Resource):
         house_comments = db.find_comments_of_house(house_id)
         return house_comments, 200
 
-@comments.route("/add/house/<string:house_id>/user/<string:user_id>/content/<string:content>rating/<string:rating>")
+@comments.route("/add")
 class AddCommentToHouse(Resource):
+    @api.param("house", "house's id")
+    @api.param("user", "user's id")
+    @api.param("content", "comment's content")
+    @api.param("rating", "comment's rating")
     @api.doc(description="Add comment to house")
-    def get(self, house_id, user_id, content, rating):
+    def get(self):
+        house_id = request.args.get("house")
+        user_id = request.args.get("user")
+        content = request.args.get("content")
+        rating = request.args.get("rating")
+        for item in [house_id, user_id, content, rating]:
+            if not item:
+                return "comment data is not complete!", 400
+        
         house_comments = db.find_comments_of_house(house_id)
         for comment in house_comments:
             if user_id == comment["user"]:
                 return "User has posted a comment already!", 400
         
         if db.add_comment_to_house(house_id, user_id, content, rating):
+            db.update_rating(house_id, rating)
             return "Added", 201
         else:
             return "someting is wrong, please try again later", 400

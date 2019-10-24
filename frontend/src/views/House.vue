@@ -111,11 +111,26 @@
               <p class="text-right"></p>
               <hr />
             </div>
-            <input type="text" v-model="userRating" placeholder="Rating Score">
-            <textarea v-model="userComment" cols="30" rows="10" class="form-control my-2" placeholder="Review Content"></textarea>
+            <div class="rating-div w-100">
+              <span class="text-muted mr-2 mb-2">Your Rating:</span>
+
+              <star-rating
+                :inline="true"
+                text-class="rating-text"
+                v-bind:increment="1"
+                v-bind:star-size="20"
+                v-model="userRating"
+              ></star-rating>
+            </div>
+
+            <textarea
+              v-model="userComment"
+              cols="30"
+              rows="6"
+              class="form-control my-2"
+              placeholder="Review Content"
+            ></textarea>
             <button class="my-btn form-control" @click="uploadReview">Leave a Review</button>
-            <p>{{ userRating }}</p>
-            <p>{{ userComment }}</p>
           </div>
         </div>
         <!-- /.card -->
@@ -127,8 +142,13 @@
 </template>
 
 <script>
+import StarRating from "vue-star-rating";
+
 export default {
   name: "House",
+  components: {
+    StarRating
+  },
   props: {
     houseFromMap: {}
   },
@@ -139,7 +159,7 @@ export default {
       isSaved: false,
       houseComments: [],
       userComment: "",
-      userRating: "",
+      userRating: 5
     };
   },
   methods: {
@@ -192,16 +212,14 @@ export default {
     uploadReview() {
       let user_id = this.$store.getters.getUserId;
       this.$axios
-        .get(
-          "/api/comments/add/house/" +
-            this.house._id +
-            "/user/" +
-            user_id +
-            "/content/" +
-            this.userComment +
-            "/rating/" +
-            this.userRating
-        )
+        .get("/api/comments/add", {
+          params: {
+            "house": this.house._id,
+            "user": user_id,
+            "content": this.userComment,
+            "rating": this.userRating,
+          }
+        })
         .then(response => {
           window.console.log(response.data);
           alert("Review uploaded!");
@@ -212,7 +230,6 @@ export default {
         });
     }
   },
-  components: {},
   created() {
     // if the params is empty, call the backend to get the house data.
     if (this.houseFromMap) {
@@ -376,5 +393,15 @@ a.list-group-item {
   font-size: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;
+}
+
+.rating-text {
+  font-weight: bold;
+  border: 1px solid #cfcfcf;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  color: #999;
+  background: #fff;
 }
 </style>
