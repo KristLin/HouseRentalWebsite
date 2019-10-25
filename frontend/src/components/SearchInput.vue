@@ -40,21 +40,26 @@
         <input type="date" class="form-control" v-model="searchData.endDate" />
       </div>
       <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">House Conditions:</label>
-        <br />
-        <input type="checkbox" class="condition-input" v-model="searchData.has_wifi" />
-        <i class="fas fa-wifi condition-icon"></i>
-        <input type="checkbox" class="condition-input" v-model="searchData.party_allowed" />
-        <i class="fas fa-glass-cheers condition-icon"></i>
-        <input type="checkbox" class="condition-input" v-model="searchData.pet_allowed" />
-        <i class="fas fa-dog condition-icon"></i>
-        <input type="checkbox" class="condition-input" v-model="searchData.smoke_allowed" />
-        <i class="fas fa-smoking condition-icon"></i>
+        <label class="filter-label">Tenant Number:</label>
+        <input type="text" class="form-control" placeholder="Tenant Number" v-model="searchData.tenant_num" />
       </div>
       <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">Search</label>
-        <button @click="searchHouse" class="my-btn form-control">Search</button>
+        <label class="filter-label">House Conditions:</label>
+        <br />
+        <div class="mt-2">
+          <input type="checkbox" class="condition-input" v-model="searchData.has_wifi" />
+          <i class="fas fa-wifi condition-icon"></i>
+          <input type="checkbox" class="condition-input" v-model="searchData.party_allowed" />
+          <i class="fas fa-glass-cheers condition-icon"></i>
+          <input type="checkbox" class="condition-input" v-model="searchData.pet_allowed" />
+          <i class="fas fa-dog condition-icon"></i>
+          <input type="checkbox" class="condition-input" v-model="searchData.smoke_allowed" />
+          <i class="fas fa-smoking condition-icon"></i>
+        </div>
       </div>
+    </div>
+    <div class="row w-50 m-auto">
+      <button @click="searchHouse" class="my-btn form-control">Search</button>
     </div>
   </div>
 </template>
@@ -99,6 +104,7 @@ export default {
 .condition-icon {
   margin-right: 12px;
 }
+
 @media screen and (max-width: 991px) {
   .condition-input {
     height: 1rem;

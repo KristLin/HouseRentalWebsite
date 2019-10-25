@@ -171,12 +171,21 @@
           />
         </div>
         <div class="row mt-2">
-          <label class="input-label">Latitude and Longtitude (in Google Map):</label>
+          <label class="input-label">Google Map Location (Optional):</label>
           <input type="text" class="form-control" placeholder="Latitude" v-model="houseData.lat" />
           <input type="text" class="form-control" placeholder="Longtitude" v-model="houseData.lng" />
         </div>
       </div>
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <div class="row mt-2">
+          <label class="input-label">Tenant Number:</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tenant Number"
+            v-model="houseData.tenant_num"
+          />
+        </div>
         <div class="row mt-2">
           <label class="input-label">Conditions:</label>
           <div class="row w-100">
@@ -208,11 +217,10 @@
             </div>
           </div>
         </div>
-        <div class="row mt-2">
-          <label class="input-label">Upload House:</label>
-          <button class="my-btn form-control" @click="uploadHouse">Upload House</button>
-        </div>
       </div>
+    </div>
+    <div class="row w-50 mx-auto mt-4">
+      <button class="my-btn form-control" @click="uploadHouse">Upload House</button>
     </div>
   </div>
 </template>
@@ -271,9 +279,11 @@ export default {
     },
     async uploadHouse() {
       for (let key in this.houseData) {
-        if (!this.houseData[key]) {
-          alert("The house data is not complete!");
-          return;
+        if (key !== "lat" || key !=="lng") {
+          if (!this.houseData[key]) {
+            alert("The house data is not complete!");
+            return;
+          }
         }
       }
       // get cover url
@@ -289,16 +299,16 @@ export default {
       window.console.log(this.houseData);
 
       if (this.houseData.has_wifi === "") {
-        this.houseData.has_wifi = false
+        this.houseData.has_wifi = false;
       }
       if (this.houseData.party_allowed === "") {
-        this.houseData.party_allowed = false
+        this.houseData.party_allowed = false;
       }
       if (this.houseData.pet_allowed === "") {
-        this.houseData.pet_allowed = false
+        this.houseData.pet_allowed = false;
       }
       if (this.houseData.smoke_allowed === "") {
-        this.houseData.smoke_allowed = false
+        this.houseData.smoke_allowed = false;
       }
 
       // upload images in url form to backend
@@ -388,6 +398,6 @@ export default {
 }
 
 .condition-icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 </style>

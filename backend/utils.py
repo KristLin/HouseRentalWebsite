@@ -13,15 +13,16 @@ def filter_houses(
     party_allowed=False,
     smoke_allowed=False,
     has_wifi=False,
+    tenant_num=None,
 ):
     filtered_houses = houses
     filtered_houses = filter_houses_with_keyword(filtered_houses, keyword)
     filtered_houses = filter_houses_with_suburb(filtered_houses, suburb)
     filtered_houses = filter_houses_with_min_price(filtered_houses, min_price)
     filtered_houses = filter_houses_with_max_price(filtered_houses, max_price)
-    filtered_houses = filter_houses_with_conditions(houses, has_wifi, pet_allowed, party_allowed, smoke_allowed)
+    filtered_houses = filter_houses_with_conditions(filtered_houses, has_wifi, pet_allowed, party_allowed, smoke_allowed)
+    filtered_houses = filter_houses_with_tenant_num(filtered_houses, tenant_num)
     filtered_houses = filter_houses_with_date(filtered_houses, start_date, end_date)
-    
     return filtered_houses
 
 
@@ -61,9 +62,19 @@ def filter_houses_with_min_price(houses, min_price):
 
 def filter_houses_with_max_price(houses, max_price):
     filtered_houses = []
-    if max_price!= None:
+    if max_price != None:
         for house in houses:
             if int(house["price"]) <= max_price:
+                filtered_houses.append(house)
+        return filtered_houses
+    else:
+        return houses
+
+def filter_houses_with_tenant_num(houses, tenant_num):
+    filtered_houses = []
+    if tenant_num != None:
+        for house in houses:
+            if int(house["tenant_num"]) == tenant_num:
                 filtered_houses.append(house)
         return filtered_houses
     else:
@@ -97,7 +108,6 @@ def filter_houses_with_condition(houses, condition_name, condition):
 
 def filter_houses_with_conditions(houses, has_wifi, pet_allowed, party_allowed, smoke_allowed):
     filtered_houses = houses
-    print(has_wifi, pet_allowed, party_allowed, smoke_allowed)
     filtered_houses = filter_houses_with_condition(filtered_houses, "has_wifi", has_wifi)
     filtered_houses = filter_houses_with_condition(filtered_houses, "pet_allowed", pet_allowed)
     filtered_houses = filter_houses_with_condition(filtered_houses, "party_allowed", party_allowed)
@@ -117,7 +127,7 @@ def filter_houses_with_facilities(houses, has_wifi):
 def get_valid_update_info(data_object):
     update_info = {}
     for attr in data_object:
-        if data_object[attr]:
+        if data_object[attr] != "" and data_object[attr] != None:
             update_info[attr] = data_object[attr]
     return update_info
 

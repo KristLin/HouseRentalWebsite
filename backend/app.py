@@ -253,7 +253,6 @@ class User(Resource):
     # update user account
     def patch(self, user_id):
         update_info = request.json
-        print(update_info)
         # remove empty property in update info
         update_info = utils.get_valid_update_info(update_info)
 
@@ -289,6 +288,7 @@ class Houses(Resource):
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
+    @api.param("tenant_num", "tenant number for filtering houses")
     @api.doc(description="Retrieve all houses info")
     # get all houses
     def get(self):
@@ -307,6 +307,10 @@ class Houses(Resource):
         smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
         party_allowed = True if request.args.get("party_allowed") == "true" else False
         pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+        
+        tenant_num = (
+            int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
+        )
 
         all_houses = db.find_all_houses()
         all_houses = utils.filter_houses(
@@ -321,6 +325,7 @@ class Houses(Resource):
             smoke_allowed=smoke_allowed,
             party_allowed=party_allowed,
             pet_allowed=pet_allowed,
+            tenant_num=tenant_num,
         )
         return all_houses, 200
 
@@ -353,7 +358,6 @@ class House(Resource):
     def get(self, house_id):
         found_house = db.find_house_by_id(house_id)
         if found_house:
-            print(found_house)
             return found_house, 200
         else:
             return f"House with id {house_id} is not in the database!", 404
@@ -416,6 +420,7 @@ class HousesOfProvider(Resource):
     @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("has_wifi", "has wifi for filtering houses")
+    @api.param("tenant_num", "tenant num for filtering houses")
     @api.doc(description="Get the provider's house list")
     def get(self, provider_id):
         keyword = request.args.get("keyword")
@@ -434,6 +439,10 @@ class HousesOfProvider(Resource):
         party_allowed = True if request.args.get("party_allowed") == "true" else False
         pet_allowed = True if request.args.get("pet_allowed") == "true" else False
 
+        tenant_num = (
+            int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
+        )
+
         houses_of_provider = db.find_user_houses(provider_id)
         houses_of_provider = utils.filter_houses(
             houses=houses_of_provider,
@@ -447,6 +456,7 @@ class HousesOfProvider(Resource):
             smoke_allowed=smoke_allowed,
             party_allowed=party_allowed,
             pet_allowed=pet_allowed,
+            tenant_num=tenant_num
         )
         return houses_of_provider, 200
 
@@ -464,6 +474,7 @@ class HousesOfUserSavelist(Resource):
     @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
+    @api.param("tenant_num", "tenant num for filtering houses")
     @api.doc(description="Get houses in the user's savelist")
     def get(self, user_id):
         keyword = request.args.get("keyword")
@@ -482,6 +493,10 @@ class HousesOfUserSavelist(Resource):
         party_allowed = True if request.args.get("party_allowed") == "true" else False
         pet_allowed = True if request.args.get("pet_allowed") == "true" else False
 
+        tenant_num = (
+            int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
+        )
+
         user_savelist = db.find_savelist_of_user(user_id)
         user_savelist_houses = db.find_savelist_houses(user_savelist)
         user_savelist_houses = utils.filter_houses(
@@ -496,6 +511,7 @@ class HousesOfUserSavelist(Resource):
             smoke_allowed=smoke_allowed,
             party_allowed=party_allowed,
             pet_allowed=pet_allowed,
+            tenant_num = tenant_num,
         )
         return user_savelist_houses, 200
 # ============ house API part end ============

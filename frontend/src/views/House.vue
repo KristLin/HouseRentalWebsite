@@ -79,7 +79,11 @@
 
           <div class="card-body">
             <h3 class="card-title text-left">{{ house.title }}</h3>
-            <h6 class="text-left">${{house.price}} per night</h6>
+            <h6 class="text-left my-2">${{house.price}} per night</h6>
+            <h6 class="text-left">
+              {{house.tenant_num}}
+              <i class="fas fa-user"></i>
+            </h6>
             <star-rating
               :inline="true"
               :rating="house.rating"
@@ -104,10 +108,10 @@
         <div id="conditions" class="card card-outline-secondary my-4">
           <div class="card-header">House Conditions</div>
           <div class="card-body">
-            <i class="fas fa-wifi condition-icon" v-if="house.has_wifi"></i>
-            <i class="fas fa-smoking condition-icon" v-if="house.smoke_allowed"></i>
-            <i class="fas fa-glass-cheers condition-icon" v-if="house.party_allowed"></i>
-            <i class="fas fa-dog condition-icon" v-if="house.pet_allowed"></i>
+            <i class="fas fa-wifi house-page-condition-icon" v-if="house.has_wifi"></i>
+            <i class="fas fa-smoking house-page-condition-icon" v-if="house.smoke_allowed"></i>
+            <i class="fas fa-glass-cheers house-page-condition-icon" v-if="house.party_allowed"></i>
+            <i class="fas fa-dog house-page-condition-icon" v-if="house.pet_allowed"></i>
           </div>
         </div>
 
@@ -395,7 +399,7 @@ a.list-group-item {
   color: white;
 }
 
-.condition-icon {
+.house-page-condition-icon {
   font-size: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;

@@ -3,13 +3,15 @@
     <div class="container">
       <h3 class="mb-4">Search Houses</h3>
       <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
-      <div>
-        <hr />
-        <div class="row">
-          <h5 v-if="!this.houses.length" class="mt-4 mx-auto">Sorry, there is not result...</h5>
-          <HouseCards :houses="houses" />
-        </div>
+      <hr />
+      <div class="row">
+        <h5
+          v-if="!this.houses.length && this.hasFetchedData"
+          class="mt-4 mx-auto"
+        >Sorry, there is not result...</h5>
+        <h5 v-if="!this.hasFetchedData" class="mt-4 mx-auto">Searching, please wait...</h5>
       </div>
+      <HouseCards :houses="houses" v-if="this.hasFetchedData" />
     </div>
   </div>
 </template>
@@ -30,7 +32,8 @@ export default {
     return {
       searchData: {},
       // houses: this.$route.params.houses
-      houses: []
+      houses: [],
+      hasFetchedData: false
     };
   },
 
@@ -38,10 +41,12 @@ export default {
     searchHouse() {
       window.console.log("searching...");
       window.console.log(this.searchData);
+      this.hasFetchedData = false;
       this.$axios
         .get("/api/houses/", { params: this.searchData })
         .then(response => {
           // JSON responses are automatically parsed.
+          this.hasFetchedData = true;
           this.houses = response.data;
         })
         .catch(err => {
@@ -74,6 +79,7 @@ export default {
       .get("/api/houses/")
       .then(response => {
         // JSON responses are automatically parsed.
+        this.hasFetchedData = true;
         this.houses = response.data;
       })
       .catch(err => {

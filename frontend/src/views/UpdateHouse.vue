@@ -166,7 +166,7 @@
           />
         </div>
         <div class="row mt-2">
-          <label class="input-label">Latitude and Longtitude (in Google Map):</label>
+          <label class="input-label">Google Map Location:</label>
           <input
             type="text"
             class="form-control"
@@ -182,6 +182,15 @@
         </div>
       </div>
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <div class="row mt-2">
+          <label class="input-label">Tenant Number:</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Tenant Number"
+            v-model="houseData.tenant_num"
+          />
+        </div>
         <div class="row mt-2">
           <label class="input-label">Conditions:</label>
           <div class="row w-100">
@@ -213,11 +222,10 @@
             </div>
           </div>
         </div>
-        <div class="row mt-2">
-          <label class="input-label">Update House:</label>
-          <button class="my-btn form-control" @click="updateHouse">Update House</button>
-        </div>
       </div>
+    </div>
+    <div class="row w-50 mx-auto mt-4">
+      <button class="my-btn form-control" @click="updateHouse">Update House</button>
     </div>
   </div>
 </template>
@@ -276,7 +284,7 @@ export default {
       let validData = 0;
       window.console.log(this.houseData);
       for (let key in this.houseData) {
-        if (this.houseData[key] !== "") {
+        if (this.houseData[key] !== null && this.houseData[key] !== "") {
           if (this.houseData[key] !== this.displayData[key]) {
             validData += 1;
           }
@@ -287,13 +295,13 @@ export default {
         return;
       }
 
-      if (this.houseData.cover !== "") {
+      if (this.houseData.cover !== null &&  this.houseData.cover !== undefined) {
         // get cover url
         let res = await this.imageToUrl(this.houseData.cover);
         this.houseData.cover = res.data.data.url;
       }
 
-      if (this.houseData.images !== []) {
+      if (this.houseData.images !== null && this.houseData.images !== undefined) {
         // get images urls
         let imageUrls = [];
         for (let idx in this.houseData.images) {
@@ -406,6 +414,6 @@ export default {
 }
 
 .condition-icon {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 </style>
