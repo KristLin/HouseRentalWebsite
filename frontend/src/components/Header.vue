@@ -58,24 +58,29 @@ export default {
         "getters.isLoggedIn: ",
         this.$store.getters.isLoggedIn
       );
-      if (this.$store.getters.isLoggedIn) {
-        this.$axios
-          .get("/api/users/logout/" + this.$store.getters.getUserId)
-          .then(res => {
-            if (res.status == 200) {
-              this.$store.commit("logout");
-              // this.$router.go()
-              // refresh the web page
 
-              if (this.$router.currentRoute.name !== "home") {
-                this.$router.push({ name: "home" });
+      if (this.$store.getters.isLoggedIn) {
+        if (confirm("Do you really want to log out?")) {
+          this.$axios
+            .get("/api/users/logout/" + this.$store.getters.getUserId)
+            .then(res => {
+              if (res.status == 200) {
+                this.$store.commit("logout");
+                // this.$router.go()
+                // refresh the web page
+
+                if (this.$router.currentRoute.name !== "home") {
+                  this.$router.push({ name: "home" });
+                }
+                window.location.reload(true);
+                window.console.log("user logged out");
+                alert("logged out!");
               }
-              window.location.reload(true);
-              window.console.log("user logged out");
-              alert("logged out!");
-            }
-          })
-          .catch(err => window.console.log(err));
+            })
+            .catch(err => window.console.log(err));
+        } else {
+          return;
+        }
       } else {
         window.console.log("You are not logged in!");
         alert("You are not logged in!");
