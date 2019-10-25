@@ -1,10 +1,8 @@
 <template>
   <div>
-    <div class="jumbotron">
-      <div class="container">
-        <h1>About us</h1>
-        <p>We are professional.</p>
-      </div>
+    <div class="container">
+      <h1>About us</h1>
+      <p>We are professional.</p>
     </div>
   </div>
 </template>
@@ -20,6 +18,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 100px;
+  margin-bottom: 80px;
 }
 
 .jumbotron {

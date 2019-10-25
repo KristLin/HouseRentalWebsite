@@ -11,76 +11,60 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              class="d-block w-100"
-              src="@/assets/homepage_carousel_images/1.jpg"
+              width="100%"
+              height="100%"
+              src="../assets/homepage_carousel_images/1.jpg"
               alt="First slide"
             />
-            <div class="header-text hidden-xs">
-              <div class="col-md-12 text-center">
-                <h2>
-                  <span>
-                    Welcome to
-                    <strong>LOREM IPSUM</strong>
-                  </span>
-                </h2>
-                <br />
-                <h3>
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-                </h3>
-                <br />
-                <div class="carousel-button">
-                  <button class="my-btn form-control" @click="learnMore">Learn More</button>
-                </div>
+            <div class="container">
+              <div class="carousel-caption text-left">
+                <h1>
+                  <strong>Welcome to Bomb Shrimp</strong>
+                </h1>
+                <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
+                <button
+                  class="btn btn-lg carousel-btn"
+                  type="button"
+                  @click="searchRoute"
+                >Explorations</button>
               </div>
             </div>
           </div>
           <div class="carousel-item">
             <img
-              class="d-block w-100"
-              src="@/assets/homepage_carousel_images/2.jpg"
-              alt="Second slide"
+              width="100%"
+              height="100%"
+              src="../assets/homepage_carousel_images/2.jpg"
+              alt="First slide"
             />
-            <div class="header-text hidden-xs">
-              <div class="col-md-12 text-center">
-                <h2>
-                  <span>
-                    Welcome to
-                    <strong>LOREM IPSUM</strong>
-                  </span>
-                </h2>
-                <br />
-                <h3>
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-                </h3>
-                <br />
-                <div class="carousel-button">
-                  <button class="my-btn form-control" @click="learnMore">Learn More</button>
-                </div>
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>
+                  <strong>Welcome to Bomb Shrimp</strong>
+                </h1>
+                <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
+                <button class="btn btn-lg carousel-btn" type="button" @click="upLoadRoute">Upload</button>
               </div>
             </div>
           </div>
           <div class="carousel-item">
             <img
-              class="d-block w-100"
-              src="@/assets/homepage_carousel_images/3.jpg"
-              alt="Third slide"
+              width="100%"
+              height="100%"
+              src="../assets/homepage_carousel_images/3.jpg"
+              alt="First slide"
             />
-            <div class="header-text hidden-xs">
-              <div class="col-md-12 text-center">
-                <h2>
-                  <span>
-                    Welcome to
-                    <strong>LOREM IPSUM</strong>
-                  </span>
-                </h2>
-                <br />
-                <h3>
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-                </h3>
-                <br />
-                <div class="carousel-button">
-                  <button class="my-btn form-control" @click="learnMore">Learn More</button>
-                </div>
+            <div class="container">
+              <div class="carousel-caption text-right">
+                <h1>
+                  <strong>Welcome to Bomb Shrimp</strong>
+                </h1>
+                <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
+                <button
+                  class="btn btn-lg carousel-btn"
+                  type="button"
+                  @click="joinRoute"
+                >Sign up here</button>
               </div>
             </div>
           </div>
@@ -104,6 +88,7 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
+      <!-- 2. more on homepage -->
       <div class="features mx-auto my-8">
         <div class="text-center my-5">
           <h2 class="font-weight-bold my-5">Why is it so great?</h2>
@@ -190,9 +175,19 @@ export default {
   },
 
   methods: {
-    learnMore() {
+    searchRoute() {
       this.$router.push({
         name: "search"
+      });
+    },
+    upLoadRoute() {
+      this.$router.push({
+        name: "search"
+      });
+    },
+    joinRoute() {
+      this.$router.push({
+        name: "signup"
       });
     }
   }
@@ -216,6 +211,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 100px;
+  margin-bottom: 80px;
 }
 .carousel-item {
   height: 550px;
@@ -263,6 +260,22 @@ export default {
   padding: 15px;
 }
 
+.features {
+  width: 80%;
+  min-height: 500px;
+}
+
+.carousel-item {
+  height: 550px;
+}
+.carousel-btn {
+  color: white;
+  background-color: #3c9d9b;
+}
+.carousel-btn:hover {
+  color: white;
+  background-color: black;
+}
 .features {
   width: 80%;
   min-height: 500px;

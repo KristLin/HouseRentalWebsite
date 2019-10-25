@@ -73,7 +73,8 @@
             <div>
               <p>
                 <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
-                By clicking the checkbox you're agree to our policy & terms
+                By clicking the checkbox you're agree to our
+                <em><a download style="color: #3c9d9b" href="https://www.airbnbcitizen.com/wp-content/uploads/2016/12/National_PublicPolicyTool-ChestReport-v3.pdf">policy & terms</a></em>
               </p>
               <div class="register-button-div">
                 <button @click="registerAccount" class="my-btn form-control my-4">Register</button>
@@ -116,6 +117,13 @@ export default {
           return;
         }
       }
+
+      // check if agree policy
+      if (this.checkedData.checkedPolicy === "") {
+        alert("You have to agree to our policy!");
+        return;
+      }
+
       // raise alert if two password are not matched
       if (this.userData.password !== this.checkedData.password2) {
         alert("Passwords are not matched!");
@@ -155,6 +163,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 100px;
+  margin-bottom: 80px;
 }
 
 .register-form {

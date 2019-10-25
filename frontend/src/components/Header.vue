@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <router-link class="navbar-brand" to="/">Bomb Shrimper 🍤</router-link>
       <button
         class="navbar-toggler"
@@ -22,24 +22,24 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/search" active-class="active" exact>Search</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/contact" active-class="active" exact>Contact us</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/about" active-class="active" exact>About us</router-link>
+          </li>
           <li class="nav-item" v-if="!this.$store.getters.isLoggedIn">
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
           </li>
           <li class="nav-item dropdown" v-if="this.$store.getters.isLoggedIn">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown">Account</a>
-            <div class="dropdown-menu">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item" @click="goToMyAccount">My Account</span>
               <span class="dropdown-item" @click="goToMyHouses">My Houses</span>
               <span class="dropdown-item" @click="goToMySaveList">My Save List</span>
               <div class="dropdown-divider"></div>
               <span class="dropdown-item" @click="logout">Log out</span>
             </div>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/contact" active-class="active" exact>Contact us</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about" active-class="active" exact>About us</router-link>
           </li>
         </ul>
       </div>

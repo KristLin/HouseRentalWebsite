@@ -1,17 +1,47 @@
 <template>
   <div>
     <div class="container">
-      <h3 class="mb-4">Search Houses</h3>
-      <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
-      <hr />
-      <div class="row">
-        <h5
-          v-if="!this.houses.length && this.hasFetchedData"
-          class="mt-4 mx-auto"
-        >Sorry, there is not result...</h5>
-        <h5 v-if="!this.hasFetchedData" class="mt-4 mx-auto">Searching, please wait...</h5>
+      <div id="accordion">
+        <!-- search bar here -->
+        <div>
+          <div id="filterHeading">
+            <a
+              data-toggle="collapse"
+              href="#searchBar"
+              role="button"
+              aria-expanded="true"
+              aria-controls="searchBar"
+            >
+              <h3 class="mb-0">Search Houses</h3>
+            </a>
+          </div>
+
+          <div
+            id="searchBar"
+            class="collapse show"
+            aria-labelledby="filterHeading"
+            data-parent="#accordion"
+          >
+            <div class="card-body">
+              <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
+            </div>
+          </div>
+        </div>
+
+        <!-- advertisments here -->
+        <hr />
+        <div class="row">
+          <h5
+            v-if="!this.houses.length && this.hasFetchedData"
+            class="mt-4 mx-auto"
+          >Sorry, there is not result...</h5>
+          <h5 v-if="!this.hasFetchedData" class="mt-4 mx-auto">Searching, please wait...</h5>
+          <HouseCards :houses="houses" v-if="this.hasFetchedData" />
+        </div>
+        <div class="float-right">
+          <a href="#" style="color: #000;">Back to top</a>
+        </div>
       </div>
-      <HouseCards :houses="houses" v-if="this.hasFetchedData" />
     </div>
   </div>
 </template>
@@ -93,7 +123,7 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
-  margin-top: 30px;
+  margin-top: 100px;
   margin-bottom: 80px;
 }
 
@@ -105,5 +135,15 @@ export default {
 }
 .filter-input {
   margin: auto;
+}
+
+a:hover {
+  text-decoration: none;
+}
+a h3 {
+  color: #2c3e50;
+}
+a h3:hover {
+  color: #3c9d9b;
 }
 </style>

@@ -1,11 +1,43 @@
 <template>
   <div>
     <div class="container">
-      <h3 class="mb-4">My Save List</h3>
-      <hr />
-      <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
-      <hr />
-      <HouseCards v-bind:houses="houses" />
+      <div id="accordion">
+        <!-- search bar here -->
+        <div>
+          <div id="filterHeading">
+            <a
+              data-toggle="collapse"
+              href="#searchBar"
+              role="button"
+              aria-expanded="true"
+              aria-controls="searchBar"
+            >
+              <h3 class="mb-0">My Save List</h3>
+            </a>
+          </div>
+
+          <div
+            id="searchBar"
+            class="collapse show"
+            aria-labelledby="filterHeading"
+            data-parent="#accordion"
+          >
+            <div class="card-body">
+              <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
+            </div>
+          </div>
+        </div>
+
+        <!-- advertisments here -->
+        <hr />
+        <div class="row">
+          <HouseCards v-bind:houses="houses" />
+        </div>
+        <div class="float-right">
+          <a href="#" style="color: #000;">Back to top</a>
+        </div>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -65,7 +97,7 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
-  margin-top: 30px;
+  margin-top: 100px;
   margin-bottom: 80px;
 }
 
@@ -79,5 +111,15 @@ export default {
   border: none;
   background-color: #3c9d9b;
   color: white;
+}
+
+a:hover {
+  text-decoration: none;
+}
+a h3 {
+  color: #2c3e50;
+}
+a h3:hover {
+  color: #3c9d9b;
 }
 </style>

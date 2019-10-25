@@ -363,8 +363,8 @@ export default {
 .container {
   padding-top: 2rem;
   min-height: 500px;
+  margin-top: 100px;
   margin-bottom: 80px;
-  margin-top: 20px;
 }
 
 .grid-col-div {
