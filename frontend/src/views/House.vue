@@ -84,16 +84,21 @@
               {{house.tenant_num}}
               <i class="fas fa-user"></i>
             </h6>
+            <h6 class="text-left">
+              {{ house.size }} m
+              <sup>2</sup>
+            </h6>
             <star-rating
               :inline="true"
               :rating="house.rating"
               :read-only="true"
-              text-class="rating-text"
+              :show-rating="false"
               v-bind:increment="0.01"
               v-bind:star-size="20"
               v-if="house.rating"
             ></star-rating>
-            <p class="text-left" v-if="!house.rating">This house has not received any rating yet.</p>
+            <span style="font-weight:bold;" class="mx-2">({{ house.rating_num }})</span>
+            <p class="text-left" v-if="!house.rating">This house has no rating yet.</p>
           </div>
         </div>
         <!-- /.card -->
@@ -404,15 +409,5 @@ a.list-group-item {
   font-size: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;
-}
-
-.rating-text {
-  font-weight: bold;
-  border: 1px solid #cfcfcf;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
-  color: #999;
-  background: #fff;
 }
 </style>

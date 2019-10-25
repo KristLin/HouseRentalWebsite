@@ -153,7 +153,7 @@
           />
         </div>
         <div class="row mt-2">
-          <label class="input-label">Size:</label>
+          <label class="input-label">Size (m<sup>2</sup>):</label>
           <input type="text" class="form-control" placeholder="Size" v-model="houseData.size" />
         </div>
       </div>

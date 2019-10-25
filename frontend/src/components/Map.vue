@@ -1,10 +1,10 @@
 <template>
-  <div class="map-page">
+  <div>
     <div class="row">
-      <div class="col-lg-6 col-md-12 overflow-auto">
+      <div class="col-lg-4 col-md-12 overflow-auto">
         <HouseFromMap :house="house" />
       </div>
-      <div class="col-lg-6 col-md-12">
+      <div class="col-lg-8 col-md-12">
         <div class="google-map">
           <GmapMap
             :options="options"
@@ -39,7 +39,7 @@ export default {
     HouseFromMap
   },
   props: {
-    // houses: Array
+    houses: Array
   },
   data() {
     return {
@@ -53,7 +53,6 @@ export default {
         disableDefaultUi: false
       },
       house: "",
-      houses: []
     };
   },
   methods: {
@@ -66,34 +65,10 @@ export default {
     clickHouseMarker(house) {
       this.house = house;
       window.console.log(house);
-      //   this.$router.push({
-      //     name: "house",
-      //     query: { houseId: house._id },
-      //     params: { house: house }
-      //   });
     }
   },
-  created() {
-    this.$axios
-      .get("/api/houses/")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.houses = response.data;
-        window.console.log(this.houses);
-        // this.$forceUpdate();
-      })
-      .catch(err => {
-        window.console.log(err.response);
-      });
-  }
 };
 </script>
 
 <style scoped>
-.map-page {
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 50px;
-  width: 90%;
-}
 </style>

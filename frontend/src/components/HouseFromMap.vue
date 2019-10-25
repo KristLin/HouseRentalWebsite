@@ -53,16 +53,26 @@
         <div class="card-body">
           <h3 class="card-title text-left">{{ house.title }}</h3>
           <h6 class="text-left">${{house.price}} per night</h6>
+          <h6 class="text-left">
+            {{house.tenant_num}}
+            <i class="fas fa-user"></i>
+          </h6>
+          <h6 class="text-left">
+            {{ house.size }} m
+            <sup>2</sup>
+          </h6>
+          <div class="rating-div"></div>
           <star-rating
             :inline="true"
             :rating="house.rating"
             :read-only="true"
-            text-class="rating-text"
+            :show-rating="false"
             v-bind:increment="0.01"
             v-bind:star-size="20"
             v-if="house.rating"
           ></star-rating>
-          <p class="text-left" v-if="!house.rating">This house has not received any rating yet.</p>
+          <span style="font-weight:bold;" class="mx-2">({{ house.rating_num }})</span>
+          <p class="mt-2" v-if="!house.rating">This house has no rating yet.</p>
         </div>
       </div>
       <div id="learnMore" class="card card-outline-secondary my-2">
@@ -79,10 +89,10 @@
       <div id="conditions" class="card card-outline-secondary my-4">
         <div class="card-header">House Conditions</div>
         <div class="card-body">
-          <i class="fas fa-wifi condition-icon" v-if="house.has_wifi"></i>
-          <i class="fas fa-smoking condition-icon" v-if="house.smoke_allowed"></i>
-          <i class="fas fa-glass-cheers condition-icon" v-if="house.party_allowed"></i>
-          <i class="fas fa-dog condition-icon" v-if="house.pet_allowed"></i>
+          <i class="fas fa-wifi map-house-condition-icon" v-if="house.has_wifi"></i>
+          <i class="fas fa-smoking map-house-condition-icon" v-if="house.smoke_allowed"></i>
+          <i class="fas fa-glass-cheers map-house-condition-icon" v-if="house.party_allowed"></i>
+          <i class="fas fa-dog map-house-condition-icon" v-if="house.pet_allowed"></i>
         </div>
       </div>
     </div>
@@ -131,8 +141,8 @@ export default {
 }
 
 .card-img-top {
+  height: 250px;
   width: 100%;
-  height: 300px;
   object-fit: cover;
 }
 
@@ -153,9 +163,9 @@ export default {
   margin-bottom: 100px;
 }
 
-.condition-icon {
-  font-size: 2rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
+.map-house-condition-icon {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 </style>

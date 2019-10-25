@@ -36,7 +36,6 @@
         <hr />
 
         <!-- advertisments here -->
-        <hr />
         <div class="row">
           <MyHouseCards v-bind:houses="userHouses" />
         </div>

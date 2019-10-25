@@ -10,12 +10,13 @@
               :inline="true"
               :rating="house.rating"
               :read-only="true"
-              text-class="rating-text"
+              :show-rating="false"
               v-bind:increment="0.01"
-              v-bind:star-size="15"
+              v-bind:star-size="20"
               v-if="house.rating"
             ></star-rating>
-            <p class="text-left" v-if="!house.rating">No rating yet.</p>
+            <span style="font-weight:bold;" class="mx-2">({{ house.rating_num }})</span>
+            <p v-if="!house.rating">No rating yet.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>

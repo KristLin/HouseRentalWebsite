@@ -191,6 +191,7 @@ export default {
           alert("User account is deleted!");
           this.$store.commit("logout");
           this.$router.push({ name: "home" });
+          window.location.reload(true);
         })
         .catch(error => window.console.log(error.response));
     }

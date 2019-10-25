@@ -43,7 +43,7 @@
                   <strong>Welcome to Bomb Shrimp</strong>
                 </h1>
                 <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
-                <button class="btn btn-lg carousel-btn" type="button" @click="upLoadRoute">Upload</button>
+                <button class="btn btn-lg carousel-btn" type="button" @click="aboutRoute">About us</button>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@
         </a>
       </div>
       <!-- 2. more on homepage -->
-      <div class="features mx-auto my-8">
+      <div class="features mx-auto">
         <div class="text-center my-5">
           <h2 class="font-weight-bold my-5">Why is it so great?</h2>
           <p class="lead mx-auto mb-5">
@@ -180,9 +180,9 @@ export default {
         name: "search"
       });
     },
-    upLoadRoute() {
+    aboutRoute() {
       this.$router.push({
-        name: "search"
+        name: "about"
       });
     },
     joinRoute() {
@@ -214,9 +214,6 @@ export default {
   margin-top: 100px;
   margin-bottom: 80px;
 }
-.carousel-item {
-  height: 550px;
-}
 
 /* button on carousel image */
 .carousel-button {
@@ -236,37 +233,13 @@ export default {
   color: white;
 }
 
-/* Carousel Header Styles */
-.header-text {
-  position: absolute;
-  top: 40%;
-  left: 1.8%;
-  right: auto;
-  width: 96%;
-  color: #fff;
-}
-
-.header-text h2 {
-  font-size: 40px;
-}
-
-.header-text h2 span {
-  background-color: #3c9d9b;
-  padding: 10px;
-}
-
-.header-text h3 span {
-  background-color: #000;
-  padding: 15px;
-}
-
 .features {
   width: 80%;
   min-height: 500px;
 }
 
 .carousel-item {
-  height: 550px;
+  height: 650px;
 }
 .carousel-btn {
   color: white;
@@ -277,7 +250,8 @@ export default {
   background-color: black;
 }
 .features {
+  margin-top: 5rem;
   width: 80%;
-  min-height: 500px;
+  min-height: 550px;
 }
 </style>

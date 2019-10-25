@@ -26,11 +26,17 @@
               <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
             </div>
           </div>
+          <hr />
         </div>
 
-        <!-- advertisments here -->
+        <div class="w-50 mx-auto my-4">
+          <button class="my-btn form-control" v-if="!showMap" @click="showMap=!showMap">View in Map</button>
+          <button class="my-btn form-control" v-if="showMap" @click="showMap=!showMap">View in Cards</button>
+        </div>
         <hr />
-        <div class="row">
+
+        <!-- advertisments here -->
+        <div class="row" v-if="!showMap">
           <h5
             v-if="!this.houses.length && this.hasFetchedData"
             class="mt-4 mx-auto"
@@ -38,7 +44,10 @@
           <h5 v-if="!this.hasFetchedData" class="mt-4 mx-auto">Searching, please wait...</h5>
           <HouseCards :houses="houses" v-if="this.hasFetchedData" />
         </div>
-        <div class="float-right">
+
+        <Map :houses="houses" v-if="showMap" />
+
+        <div class="float-right" v-if="!showMap">
           <a href="#" style="color: #000;">Back to top</a>
         </div>
       </div>
@@ -50,12 +59,14 @@
 // @ is an alias to /src
 import SearchInput from "@/components/SearchInput.vue";
 import HouseCards from "@/components/HouseCards.vue";
+import Map from "@/components/Map.vue";
 
 export default {
   name: "search",
   components: {
     SearchInput,
-    HouseCards
+    HouseCards,
+    Map
   },
 
   data() {
@@ -63,7 +74,8 @@ export default {
       searchData: {},
       // houses: this.$route.params.houses
       houses: [],
-      hasFetchedData: false
+      hasFetchedData: false,
+      showMap: false
     };
   },
 

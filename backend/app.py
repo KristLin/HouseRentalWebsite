@@ -238,6 +238,7 @@ class User(Resource):
             #     return msg, 200
 
             if user_id == delete_user["_id"]:
+                db.delete_houses_of_user(user_id)
                 db.delete_user(user_id)
                 if user_id in active_users:
                     del active_users[user_id]

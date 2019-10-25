@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Map />
+    <Map :houses="houses" />
   </div>
 </template>
 
@@ -8,7 +8,20 @@
 import Map from "@/components/Map.vue";
 export default {
   name: "test",
-  components: { Map }
+  components: { Map },
+  created() {
+    this.$axios
+      .get("/api/houses/")
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.houses = response.data;
+        window.console.log(this.houses);
+        // this.$forceUpdate();
+      })
+      .catch(err => {
+        window.console.log(err.response);
+      });
+  }
 };
 </script>
 

@@ -145,6 +145,15 @@ class DB(object):
         return self.houses.update_one(
             query, {"$set": {"rating_num": new_rating_num, "rating": new_rating}}
         )
+    
+    def delete_houses_of_user(self, user_id):
+        cursor = self.houses.find()
+        user_houses = []
+        for house in cursor:
+            if house["provider"] == user_id:
+                user_houses.append(str(house["_id"]))
+        for house_id in user_houses:
+            self.delete_house(house_id)
 
     # =========== save list data manipulation ===========
     def find_all_savelists(self):
