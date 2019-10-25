@@ -254,4 +254,5 @@ export default {
   width: 80%;
   min-height: 550px;
 }
+
 </style>

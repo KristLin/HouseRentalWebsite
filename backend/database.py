@@ -12,17 +12,19 @@ class DB(object):
     def __init__(self):
 
         # connect to local mongoDB
-        # self.dbclient = MongoClient('mongodb://localhost:27017/')
-        # self.db = self.dbclient['airbnbDB']
-        # self.users = self.db['users']
-        # self.houses = self.db['houses']
+        self.dbclient = MongoClient('mongodb://localhost:27017/')
+        self.db = self.dbclient['airbnbDB']
+        self.users = self.db['users']
+        self.houses = self.db['houses']
+        self.savelists = self.db['savelists']
+        self.comments = self.db['comments']
 
         # connect to mongoDB Atlas
-        self.dbclient = MongoClient(f'mongodb://krist:krist@9900-cluster-shard-00-00-ljnr8.mongodb.net:27017,9900-cluster-shard-00-01-ljnr8.mongodb.net:27017,9900-cluster-shard-00-02-ljnr8.mongodb.net:27017/test?ssl=true&replicaSet=9900-cluster-shard-0&authSource=admin&retryWrites=true&w=majority',  maxPoolSize=50, connect=False)
-        self.users = self.dbclient.airbnbDB.users
-        self.houses = self.dbclient.airbnbDB.houses
-        self.savelists = self.dbclient.airbnbDB.savelists
-        self.comments = self.dbclient.airbnbDB.comments
+        # self.dbclient = MongoClient(f'mongodb://krist:krist@9900-cluster-shard-00-00-ljnr8.mongodb.net:27017,9900-cluster-shard-00-01-ljnr8.mongodb.net:27017,9900-cluster-shard-00-02-ljnr8.mongodb.net:27017/test?ssl=true&replicaSet=9900-cluster-shard-0&authSource=admin&retryWrites=true&w=majority',  maxPoolSize=50, connect=False)
+        # self.users = self.dbclient.airbnbDB.users
+        # self.houses = self.dbclient.airbnbDB.houses
+        # self.savelists = self.dbclient.airbnbDB.savelists
+        # self.comments = self.dbclient.airbnbDB.comments
 
         # connect to mongoDB mlab
 
@@ -126,6 +128,11 @@ class DB(object):
 
     def delete_house(self, house_id):
         self.houses.delete_one({"_id": ObjectId(house_id)})
+        all_savelists = self.find_all_savelists()
+        # remove house from all save lists
+        for savelist in all_savelists:
+            if house_id in savelist["savelist"]:
+                self.remove_from_user_savelist(savelist["user"], house_id)
 
     def update_rating(self, house_id, rating):
         found_house = self.houses.find_one({"_id": ObjectId(house_id)})
@@ -142,9 +149,7 @@ class DB(object):
             new_rating = float(rating)
 
         query = {"_id": ObjectId(house_id)}
-        return self.houses.update_one(
-            query, {"$set": {"rating_num": new_rating_num, "rating": new_rating}}
-        )
+        return self.houses.update_one(query, {"$set": {"rating_num": new_rating_num, "rating": new_rating}})
     
     def delete_houses_of_user(self, user_id):
         cursor = self.houses.find()

@@ -36,14 +36,12 @@
         <hr />
 
         <!-- advertisments here -->
-        <div class="row" v-if="!showMap">
-          <h5
-            v-if="!this.houses.length && this.hasFetchedData"
-            class="mt-4 mx-auto"
-          >Sorry, there is not result...</h5>
-          <h5 v-if="!this.hasFetchedData" class="mt-4 mx-auto">Searching, please wait...</h5>
-          <HouseCards :houses="houses" v-if="this.hasFetchedData" />
-        </div>
+        <h5
+          v-if="!this.houses.length && this.hasFetchedData && !showMap"
+          class="mt-4 mx-auto"
+        >Sorry, there is not result...</h5>
+        <h5 v-if="!this.hasFetchedData && !showMap" class="mt-4 mx-auto">Searching, please wait...</h5>
+        <HouseCards :houses="houses" v-if="this.hasFetchedData && !showMap" />
 
         <Map :houses="houses" v-if="showMap" />
 
@@ -94,28 +92,19 @@ export default {
         .catch(err => {
           window.console.log(err.response);
         });
-    }
+    },
+    // orderResult(orderType) {
+    //   this.houses.sort((a, b) => {
+    //     parseFloat(a[orderType]) > parseFloat(b[orderType])
+    //       ? 1
+    //       : parseFloat(a[orderType]) === parseFloat(b[orderType])
+    //       ? parseFloat(a._id) > parseFloat(b._id)
+    //         ? 1
+    //         : -1
+    //       : -1;
+    //   });
+    // }
   },
-  // beforeRouteEnter: (to, from, next) => {
-  //   // if the params is empty, call the backend to get data.
-  //   if (Object.keys(to.params).length === 0) {
-  //     this.$axios
-  //       .get("/api/houses/random")
-  //       .then(response => {
-  //         // JSON responses are automatically parsed.
-  //         to.params.houses = response.data;
-  //       })
-  //       .catch(err => {
-  //         window.console.log(err);
-  //       });
-
-  //     // houses = this.$axios
-  //     //   .get("/api/houses/")
-  //     //   .then(res => window.console.log(res))
-  //     //   .catch(err => window.console.log(err));
-  //   }
-  //   next();
-  // },
   created() {
     this.$axios
       .get("/api/houses/")

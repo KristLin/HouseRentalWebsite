@@ -153,7 +153,10 @@
           />
         </div>
         <div class="row mt-2">
-          <label class="input-label">Size (m<sup>2</sup>):</label>
+          <label class="input-label">
+            Size (m
+            <sup>2</sup>):
+          </label>
           <input type="text" class="form-control" placeholder="Size" v-model="houseData.size" />
         </div>
       </div>
@@ -238,27 +241,29 @@ export default {
   methods: {
     selectCover(event) {
       window.console.log(event.target.files[0]);
-      this.houseData.cover = event.target.files[0];
-      this.displayData.cover = URL.createObjectURL(this.houseData.cover);
-      this.$forceUpdate();
+      if (event.target.files[0]) {
+        this.houseData.cover = event.target.files[0];
+        this.displayData.cover = URL.createObjectURL(this.houseData.cover);
+        this.$forceUpdate();
+      }
     },
     selectImages(event) {
       if (!this.displayData.cover) {
         alert("Please select cover first!");
         return;
       }
-      this.houseData.images = Array.from(event.target.files);
-      window.console.log(this.houseData.images);
+      if (Array.from(event.target.files)) {
+        this.houseData.images = Array.from(event.target.files);
+        window.console.log(this.houseData.images);
 
-      this.displayData.images = [];
-      for (let key in this.houseData.images) {
-        window.console.log(this.houseData.images[key]);
-        this.displayData.images.push(
-          URL.createObjectURL(this.houseData.images[key])
-        );
+        this.displayData.images = [];
+        for (let key in this.houseData.images) {
+          this.displayData.images.push(
+            URL.createObjectURL(this.houseData.images[key])
+          );
+        }
+        this.$forceUpdate();
       }
-      window.console.log(this.displayData.images);
-      this.$forceUpdate();
     },
     handleDescription(description) {
       if (description) {
@@ -319,6 +324,7 @@ export default {
           if (response.status == 201) {
             window.console.log("uploaded!");
             alert("House is uploaded!");
+            this.$router.push({ name: "myHouses" });
           }
         })
         .catch(err => {

@@ -290,6 +290,7 @@ class Houses(Resource):
     @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
+    @api.param("order_type", "ordering method")
     @api.doc(description="Retrieve all houses info")
     # get all houses
     def get(self):
@@ -312,6 +313,7 @@ class Houses(Resource):
         tenant_num = (
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
         )
+        order_type = request.args.get("order_type")
 
         all_houses = db.find_all_houses()
         all_houses = utils.filter_houses(
@@ -327,6 +329,7 @@ class Houses(Resource):
             party_allowed=party_allowed,
             pet_allowed=pet_allowed,
             tenant_num=tenant_num,
+            order_type=order_type
         )
         return all_houses, 200
 
@@ -336,6 +339,8 @@ class Houses(Resource):
     # upload a house
     def post(self):
         new_house = request.json
+        new_hosue["rating"] = "0"
+        new_house["rating_num"] = "0"
         _id = db.add_house(new_house)
         if _id:
             return f"House with id {_id} is uploaded", 201
@@ -422,6 +427,7 @@ class HousesOfProvider(Resource):
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("has_wifi", "has wifi for filtering houses")
     @api.param("tenant_num", "tenant num for filtering houses")
+    @api.param("order_type", "ordering method")
     @api.doc(description="Get the provider's house list")
     def get(self, provider_id):
         keyword = request.args.get("keyword")
@@ -443,6 +449,7 @@ class HousesOfProvider(Resource):
         tenant_num = (
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
         )
+        order_type = request.args.get("order_type")
 
         houses_of_provider = db.find_user_houses(provider_id)
         houses_of_provider = utils.filter_houses(
@@ -457,7 +464,8 @@ class HousesOfProvider(Resource):
             smoke_allowed=smoke_allowed,
             party_allowed=party_allowed,
             pet_allowed=pet_allowed,
-            tenant_num=tenant_num
+            tenant_num=tenant_num,
+            order_type=order_type,
         )
         return houses_of_provider, 200
 
@@ -476,6 +484,7 @@ class HousesOfUserSavelist(Resource):
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
     @api.param("tenant_num", "tenant num for filtering houses")
+    @api.param("order_type", "ordering method")
     @api.doc(description="Get houses in the user's savelist")
     def get(self, user_id):
         keyword = request.args.get("keyword")
@@ -497,6 +506,7 @@ class HousesOfUserSavelist(Resource):
         tenant_num = (
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
         )
+        order_type = request.args.get("order_type")
 
         user_savelist = db.find_savelist_of_user(user_id)
         user_savelist_houses = db.find_savelist_houses(user_savelist)
@@ -513,6 +523,7 @@ class HousesOfUserSavelist(Resource):
             party_allowed=party_allowed,
             pet_allowed=pet_allowed,
             tenant_num = tenant_num,
+            order_type=order_type,
         )
         return user_savelist_houses, 200
 # ============ house API part end ============

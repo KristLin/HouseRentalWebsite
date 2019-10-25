@@ -97,8 +97,8 @@
               v-bind:star-size="20"
               v-if="house.rating"
             ></star-rating>
-            <span style="font-weight:bold;" class="mx-2">({{ house.rating_num }})</span>
-            <p class="text-left" v-if="!house.rating">This house has no rating yet.</p>
+            <span style="font-weight:bold;" class="mx-2" v-if="house.rating">({{ house.rating_num }})</span>
+            <p class="text-left mb-0" v-if="!house.rating">This house has no rating yet.</p>
           </div>
         </div>
         <!-- /.card -->
@@ -249,6 +249,7 @@ export default {
         })
         .then(response => {
           window.console.log(response.data);
+          window.location.reload(true);
           alert("Review uploaded!");
         })
         .catch(error => {

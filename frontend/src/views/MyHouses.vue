@@ -36,9 +36,8 @@
         <hr />
 
         <!-- advertisments here -->
-        <div class="row">
-          <MyHouseCards v-bind:houses="userHouses" />
-        </div>
+        <MyHouseCards v-bind:houses="userHouses" />
+        
         <div class="float-right">
           <a href="#" style="color: #000;">Back to top</a>
         </div>

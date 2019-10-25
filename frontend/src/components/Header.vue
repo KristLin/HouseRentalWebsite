@@ -78,8 +78,6 @@ export default {
               }
             })
             .catch(err => window.console.log(err));
-        } else {
-          return;
         }
       } else {
         window.console.log("You are not logged in!");

@@ -62,7 +62,19 @@
           <i class="fas fa-smoking search-condition-icon"></i>
         </div>
       </div>
-      <div class="col-lg-6 col-md-12 form-group">
+      <div class="col-lg-3 col-md-6 form-group">
+        <label class="filter-label">Sort by:</label>
+        <select v-model="searchData.order_type" class="form-control">
+          <option value="default">Default</option>
+          <option value="price_asc">Lowest Price</option>
+          <option value="price_desc">Highest Price</option>
+          <option value="rating_asc">Lowest Rating</option>
+          <option value="rating_desc">Highest Rating</option>
+          <option value="rating_num_asc">Less Rating Number</option>
+          <option value="rating_num_desc">Most Rating Number</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Search House:</label>
         <button @click="searchHouse" class="my-btn form-control">Search</button>
       </div>
@@ -83,7 +95,12 @@ export default {
       window.console.log(this.searchData);
       this.$emit("searchHouse", this.searchData);
     }
-  }
+  },
+  created() {
+    if(!this.searchData.order_type) {
+      this.searchData.order_type="default"
+    }
+  },
 };
 </script>
 

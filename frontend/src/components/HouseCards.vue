@@ -7,7 +7,7 @@
         :key="house._id"
         v-for="house in houses"
       >
-        <div class="card h-100">
+        <div class="card h-100 shadow">
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
@@ -20,8 +20,8 @@
               v-bind:star-size="20"
               v-if="house.rating"
             ></star-rating>
-            <span style="font-weight:bold;" class="mx-2">({{ house.rating_num }})</span>
-            <p v-if="!house.rating">No rating yet.</p>
+            <span style="font-weight:bold;" class="mx-2" v-if="house.rating">({{ house.rating_num }})</span>
+            <p class="mb-0" v-if="!house.rating">No rating yet.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>

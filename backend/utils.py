@@ -14,6 +14,7 @@ def filter_houses(
     smoke_allowed=False,
     has_wifi=False,
     tenant_num=None,
+    order_type="default"
 ):
     filtered_houses = houses
     filtered_houses = filter_houses_with_keyword(filtered_houses, keyword)
@@ -23,6 +24,8 @@ def filter_houses(
     filtered_houses = filter_houses_with_conditions(filtered_houses, has_wifi, pet_allowed, party_allowed, smoke_allowed)
     filtered_houses = filter_houses_with_tenant_num(filtered_houses, tenant_num)
     filtered_houses = filter_houses_with_date(filtered_houses, start_date, end_date)
+
+    filtered_houses = order_filtered_houses(filtered_houses, order_type)
     return filtered_houses
 
 
@@ -80,6 +83,31 @@ def filter_houses_with_tenant_num(houses, tenant_num):
     else:
         return houses
 
+def get_order_key(order_type):
+    order_key = "_id"
+    if order_type.startswith("price"):
+        order_key = "price"
+    elif order_type.startswith("rating"):
+        order_key = "rating"
+    elif order_type.startswith("rating_num"):
+        order_key = "rating_num"
+    return order_key
+
+def order_filtered_houses(houses, order_type):
+    if order_type == "default" or order_type == None:
+        return houses
+    else:
+        order_key = get_order_key(order_type)
+        if order_type.endswith("asc"):
+            houses.sort(key=lambda x : float(x[order_key]), reverse=False)
+        elif order_type.endswith("desc"):
+            houses.sort(key=lambda x : float(x[order_key]), reverse=True)
+        return houses
+
+# test = [{"title": "house 1", "price": "200"}, {"title": "house 2", "price": "150"}, {"title": "house 3", "price":"300"}]
+# print(test)
+# print(order_filtered_houses(test, "price_asc"))
+# print(order_filtered_houses(test, "price_desc"))
 
 # fake availability check, can be implemented in the future
 def checkHouseAvailability(house, start_date, end_date):
