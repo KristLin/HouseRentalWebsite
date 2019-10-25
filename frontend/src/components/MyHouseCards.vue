@@ -39,7 +39,7 @@ export default {
     houses: Array
   },
   components: {
-      StarRating
+    StarRating
   },
   methods: {
     clickHouse(house) {

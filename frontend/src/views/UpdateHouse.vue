@@ -295,13 +295,16 @@ export default {
         return;
       }
 
-      if (this.houseData.cover !== null &&  this.houseData.cover !== undefined) {
+      if (this.houseData.cover !== null && this.houseData.cover !== undefined) {
         // get cover url
         let res = await this.imageToUrl(this.houseData.cover);
         this.houseData.cover = res.data.data.url;
       }
 
-      if (this.houseData.images !== null && this.houseData.images !== undefined) {
+      if (
+        this.houseData.images !== null &&
+        this.houseData.images !== undefined
+      ) {
         // get images urls
         let imageUrls = [];
         for (let idx in this.houseData.images) {

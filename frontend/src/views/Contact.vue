@@ -23,5 +23,4 @@ export default {
   margin-top: 100px;
   margin-bottom: 80px;
 }
-
 </style>

@@ -69,7 +69,7 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           if (response.status == 200) {
-            let [userId, userRole] = response.data.split(" ")
+            let [userId, userRole] = response.data.split(" ");
             let authUserData = {
               userId: userId,
               userRole: userRole
@@ -78,7 +78,7 @@ export default {
 
             window.console.log("user logged in!");
             window.console.log("user id: " + userId);
-            window.console.log("user role: " + userRole)
+            window.console.log("user role: " + userRole);
             alert("logged in!");
             this.$router.push({
               name: "search"

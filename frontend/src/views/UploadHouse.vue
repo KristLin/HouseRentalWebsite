@@ -279,7 +279,7 @@ export default {
     },
     async uploadHouse() {
       for (let key in this.houseData) {
-        if (key !== "lat" || key !=="lng") {
+        if (key !== "lat" || key !== "lng") {
           if (!this.houseData[key]) {
             alert("The house data is not complete!");
             return;

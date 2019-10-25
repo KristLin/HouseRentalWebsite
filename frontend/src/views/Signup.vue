@@ -74,7 +74,13 @@
               <p>
                 <input type="checkbox" v-model.lazy="checkedData.checkedPolicy" required />
                 By clicking the checkbox you're agree to our
-                <em><a download style="color: #3c9d9b" href="https://www.airbnbcitizen.com/wp-content/uploads/2016/12/National_PublicPolicyTool-ChestReport-v3.pdf">policy & terms</a></em>
+                <em>
+                  <a
+                    download
+                    style="color: #3c9d9b"
+                    href="https://www.airbnbcitizen.com/wp-content/uploads/2016/12/National_PublicPolicyTool-ChestReport-v3.pdf"
+                  >policy & terms</a>
+                </em>
               </p>
               <div class="register-button-div">
                 <button @click="registerAccount" class="my-btn form-control my-4">Register</button>

@@ -41,7 +41,12 @@
       </div>
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Tenant Number:</label>
-        <input type="text" class="form-control" placeholder="Tenant Number" v-model="searchData.tenant_num" />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Tenant Number"
+          v-model="searchData.tenant_num"
+        />
       </div>
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">House Conditions:</label>

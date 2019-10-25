@@ -32,7 +32,9 @@
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
           </li>
           <li class="nav-item dropdown" v-if="this.$store.getters.isLoggedIn">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i></a>
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+              <i class="fas fa-user"></i>
+            </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item" @click="goToMyAccount">My Account</span>
               <span class="dropdown-item" @click="goToMyHouses">My Houses</span>
@@ -65,15 +67,12 @@ export default {
               // this.$router.go()
               // refresh the web page
 
-              window.console.log("user logged out");
               if (this.$router.currentRoute.name !== "home") {
                 this.$router.push({ name: "home" });
-              } else {
-                window.location.reload(true);
               }
+              window.location.reload(true);
+              window.console.log("user logged out");
               alert("logged out!");
-
-              // this.$router.push({ name: "home" });
             }
           })
           .catch(err => window.console.log(err));

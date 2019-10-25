@@ -37,7 +37,6 @@
           <a href="#" style="color: #000;">Back to top</a>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
