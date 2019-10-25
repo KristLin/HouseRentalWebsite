@@ -79,16 +79,7 @@ export default {
       .then(response => {
         // JSON responses are automatically parsed.
         this.houses = response.data;
-        let offset = 0.005;
-        let lat = -33.91861;
-        let lng = 151.232416;
-        for (let key in this.houses) {
-          this.houses[key]["lat"] = lat;
-          this.houses[key]["lng"] = lng;
-          lat += offset;
-          lng += offset;
-        }
-        window.console.log(this.houses)
+        window.console.log(this.houses);
         // this.$forceUpdate();
       })
       .catch(err => {

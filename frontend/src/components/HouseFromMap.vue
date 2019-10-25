@@ -53,8 +53,16 @@
         <div class="card-body">
           <h3 class="card-title text-left">{{ house.title }}</h3>
           <h6 class="text-left">${{house.price}} per night</h6>
-          <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-          4.0 stars
+          <star-rating
+            :inline="true"
+            :rating="house.rating"
+            :read-only="true"
+            text-class="rating-text"
+            v-bind:increment="0.01"
+            v-bind:star-size="20"
+            v-if="house.rating"
+          ></star-rating>
+          <p class="text-left" v-if="!house.rating">This house has not received any rating yet.</p>
         </div>
       </div>
       <div id="learnMore" class="card card-outline-secondary my-2">
@@ -68,10 +76,13 @@
         </div>
       </div>
 
-      <div id="facility" class="card card-outline-secondary my-2">
-        <div class="card-header">House Facility</div>
+      <div id="conditions" class="card card-outline-secondary my-4">
+        <div class="card-header">House Conditions</div>
         <div class="card-body">
-          <p>something</p>
+          <i class="fas fa-wifi condition-icon" v-if="house.has_wifi"></i>
+          <i class="fas fa-smoking condition-icon" v-if="house.smoke_allowed"></i>
+          <i class="fas fa-glass-cheers condition-icon" v-if="house.party_allowed"></i>
+          <i class="fas fa-dog condition-icon" v-if="house.pet_allowed"></i>
         </div>
       </div>
     </div>
@@ -84,8 +95,13 @@
 </template>
 
 <script>
+import StarRating from "vue-star-rating";
+
 export default {
   name: "HouseFromMap",
+  components: {
+    StarRating
+  },
   props: {
     house: {}
   },
@@ -99,7 +115,6 @@ export default {
       });
     }
   },
-  components: {},
   created() {}
 };
 </script>
@@ -136,5 +151,11 @@ export default {
 .house-display-hint {
   margin-top: 100px;
   margin-bottom: 100px;
+}
+
+.condition-icon {
+  font-size: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 </style>

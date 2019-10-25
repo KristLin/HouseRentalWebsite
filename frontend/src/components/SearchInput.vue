@@ -39,7 +39,19 @@
         <label class="filter-label">Check out:</label>
         <input type="date" class="form-control" v-model="searchData.endDate" />
       </div>
-      <div class="col-lg-6 col-md-12 form-group">
+      <div class="col-lg-3 col-md-6 form-group">
+        <label class="filter-label">House Conditions:</label>
+        <br />
+        <input type="checkbox" class="condition-input" v-model="searchData.has_wifi" />
+        <i class="fas fa-wifi condition-icon"></i>
+        <input type="checkbox" class="condition-input" v-model="searchData.party_allowed" />
+        <i class="fas fa-glass-cheers condition-icon"></i>
+        <input type="checkbox" class="condition-input" v-model="searchData.pet_allowed" />
+        <i class="fas fa-dog condition-icon"></i>
+        <input type="checkbox" class="condition-input" v-model="searchData.smoke_allowed" />
+        <i class="fas fa-smoking condition-icon"></i>
+      </div>
+      <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Search</label>
         <button @click="searchHouse" class="my-btn form-control">Search</button>
       </div>
@@ -56,6 +68,7 @@ export default {
   },
   methods: {
     searchHouse() {
+      window.console.log(this.searchData);
       this.$emit("searchHouse", this.searchData);
     }
   }
@@ -78,5 +91,33 @@ export default {
   border: none;
   background-color: black;
   color: white;
+}
+
+.condition-input {
+  margin-right: 5px;
+}
+.condition-icon {
+  margin-right: 12px;
+}
+@media screen and (max-width: 991px) {
+  .condition-input {
+    height: 1rem;
+    margin-right: 8px;
+  }
+  .condition-icon {
+    font-size: 1.2rem;
+    margin-right: 25px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .condition-input {
+    height: 1.2rem;
+    margin-right: 12px;
+  }
+  .condition-icon {
+    font-size: 1.6rem;
+    margin-right: 50px;
+  }
 }
 </style>

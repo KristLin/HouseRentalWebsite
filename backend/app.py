@@ -287,6 +287,7 @@ class Houses(Resource):
     @api.param("tenant_num", "tenant number for filtering houses")
     @api.param("pet_allowed", "pet allowed for filtering houses")
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
+    @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
     @api.doc(description="Retrieve all houses info")
     # get all houses
@@ -302,6 +303,11 @@ class Houses(Resource):
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
+        has_wifi = True if request.args.get("has_wifi") == "true" else False
+        smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
+        party_allowed = True if request.args.get("party_allowed") == "true" else False
+        pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+
         all_houses = db.find_all_houses()
         all_houses = utils.filter_houses(
             houses=all_houses,
@@ -311,6 +317,10 @@ class Houses(Resource):
             max_price=max_price,
             start_date=start_date,
             end_date=end_date,
+            has_wifi=has_wifi,
+            smoke_allowed=smoke_allowed,
+            party_allowed=party_allowed,
+            pet_allowed=pet_allowed,
         )
         return all_houses, 200
 
@@ -343,6 +353,7 @@ class House(Resource):
     def get(self, house_id):
         found_house = db.find_house_by_id(house_id)
         if found_house:
+            print(found_house)
             return found_house, 200
         else:
             return f"House with id {house_id} is not in the database!", 404
@@ -402,8 +413,9 @@ class HousesOfProvider(Resource):
     @api.param("size", "house size for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
     @api.param("pet_allowed", "pet allowed for filtering houses")
+    @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
-    @api.param("has_wifi", "has wifie for filtering houses")
+    @api.param("has_wifi", "has wifi for filtering houses")
     @api.doc(description="Get the provider's house list")
     def get(self, provider_id):
         keyword = request.args.get("keyword")
@@ -417,6 +429,11 @@ class HousesOfProvider(Resource):
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
+        has_wifi = True if request.args.get("has_wifi") == "true" else False
+        smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
+        party_allowed = True if request.args.get("party_allowed") == "true" else False
+        pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+
         houses_of_provider = db.find_user_houses(provider_id)
         houses_of_provider = utils.filter_houses(
             houses=houses_of_provider,
@@ -426,6 +443,10 @@ class HousesOfProvider(Resource):
             max_price=max_price,
             start_date=start_date,
             end_date=end_date,
+            has_wifi=has_wifi,
+            smoke_allowed=smoke_allowed,
+            party_allowed=party_allowed,
+            pet_allowed=pet_allowed,
         )
         return houses_of_provider, 200
 
@@ -440,6 +461,7 @@ class HousesOfUserSavelist(Resource):
     @api.param("size", "house size for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
     @api.param("pet_allowed", "pet allowed for filtering houses")
+    @api.param("party_allowed", "party allowed for filtering houses")
     @api.param("smoke_allowed", "smoke allowed for filtering houses")
     @api.param("has_wifi", "has wifie for filtering houses")
     @api.doc(description="Get houses in the user's savelist")
@@ -455,7 +477,12 @@ class HousesOfUserSavelist(Resource):
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
-        user_savelist = db.find_savelist_of_user(user_id)["savelist"]
+        has_wifi = True if request.args.get("has_wifi") == "true" else False
+        smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
+        party_allowed = True if request.args.get("party_allowed") == "true" else False
+        pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+
+        user_savelist = db.find_savelist_of_user(user_id)
         user_savelist_houses = db.find_savelist_houses(user_savelist)
         user_savelist_houses = utils.filter_houses(
             houses=user_savelist_houses,
@@ -465,6 +492,10 @@ class HousesOfUserSavelist(Resource):
             max_price=max_price,
             start_date=start_date,
             end_date=end_date,
+            has_wifi=has_wifi,
+            smoke_allowed=smoke_allowed,
+            party_allowed=party_allowed,
+            pet_allowed=pet_allowed,
         )
         return user_savelist_houses, 200
 # ============ house API part end ============
@@ -489,7 +520,7 @@ class CheckInSavelist(Resource):
     def get(self, user_id, house_id):
         user_savelist = db.find_savelist_of_user(user_id)
         if user_savelist:
-            if house_id in user_savelist["savelist"]:
+            if house_id in user_savelist:
                 return True, 200
         return False, 200
 
@@ -499,7 +530,7 @@ class AddHouseToSavelist(Resource):
     def get(self, user_id, house_id):
         user_savelist = db.find_savelist_of_user(user_id)
         if user_savelist:
-            if house_id not in user_savelist["savelist"]:
+            if house_id not in user_savelist:
                 db.add_to_user_savelist(user_id, house_id)
                 return "added", 200
             else:
@@ -514,7 +545,7 @@ class RemoveHouseFromSavelist(Resource):
     def get(self, user_id, house_id):
         user_savelist = db.find_savelist_of_user(user_id)
         if user_savelist:
-            if house_id in user_savelist["savelist"]:
+            if house_id in user_savelist:
                 db.remove_from_user_savelist(user_id, house_id)
                 return "removed", 200
         return "house is not in the list", 400

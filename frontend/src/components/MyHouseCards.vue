@@ -6,8 +6,16 @@
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
-            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-            <!-- <p class="card-text text-left">{{ handleDescription(house.description) }}</p> -->
+            <star-rating
+              :inline="true"
+              :rating="house.rating"
+              :read-only="true"
+              text-class="rating-text"
+              v-bind:increment="0.01"
+              v-bind:star-size="15"
+              v-if="house.rating"
+            ></star-rating>
+            <p class="text-left" v-if="!house.rating">No rating yet.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>
@@ -23,10 +31,15 @@
 </template>
 
 <script>
+import StarRating from "vue-star-rating";
+
 export default {
   name: "MyHouseCards",
   props: {
     houses: Array
+  },
+  components: {
+      StarRating
   },
   methods: {
     clickHouse(house) {

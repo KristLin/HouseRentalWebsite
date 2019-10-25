@@ -18,20 +18,22 @@ class DB(object):
         # self.houses = self.db['houses']
 
         # connect to mongoDB Atlas
-        # self.dbclient = MongoClient(f'mongodb://krist:{DB_PASSWORD}@9900-cluster-shard-00-00-ljnr8.mongodb.net:27017,9900-cluster-shard-00-01-ljnr8.mongodb.net:27017,9900-cluster-shard-00-02-ljnr8.mongodb.net:27017/test?ssl=true&replicaSet=9900-cluster-shard-0&authSource=admin&retryWrites=true&w=majority',  maxPoolSize=50, connect=False)
-        # self.users = self.dbclient.airbnbDB.users
-        # self.houses = self.dbclient.airbnbDB.houses
+        self.dbclient = MongoClient(f'mongodb://krist:krist@9900-cluster-shard-00-00-ljnr8.mongodb.net:27017,9900-cluster-shard-00-01-ljnr8.mongodb.net:27017,9900-cluster-shard-00-02-ljnr8.mongodb.net:27017/test?ssl=true&replicaSet=9900-cluster-shard-0&authSource=admin&retryWrites=true&w=majority',  maxPoolSize=50, connect=False)
+        self.users = self.dbclient.airbnbDB.users
+        self.houses = self.dbclient.airbnbDB.houses
+        self.savelists = self.dbclient.airbnbDB.savelists
+        self.comments = self.dbclient.airbnbDB.comments
 
         # connect to mongoDB mlab
 
-        self.dbclient = MongoClient(
-            f"mongodb://krist123:{DB_PASSWORD}@ds335678.mlab.com:35678/9900-database",
-            123456,
-        ).get_default_database()
-        self.users = self.dbclient["users"]
-        self.houses = self.dbclient["houses"]
-        self.savelists = self.dbclient["savelists"]
-        self.comments = self.dbclient["comments"]
+        # self.dbclient = MongoClient(
+        #     f"mongodb://krist123:{DB_PASSWORD}@ds335678.mlab.com:35678/9900-database",
+        #     123456,
+        # ).get_default_database()
+        # self.users = self.dbclient["users"]
+        # self.houses = self.dbclient["houses"]
+        # self.savelists = self.dbclient["savelists"]
+        # self.comments = self.dbclient["comments"]
         super().__init__()
 
     # =========== user data manipulation ===========
@@ -127,18 +129,18 @@ class DB(object):
 
     def update_rating(self, house_id, rating):
         found_house = self.houses.find_one({"_id": ObjectId(house_id)})
+        if "rating_num" in found_house and "rating" in found_house:
+            house_rating_num = int(found_house["rating_num"])
+            houes_rating = float(found_house["rating"])
+            total_score = houes_rating * house_rating_num
 
-        house_rating_num = int(found_house["rating_num"])
-        houes_rating = float(found_house["rating"])
-
-        new_rating = str(
-            round(
-                (houes_rating * house_rating_num + float(rating))
-                / (house_rating_num + 1),
-                2,
-            )
+            new_rating_num = house_rating_num + 1
+            new_rating = str(round((total_score + float(rating)) / (new_rating_num), 2)
         )
-        new_rating_num = str(house_rating_num + 1)
+        else:
+            new_rating_num = 1
+            new_rating = float(rating)
+
         query = {"_id": ObjectId(house_id)}
         return self.houses.update_one(
             query, {"$set": {"rating_num": new_rating_num, "rating": new_rating}}
@@ -156,9 +158,9 @@ class DB(object):
     def find_savelist_of_user(self, user_id):
         found_list = self.savelists.find_one({"user": user_id})
         if found_list:
-            # change the ObjectId to string format
-            found_list["_id"] = str(found_list["_id"])
-        return found_list
+            return found_list["savelist"]
+        else:
+            return []
 
     def add_to_user_savelist(self, user_id, house_id):
         found_list = self.savelists.find_one({"user": user_id})

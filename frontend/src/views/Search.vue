@@ -6,7 +6,7 @@
       <div>
         <hr />
         <div class="row">
-          <h5 v-if="!this.houses.length" class="my-4">Sorry, there is not result...</h5>
+          <h5 v-if="!this.houses.length" class="mt-4 mx-auto">Sorry, there is not result...</h5>
           <HouseCards :houses="houses" />
         </div>
       </div>

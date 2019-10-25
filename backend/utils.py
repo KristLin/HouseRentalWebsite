@@ -9,18 +9,17 @@ def filter_houses(
     max_price=None,
     start_date=None,
     end_date=None,
-    pet_allowed=None,
-    party_allowed=None,
-    smoke_allowed=None,
-    has_wifi=None,
+    pet_allowed=False,
+    party_allowed=False,
+    smoke_allowed=False,
+    has_wifi=False,
 ):
     filtered_houses = houses
     filtered_houses = filter_houses_with_keyword(filtered_houses, keyword)
     filtered_houses = filter_houses_with_suburb(filtered_houses, suburb)
     filtered_houses = filter_houses_with_min_price(filtered_houses, min_price)
     filtered_houses = filter_houses_with_max_price(filtered_houses, max_price)
-    # filtered_houses += filter_houses_with_conditions(houses, pet_allowed, party_allowed, smoke_allowed)
-    # filtered_houses += filter_houses_with_facilities(houses, has_wifi)
+    filtered_houses = filter_houses_with_conditions(houses, has_wifi, pet_allowed, party_allowed, smoke_allowed)
     filtered_houses = filter_houses_with_date(filtered_houses, start_date, end_date)
     
     return filtered_houses
@@ -86,12 +85,23 @@ def filter_houses_with_date(houses, start_date, end_date):
     else:
         return houses
 
+def filter_houses_with_condition(houses, condition_name, condition):
+    if condition:
+        filtered_houses = []
+        for house in houses:
+            if condition_name in house and house[condition_name]:
+                filtered_houses.append(house)
+        return filtered_houses
+    else:
+        return houses
 
-def filter_houses_with_conditions(houses, pet_allowed, party_allowed, smoke_allowed):
-    filtered_houses = []
-    for house in houses:
-        if house["pet_allowed"] == pet_allowed and house["party_allowed"] == party_allowed and house["smoke_allowed"] == smoke_allowed:
-            filtered_houses.append(house)
+def filter_houses_with_conditions(houses, has_wifi, pet_allowed, party_allowed, smoke_allowed):
+    filtered_houses = houses
+    print(has_wifi, pet_allowed, party_allowed, smoke_allowed)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "has_wifi", has_wifi)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "pet_allowed", pet_allowed)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "party_allowed", party_allowed)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "smoke_allowed", smoke_allowed)
     return filtered_houses
 
 
