@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-lg-4 col-md-12 overflow-auto">
+      <div class="col-lg-5 col-md-12 overflow-auto">
         <HouseFromMap :house="house" />
       </div>
-      <div class="col-lg-8 col-md-12">
+      <div class="col-lg-7 col-md-12">
         <div class="google-map">
           <GmapMap
             :options="options"

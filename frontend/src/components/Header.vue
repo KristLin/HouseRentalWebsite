@@ -6,24 +6,21 @@
         class="navbar-toggler"
         type="button"
         data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
+        data-target="#navbar-collapse"
+        aria-controls="navbar-collapse"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <router-link class="nav-link" to="/" active-class="active" exact>Home</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/search" active-class="active" exact>Search</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/contact" active-class="active" exact>Contact us</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/about" active-class="active" exact>About us</router-link>
@@ -33,7 +30,8 @@
           </li>
           <li class="nav-item dropdown" v-if="this.$store.getters.isLoggedIn">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="fas fa-user"></i>
+              <i class="fas fa-user mr-2"></i>
+              Hi, {{ this.$store.getters.getUserName }}
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item" @click="goToMyAccount">My Account</span>
@@ -50,6 +48,8 @@
 </template>
 
 <script>
+import $ from 'jquery'
+
 export default {
   name: "Header",
   methods: {
@@ -99,9 +99,15 @@ export default {
         this.$router.push({ name: "mySaveList" });
       }
     }
+  },
+  watch: {
+    $route() {
+      $("#navbar-collapse").collapse("hide");
+    }
   }
 };
 </script>
+
 
 <style scoped>
 .navbar-brand {

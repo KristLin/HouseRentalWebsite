@@ -150,4 +150,11 @@ export default {
     margin-right: 50px;
   }
 }
+
+@media screen and (max-width: 510px) {
+  .search-condition-icon {
+    font-size: 1.2rem;
+    margin-right: 35px;
+  }
+}
 </style>

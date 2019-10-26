@@ -241,6 +241,14 @@ export default {
 .carousel-item {
   height: 650px;
 }
+.carousel-item img:after {
+  display: block;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0,
+    #fff 100%
+  );
+}
 .carousel-btn {
   color: white;
   background-color: #3c9d9b;
@@ -254,5 +262,4 @@ export default {
   width: 80%;
   min-height: 550px;
 }
-
 </style>

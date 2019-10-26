@@ -28,20 +28,27 @@ export default new Vuex.Store({
     },
     getUserRole: state => {
       return state.userRole ? state.userRole : localStorage.getItem("userRole")
+    },
+    getUserName: state => {
+      return state.userName ? state.userName : localStorage.getItem("userName")
     }
   },
   mutations: {
     login(state, userData) {
       state.userId = userData.userId;
       state.userRole = userData.userRole;
+      state.userName = userData.userName;
       localStorage.setItem("userId", userData.userId);
       localStorage.setItem("userRole", userData.userRole);
+      localStorage.setItem("userName", userData.userName)
     },
     logout(state) {
       state.userId = null;
       state.userRole = null;
+      state.userName = null;
       localStorage.removeItem("userId");
       localStorage.removeItem("userRole");
+      localStorage.removeItem("userName")
     }
   },
   actions: {

@@ -9,6 +9,7 @@
             width="72"
             height="72"
         />-->
+        <i class="fas fa-user-circle fa-6x login-icon"></i>
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input
@@ -69,10 +70,11 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           if (response.status == 200) {
-            let [userId, userRole] = response.data.split(" ");
+            let [userId, userRole, userName] = response.data.split(" ");
             let authUserData = {
               userId: userId,
-              userRole: userRole
+              userRole: userRole,
+              userName: userName
             };
             this.$store.commit("login", authUserData);
 
@@ -120,5 +122,10 @@ export default {
   border: none;
   background-color: #3c9d9b;
   color: white;
+}
+
+.login-icon {
+  color: #3c9d9b;
+  padding: 5%;
 }
 </style>

@@ -411,4 +411,12 @@ a.list-group-item {
   margin-left: 2rem;
   margin-right: 2rem;
 }
+
+@media screen and (max-width: 510px) {
+  .house-page-condition-icon {
+    font-size: 1.4rem;
+    margin-left: 1.4rem;
+    margin-right: 1.4rem;
+  }
+}
 </style>

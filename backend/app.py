@@ -142,7 +142,7 @@ class Users(Resource):
     def post(self):
         user_data = request.json
         if db.find_user_by_email(user_data["email"]):
-            return "The email already exists.", 404
+            return "The email already exists.", 400
 
         # store the encrypted user password
         # user_data["password"] = bcrypt.hashpw(
@@ -158,7 +158,7 @@ class Users(Resource):
         # store active user info
         active_users[user_id] = user_data
         # return user id
-        return user_id + " " + user_data["role"], 200
+        return user_id + " " + user_data["role"] + " " + user_data["name"], 200
 
     @api.doc(description="get all users (only used for test)")
     def get(self):
@@ -176,9 +176,9 @@ class Login(Resource):
         login_user = db.find_user_by_email(user_login_data["email"])
         if utils.check_logged_in(active_users, user_login_data["email"]):
             print(user_login_data["email"] + " has Already logged in")
-            return login_user["_id"] + " " + login_user["role"], 200
+            return login_user["_id"] + " " + login_user["role"] + " " + login_user["name"], 200
         if login_user == None:
-            return "The user email does not exist", 404
+            return "The user email does not exist", 400
 
         # check encrypted password
         # if bcrypt.hashpw(user_password.encode("utf-8"), user_password) == user_password:
@@ -192,7 +192,7 @@ class Login(Resource):
             # store active user info
             active_users[login_user["_id"]] = login_user
             # return user id
-            return login_user["_id"] + " " + login_user["role"], 200
+            return login_user["_id"] + " " + login_user["role"] + " " + login_user["name"], 200
         else:
             return "Unauthorized login request", 401
 
@@ -223,7 +223,7 @@ class User(Resource):
             del userData["password"]
             return userData, 200
         else:
-            return f"User with id {user_id} is not in the database!", 404
+            return f"User with id {user_id} is not in the database!", 400
 
     @api.doc(description="Delete a user by its ID")
     # @requires_user
@@ -247,7 +247,7 @@ class User(Resource):
             else:
                 return "Unauthorized delete request", 401
         else:
-            return f"User with id {user_id} is not in the database!", 404
+            return f"User with id {user_id} is not in the database!", 400
 
     # @api.expect(user_model, validate=True)
     @api.doc(description="Update user info")
@@ -269,7 +269,7 @@ class User(Resource):
             msg = {"message": "The user info is updated!"}
             return msg, 200
         else:
-            return f"User with id {user_id} is not in the database!", 404
+            return f"User with id {user_id} is not in the database!", 400
 
 
 # ============ user API part end ============
@@ -345,7 +345,7 @@ class Houses(Resource):
         if _id:
             return f"House with id {_id} is uploaded", 201
         else:
-            return "Something is wrong, please try again", 404
+            return "Something is wrong, please try again", 500
 
 
 @houses.route("/random")
@@ -366,7 +366,7 @@ class House(Resource):
         if found_house:
             return found_house, 200
         else:
-            return f"House with id {house_id} is not in the database!", 404
+            return f"House with id {house_id} is not in the database!", 400
 
 
 @houses.route("/<string:provider_id>/<string:house_id>")
@@ -386,7 +386,7 @@ class HouseOfProvider(Resource):
             else:
                 return "Unauthorized delete request", 401
         else:
-            return f"House with id {house_id} is not in the database!", 404
+            return f"House with id {house_id} is not in the database!", 400
 
     # @requires_provider
     # @api.expect(house_model, validate=True)
@@ -409,7 +409,7 @@ class HouseOfProvider(Resource):
             else:
                 return "Unauthorized patch request", 401
         else:
-            return f"House with id {house_id} is not in the database!", 404
+            return f"House with id {house_id} is not in the database!", 400
 
 
 @houses.route("/providedby/<string:provider_id>")

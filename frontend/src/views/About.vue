@@ -1,8 +1,18 @@
 <template>
   <div>
     <div class="container">
-      <h1>About us</h1>
-      <p>We are professional.</p>
+      <div>
+        <h1>About us</h1>
+        <p>We are professional.</p>
+        <p>写对 tenant 和 provider 我们提供了什么服务</p>
+      </div>
+
+      <div>
+        <h1>Contact us</h1>
+        <p>Email: 123456@gmail.com</p>
+        <p>TEL: 123456</p>
+        <p>Address: Sydney</p>
+      </div>
     </div>
   </div>
 </template>
