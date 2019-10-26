@@ -239,16 +239,16 @@ export default {
 }
 
 .carousel-item {
-  height: 650px;
+  height: 700px;
+  background-color: black;
 }
-.carousel-item img:after {
-  display: block;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 0,
-    #fff 100%
-  );
+.carousel-item img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7));
 }
+
 .carousel-btn {
   color: white;
   background-color: #3c9d9b;
@@ -257,6 +257,52 @@ export default {
   color: white;
   background-color: black;
 }
+
+@media screen and (max-width: 991px) {
+  .carousel-item {
+    height: 600px;
+  }
+  .carousel-item img {
+    height: 600px;
+  }
+  .carousel-caption h1 {
+    font-size: 2rem;
+  }
+
+  .carousel-caption h4 {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .carousel-item {
+    height: 450px;
+  }
+  .carousel-item img {
+    height: 450px;
+  }
+  .carousel-caption h1 {
+    font-size: 1.6rem;
+  }
+
+  .carousel-caption h4 {
+    font-size: 1.2rem;
+  }
+  .carousel-btn {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .carousel-caption h1 {
+    font-size: 1.2rem;
+  }
+
+  .carousel-caption h4 {
+    font-size: 0.8rem;
+  }
+}
+
 .features {
   margin-top: 5rem;
   width: 80%;
