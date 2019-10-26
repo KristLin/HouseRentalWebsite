@@ -35,7 +35,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item" @click="goToMyAccount">My Account</span>
-              <span class="dropdown-item" @click="goToMyHouses">My Houses</span>
+              <span class="dropdown-item" @click="goToMyHouses" v-if="$store.getters.getUserRole === 'provider'">My Houses</span>
               <span class="dropdown-item" @click="goToMySaveList">My Save List</span>
               <div class="dropdown-divider"></div>
               <span class="dropdown-item" @click="logout">Log out</span>

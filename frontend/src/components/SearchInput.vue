@@ -56,6 +56,7 @@
           <i class="fas fa-wifi search-condition-icon"></i>
           <input type="checkbox" class="search-condition-input" v-model="searchData.party_allowed" />
           <i class="fas fa-glass-cheers search-condition-icon"></i>
+          <br class="condition-input-layout-br">
           <input type="checkbox" class="search-condition-input" v-model="searchData.pet_allowed" />
           <i class="fas fa-dog search-condition-icon"></i>
           <input type="checkbox" class="search-condition-input" v-model="searchData.smoke_allowed" />
@@ -129,6 +130,10 @@ export default {
   margin-right: 12px;
 }
 
+.condition-input-layout-br {
+  display: none;
+}
+
 @media screen and (max-width: 991px) {
   .search-condition-input {
     height: 1rem;
@@ -155,6 +160,19 @@ export default {
   .search-condition-icon {
     font-size: 1.2rem;
     margin-right: 35px;
+  }
+}
+@media screen and (max-width: 421px) {
+  .search-condition-icon {
+    font-size: 1rem;
+    margin-right: 18px;
+  }
+}
+
+@media screen and (max-width: 336px) {
+  .search-condition-icon {
+    font-size: 1rem;
+    margin-right: 10px;
   }
 }
 </style>

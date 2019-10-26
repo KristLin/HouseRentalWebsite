@@ -2,7 +2,7 @@
   <div>
     <div class="container-fluid">
       <div class="container">
-        <h2>Join us.</h2>
+        <h2 class="my-4">Join us.</h2>
         <hr />
         <!-- input user data -->
         <div class="register-form m-auto">
@@ -139,10 +139,11 @@ export default {
           .then(response => {
             // JSON responses are automatically parsed.
             if (response.status == 200) {
-              let [userId, userRole] = response.data.split(" ");
+              let [userId, userRole, userName] = response.data.split(" ");
               let authUserData = {
                 userId: userId,
-                userRole: userRole
+                userRole: userRole,
+                userName: userName
               };
               this.$store.commit("login", authUserData);
 

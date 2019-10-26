@@ -9,62 +9,24 @@
           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img
-              width="100%"
-              height="100%"
-              src="../assets/homepage_carousel_images/1.jpg"
-              alt="First slide"
-            />
+          <div
+            class="carousel-item"
+            :class="{active: idx===0}"
+            :key="idx"
+            v-for="(item, idx) in carouselItems"
+          >
+            <img width="100%" height="100%" :src="item.imageSrc" />
             <div class="container">
-              <div class="carousel-caption text-left">
+              <div class="carousel-caption" :class="{'text-left': idx===0,'text-right':idx===2}">
                 <h1>
-                  <strong>Welcome to Bomb Shrimp</strong>
+                  <strong>{{ item.title }}</strong>
                 </h1>
-                <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
+                <h4>{{ item.description }}</h4>
                 <button
-                  class="btn btn-lg carousel-btn"
+                  class="btn btn-lg carousel-btn my-4"
                   type="button"
-                  @click="searchRoute"
-                >Explorations</button>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img
-              width="100%"
-              height="100%"
-              src="../assets/homepage_carousel_images/2.jpg"
-              alt="First slide"
-            />
-            <div class="container">
-              <div class="carousel-caption">
-                <h1>
-                  <strong>Welcome to Bomb Shrimp</strong>
-                </h1>
-                <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
-                <button class="btn btn-lg carousel-btn" type="button" @click="aboutRoute">About us</button>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <img
-              width="100%"
-              height="100%"
-              src="../assets/homepage_carousel_images/3.jpg"
-              alt="First slide"
-            />
-            <div class="container">
-              <div class="carousel-caption text-right">
-                <h1>
-                  <strong>Welcome to Bomb Shrimp</strong>
-                </h1>
-                <h4>Start your jounery. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</h4>
-                <button
-                  class="btn btn-lg carousel-btn"
-                  type="button"
-                  @click="joinRoute"
-                >Sign up here</button>
+                  @click="item.buttonClickFunction"
+                >{{ item.buttonText }}</button>
               </div>
             </div>
           </div>
@@ -90,60 +52,24 @@
       </div>
       <!-- 2. more on homepage -->
       <div class="features mx-auto">
-        <div class="text-center my-5">
-          <h2 class="font-weight-bold my-5">Why is it so great?</h2>
-          <p class="lead mx-auto mb-5">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-          </p>
+        <div class="text-center">
+          <h2 class="font-weight-bold my-4">Why is it so great?</h2>
+          <p class="lead mx-auto" style="margin-bottom: 70px">We offer you best user experience.</p>
           <div class="row">
-            <div class="col-md-4">
-              <i class="fas fa-chart-area fa-3x red-text"></i>
-              <h5 class="font-weight-bold my-4">Analytics</h5>
-              <p class="grey-text mb-md-0 mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
-                maiores aperiam minima assumenda deleniti hic.
-              </p>
-            </div>
-
-            <div class="col-md-4">
-              <i class="fas fa-book fa-3x cyan-text"></i>
-              <h5 class="font-weight-bold my-4">Tutorials</h5>
-              <p class="grey-text mb-md-0 mb-5">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit
-                maiores aperiam minima assumenda deleniti hic.
-              </p>
-            </div>
-
-            <div class="col-md-4">
-              <i class="far fa-comments fa-3x orange-text"></i>
-              <h5 class="font-weight-bold my-4">Support</h5>
-              <p class="grey-text mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit maiores
-                aperiam minima assumenda deleniti hic.
-              </p>
+            <div class="col-lg-4 col-md-4 col-sm-12" :key="idx" v-for="(item, idx) in featureItems">
+              <i class="fas feature-icon mb-4" :class="item.icon"></i>
+              <h4 class="font-weight-bold mb-4">{{ item.title }}</h4>
+              <p class="grey-text mb-md-0" style="margin-bottom: 2rem">{{ item.description}}</p>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="card-body">
-        <h2 class="card-title">Find your favorite accommodation</h2>
-        <p class="card-text">Thousands of choices for you in New South Wales.</p>
-        <SearchInput :searchData="searchData" @searchHouse="searchHouse" />
-      </div>
-
-      <h5>You might be intesested in these accommodation..</h5>
-      <hr />
-
-      <HouseCards v-bind:houses="houses" />-->
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HouseCards from "@/components/HouseCards.vue";
-// import SearchInput from "@/components/SearchInput.vue";
 
 export default {
   name: "home",
@@ -156,54 +82,60 @@ export default {
     return {
       carouselItems: [
         {
-          title: "Welcome to LOREM IPSUM",
-          subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          imageSrc: "../assets/homepage_carousel_images/1.jpg"
+          title: "Explore with us.",
+          description: "Find your dreaming house in an easy way.",
+          imageSrc: require("@/assets/homepage_carousel_images/1.jpg"),
+          buttonText: "Search",
+          buttonClickFunction: () => {
+            this.$router.push({
+              name: "search"
+            });
+          }
         },
         {
-          title: "Welcome to LOREM IPSUM",
-          subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          imageSrc: "../assets/homepage_carousel_images/2.jpg"
+          title: "Join us.",
+          description: "Join us with thousands of users.",
+          imageSrc: require("@/assets/homepage_carousel_images/3.jpg"),
+          buttonText: "Sign up here",
+          buttonClickFunction: () => {
+            this.$router.push({
+              name: "signup"
+            });
+          }
         },
         {
-          title: "Welcome to LOREM IPSUM",
-          subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          imageSrc: "../assets/homepage_carousel_images/2.jpg"
+          title: "Welcome to Bomb Shrimp",
+          description: "What are we and what do we offer?",
+          imageSrc: require("@/assets/homepage_carousel_images/2.jpg"),
+          buttonText: "About us",
+          buttonClickFunction: () => {
+            this.$router.push({
+              name: "about"
+            });
+          }
+        }
+      ],
+      featureItems: [
+        {
+          title: "Search Engine",
+          description: "Search the houses in the way you like, even in map.",
+          icon: "fa-search"
+        },
+        {
+          title: "Save Money",
+          description: "We offer price worthy renting houses.",
+          icon: "fa-money-bill-alt"
+        },
+        {
+          title: "Reviews & Ratings",
+          description: "Share your review and rating with others.",
+          icon: "fa-comments"
         }
       ]
     };
   },
 
-  methods: {
-    searchRoute() {
-      this.$router.push({
-        name: "search"
-      });
-    },
-    aboutRoute() {
-      this.$router.push({
-        name: "about"
-      });
-    },
-    joinRoute() {
-      this.$router.push({
-        name: "signup"
-      });
-    }
-  }
-
-  // get random houses for homepage display
-  // created() {
-  //   this.$axios
-  //     .get("/api/houses/random")
-  //     .then(response => {
-  //       // JSON responses are automatically parsed.
-  //       this.houses = response.data;
-  //     })
-  //     .catch(err => {
-  //       window.console.log(err);
-  //     });
-  // }
+  methods: {}
 };
 </script>
 
@@ -235,7 +167,12 @@ export default {
 
 .features {
   width: 80%;
-  min-height: 500px;
+  margin-top: 5rem;
+  margin-bottom: 8rem;
+}
+
+.feature-icon {
+  font-size: 4rem;
 }
 
 .carousel-item {
@@ -291,21 +228,15 @@ export default {
   .carousel-btn {
     font-size: 0.8rem;
   }
-}
 
-@media screen and (max-width: 780px) {
-  .carousel-caption h1 {
-    font-size: 1.2rem;
-  }
-
-  .carousel-caption h4 {
-    font-size: 0.8rem;
+  .feature-icon {
+    font-size: 3rem;
   }
 }
 
-.features {
-  margin-top: 5rem;
-  width: 80%;
-  min-height: 550px;
+@media screen and (max-width: 767px) {
+  .features {
+    margin-bottom: 4rem;
+  }
 }
 </style>

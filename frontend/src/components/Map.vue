@@ -64,7 +64,6 @@ export default {
     },
     clickHouseMarker(house) {
       this.house = house;
-      window.console.log(house);
     }
   },
 };

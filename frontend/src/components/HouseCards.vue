@@ -13,7 +13,7 @@
             <h5 class="card-title">{{ house.title }}</h5>
             <star-rating
               :inline="true"
-              :rating="house.rating"
+              :rating="parseFloat(house.rating)"
               :read-only="true"
               :show-rating="false"
               v-bind:increment="0.01"

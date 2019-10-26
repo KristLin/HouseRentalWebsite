@@ -90,14 +90,18 @@
             </h6>
             <star-rating
               :inline="true"
-              :rating="house.rating"
+              :rating="parseFloat(house.rating)"
               :read-only="true"
               :show-rating="false"
               v-bind:increment="0.01"
               v-bind:star-size="20"
               v-if="house.rating"
             ></star-rating>
-            <span style="font-weight:bold;" class="mx-2" v-if="house.rating">({{ house.rating_num }})</span>
+            <span
+              style="font-weight:bold;"
+              class="mx-2"
+              v-if="house.rating"
+            >({{ house.rating_num }})</span>
             <p class="text-left mb-0" v-if="!house.rating">This house has no rating yet.</p>
           </div>
         </div>
@@ -113,10 +117,10 @@
         <div id="conditions" class="card card-outline-secondary my-4">
           <div class="card-header">House Conditions</div>
           <div class="card-body">
-            <i class="fas fa-wifi house-page-condition-icon" v-if="house.has_wifi"></i>
-            <i class="fas fa-smoking house-page-condition-icon" v-if="house.smoke_allowed"></i>
-            <i class="fas fa-glass-cheers house-page-condition-icon" v-if="house.party_allowed"></i>
-            <i class="fas fa-dog house-page-condition-icon" v-if="house.pet_allowed"></i>
+            <i id="has-wifi" class="fas fa-wifi house-page-condition-icon"></i>
+            <i class="fas fa-smoking house-page-condition-icon"></i>
+            <i class="fas fa-glass-cheers house-page-condition-icon"></i>
+            <i class="fas fa-dog house-page-condition-icon"></i>
           </div>
         </div>
 
@@ -138,26 +142,33 @@
 
               <hr />
             </div>
+            <div class="post-comment" v-if="$store.getters.isLoggedIn">
+              <textarea
+                v-model="userComment"
+                cols="30"
+                rows="6"
+                class="form-control my-2"
+                placeholder="Review Content"
+              ></textarea>
+              <div class="rating-div w-100">
+                <span class="text-muted mr-2 mb-2">Your Rating:</span>
 
-            <textarea
-              v-model="userComment"
-              cols="30"
-              rows="6"
-              class="form-control my-2"
-              placeholder="Review Content"
-            ></textarea>
-            <div class="rating-div w-100">
-              <span class="text-muted mr-2 mb-2">Your Rating:</span>
-
-              <star-rating
-                :inline="true"
-                text-class="rating-text"
-                v-bind:increment="1"
-                v-bind:star-size="20"
-                v-model="userRating"
-              ></star-rating>
+                <star-rating
+                  :inline="true"
+                  text-class="rating-text"
+                  v-bind:increment="1"
+                  v-bind:star-size="20"
+                  v-model="userRating"
+                ></star-rating>
+              </div>
+              <button class="my-btn form-control my-4" @click="uploadReview">Leave a review</button>
             </div>
-            <button class="my-btn form-control my-4" @click="uploadReview">Leave a Review</button>
+            <div class="login-to-comment" v-if="!$store.getters.isLoggedIn">
+              <button
+                class="my-btn form-control my-4"
+                @click="$router.push('/login')"
+              >Login to post review</button>
+            </div>
           </div>
         </div>
         <!-- /.card -->
@@ -192,17 +203,17 @@ export default {
   methods: {
     saveToMyList() {
       if (!this.$store.getters.isLoggedIn) {
-        alert("please login first!");
-        this.$router.push({ name: "login" });
+        if (confirm("Need login first. Do you want to go to the login page?")) {
+          this.$router.push({ name: "login" });
+        }
       } else {
         let user_id = this.$store.getters.getUserId;
         this.$axios
           .get("/api/savelists/" + user_id + "/add/" + this.house._id)
-          .then(response => {
+          .then(() => {
             // JSON responses are automatically parsed.
             this.isSaved = !this.isSaved;
             alert("house is saved to your list!");
-            window.console.log("saving request result:" + response.data);
           })
           .catch(err => {
             window.console.log(err.response);
@@ -217,11 +228,10 @@ export default {
         let user_id = this.$store.getters.getUserId;
         this.$axios
           .get("/api/savelists/" + user_id + "/remove/" + this.house._id)
-          .then(response => {
+          .then(() => {
             // JSON responses are automatically parsed.
             this.isSaved = !this.isSaved;
             alert("house is removed from your list!");
-            window.console.log(response.data);
           })
           .catch(err => {
             window.console.log(err.response);
@@ -247,114 +257,83 @@ export default {
             rating: this.userRating
           }
         })
-        .then(response => {
-          window.console.log(response.data);
+        .then(() => {
+          window.console.log("Review uploaded!");
           window.location.reload(true);
           alert("Review uploaded!");
         })
         .catch(error => {
           window.console.log(error.response.data);
-          alert(error.response.data);
         });
     }
   },
   created() {
-    // if the params is empty, call the backend to get the house data.
-    if (this.houseFromMap) {
-      this.house = this.houseFromMap;
-      if (this.$store.getters.isLoggedIn) {
-        let user_id = this.$store.getters.getUserId;
-        this.$axios
-          .get("/api/savelists/" + user_id + "/check/" + this.house._id)
-          .then(response => {
-            window.console.log(
-              "house from map, fetch isSaved: ",
-              response.data
-            );
-            this.isSaved = response.data;
-            this.$axios
-              .get("/api/comments/" + this.house._id)
-              .then(response => {
-                window.console.log(response);
-                this.houseComments = response.data;
-              })
-              .catch(error => {
-                window.console.log(error.response);
-              });
-          })
-          .catch(err => {
-            window.console.log(err);
-          });
-      }
-    } else {
-      if (Object.keys(this.$route.params).length === 0) {
-        if (Object.keys(this.$route.query).length !== 0) {
-          this.$axios
-            .get("/api/houses/" + this.$route.query.houseId)
-            .then(response => {
-              // JSON responses are automatically parsed.
-              this.house = response.data;
+    if (
+      Object.keys(this.$route.params).length === 0 &&
+      Object.keys(this.$route.query).length === 0 &&
+      !this.houseFromMap
+    ) {
+      alert("no house data to render");
+      this.$router.push({ name: "search" });
+    }
 
-              if (this.$store.getters.isLoggedIn) {
-                let user_id = this.$store.getters.getUserId;
-                this.$axios
-                  .get("/api/savelists/" + user_id + "/check/" + this.house._id)
-                  .then(response => {
-                    window.console.log(
-                      "only query left, fetch isSaved: ",
-                      response.data
-                    );
-                    this.isSaved = response.data;
-                    window.console.log(this.house);
-                    this.$axios
-                      .get("/api/comments/" + this.house._id)
-                      .then(response => {
-                        window.console.log(response);
-                        this.houseComments = response.data;
-                      })
-                      .catch(error => {
-                        window.console.log(error.response);
-                      });
-                  })
-                  .catch(err => {
-                    window.console.log(err);
-                  });
-              }
-            })
-            .catch(err => {
-              window.console.log(err.response);
-            });
-        } else {
-          alert("no house data to render");
-          this.$router.push({ name: "search" });
-        }
-      } else {
+    let house_id = this.houseId ? this.houseId : this.house._id;
+    window.console.log("House id:", house_id);
+    // get comments data
+    this.$axios
+      .get("/api/comments/" + house_id)
+      .then(response => {
+        this.houseComments = response.data;
+
+        // get isSaved data
         if (this.$store.getters.isLoggedIn) {
           let user_id = this.$store.getters.getUserId;
           this.$axios
-            .get("/api/savelists/" + user_id + "/check/" + this.house._id)
+            .get("/api/savelists/" + user_id + "/check/" + house_id)
             .then(response => {
-              window.console.log(
-                "has router params, fetch isSaved: ",
-                response.data
-              );
               this.isSaved = response.data;
-              this.$axios
-                .get("/api/comments/" + this.house._id)
-                .then(response => {
-                  window.console.log(response);
-                  this.houseComments = response.data;
-                })
-                .catch(error => {
-                  window.console.log(error.response);
-                });
+              // get house data
+              if (this.houseFromMap) {
+                this.house = this.houseFromMap;
+              } else {
+                if (Object.keys(this.$route.params).length === 0) {
+                  this.$axios
+                    .get("/api/houses/" + house_id)
+                    .then(response => {
+                      // JSON responses are automatically parsed.
+                      this.house = response.data;
+                    })
+                    .catch(err => {
+                      window.console.log(err.response);
+                    });
+                }
+              }
             })
             .catch(err => {
               window.console.log(err);
             });
+        } else {
+          // get house data
+          if (this.houseFromMap) {
+            this.house = this.houseFromMap;
+          } else {
+            if (Object.keys(this.$route.params).length === 0) {
+              this.$axios
+                .get("/api/houses/" + house_id)
+                .then(response => {
+                  // JSON responses are automatically parsed.
+                  this.house = response.data;
+                })
+                .catch(err => {
+                  window.console.log(err.response);
+                });
+            }
+          }
         }
-      }
-    }
+      })
+      .catch(error => {
+        window.console.log(error.response);
+      });
   },
   mounted() {}
 };
@@ -377,6 +356,7 @@ export default {
 .sidebar {
   position: fixed;
   width: 20%;
+  z-index: 1;
 }
 
 a.list-group-item {
@@ -395,13 +375,12 @@ a.list-group-item {
 }
 
 .my-btn {
-  border: none;
+  border: 2px solid black; /* Green */
   background-color: black;
   color: white;
 }
 
 .my-btn:hover {
-  border: none;
   background-color: #3c9d9b;
   color: white;
 }

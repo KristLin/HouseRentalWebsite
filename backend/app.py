@@ -341,6 +341,7 @@ class Houses(Resource):
         new_house = request.json
         new_hosue["rating"] = "0"
         new_house["rating_num"] = "0"
+        new_house["suburb"] = new_house["suburb"].title()
         _id = db.add_house(new_house)
         if _id:
             return f"House with id {_id} is uploaded", 201

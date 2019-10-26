@@ -33,8 +33,9 @@ def filter_houses_with_keyword(houses, keyword):
     filtered_houses = []
     if keyword != None:
         for house in houses:
+            keyword = keyword.lower()
             # simple keyword search
-            if keyword.lower() in house["description"].lower():
+            if keyword in house["title"].lower() or keyword in house["description"].lower() or keyword in house["suburb"].lower():
                 filtered_houses.append(house)
         return filtered_houses
     else:

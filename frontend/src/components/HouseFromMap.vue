@@ -64,7 +64,7 @@
           <div class="rating-div"></div>
           <star-rating
             :inline="true"
-            :rating="house.rating"
+            :rating="parseFloat(house.rating)"
             :read-only="true"
             :show-rating="false"
             v-bind:increment="0.01"
