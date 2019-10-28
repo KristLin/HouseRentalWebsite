@@ -83,7 +83,7 @@
                 </em>
               </p>
               <div class="register-button-div">
-                <button @click="registerAccount" class="my-btn form-control my-4">Register</button>
+                <button @click="registerAccount" class="btn btn-dark form-control my-4">Register</button>
               </div>
             </div>
           </div>

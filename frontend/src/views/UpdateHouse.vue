@@ -90,7 +90,7 @@
             ref="coverInput"
             @change="selectCover"
           />
-          <button class="my-btn form-control" @click="$refs.coverInput.click()">Select Cover</button>
+          <button class="btn btn-dark form-control" @click="$refs.coverInput.click()">Select Cover</button>
         </div>
         <!-- input cover end -->
 
@@ -117,7 +117,7 @@
             @change="selectImages"
             multiple
           />
-          <button class="my-btn form-control" @click="$refs.imagesInput.click()">Select Images</button>
+          <button class="btn btn-dark form-control" @click="$refs.imagesInput.click()">Select Images</button>
         </div>
         <!-- input images end -->
 
@@ -228,7 +228,7 @@
       </div>
     </div>
     <div class="row w-50 mx-auto mt-4">
-      <button class="my-btn form-control" @click="updateHouse">Update House</button>
+      <button class="btn btn-dark form-control" @click="updateHouse">Update House</button>
     </div>
   </div>
 </template>

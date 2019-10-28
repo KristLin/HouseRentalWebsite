@@ -16,7 +16,7 @@
               @change="selectFile"
             />
             <button
-              class="my-btn btn-sm form-control my-4"
+              class="btn btn-outline-dark btn-sm form-control my-4"
               @click="$refs.fileInput.click()"
             >Select Profile</button>
             <!-- <button class="my-btn btn-sm form-control" @click="uploadProfile">Upload Profile</button> -->
@@ -104,7 +104,7 @@
       </div>
       <hr />
       <div class="button-area">
-        <button class="my-btn form-control" @click="updateAccount">Update Account</button>
+        <button class="btn btn-dark form-control" @click="updateAccount">Update Account</button>
         <button class="btn btn-danger form-control my-1" @click="deleteAccount">Delete Account</button>
       </div>
     </div>

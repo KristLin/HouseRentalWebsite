@@ -176,12 +176,12 @@ export default {
 }
 
 .carousel-item {
-  height: 700px;
+  height: 650px;
   background-color: black;
 }
 .carousel-item img {
   width: 100%;
-  height: 700px;
+  height: 650px;
   object-fit: cover;
   mask: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7));
 }

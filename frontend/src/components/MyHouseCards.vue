@@ -6,21 +6,27 @@
           <img class="card-img-top" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
+            <h6>
+              {{house.tenant_num}}
+              <i class="fas fa-user mr-4"></i>
+              {{ house.size }} m
+              <sup>2</sup>
+            </h6>
             <star-rating
               :inline="true"
-              :rating="house.rating"
+              :rating="parseFloat(house.rating)"
               :read-only="true"
               :show-rating="false"
               v-bind:increment="0.01"
               v-bind:star-size="20"
-              v-if="house.rating"
+              v-if="parseInt(house.rating_num) !== 0"
             ></star-rating>
             <span
               style="font-weight:bold;"
               class="mx-2"
-              v-if="house.rating"
+              v-if="parseInt(house.rating_num) !== 0"
             >({{ house.rating_num }})</span>
-            <p class="mb-0" v-if="!house.rating">No rating yet.</p>
+            <p class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>
@@ -28,8 +34,11 @@
             <small class="text-muted">${{house.price}}</small>
           </div>
         </div>
-        <button class="my-btn form-control my-1 shadow" @click="updateHouse(house._id)">Update House</button>
-        <button class="btn btn-danger form-control shadow" @click="deleteHouse(house._id)">Delete House</button>
+        <button class="btn btn-dark form-control my-1 shadow" @click="updateHouse(house._id)">Update House</button>
+        <button
+          class="btn btn-danger form-control shadow"
+          @click="deleteHouse(house._id)"
+        >Delete House</button>
       </div>
     </div>
   </div>

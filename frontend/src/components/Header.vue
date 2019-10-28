@@ -74,7 +74,7 @@ export default {
                 }
                 window.location.reload(true);
                 window.console.log("user logged out");
-                alert("logged out!");
+                // alert("logged out!");
               }
             })
             .catch(err => window.console.log(err));

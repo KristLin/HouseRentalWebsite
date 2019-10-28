@@ -30,8 +30,8 @@
         </div>
 
         <div class="w-50 mx-auto my-4">
-          <button class="my-btn form-control" v-if="!showMap" @click="showMap=!showMap">View in Map</button>
-          <button class="my-btn form-control" v-if="showMap" @click="showMap=!showMap">View in Cards</button>
+          <button class="btn btn-outline-dark form-control" v-if="!showMap" @click="showMap=!showMap">View in Map</button>
+          <button class="btn btn-outline-dark form-control" v-if="showMap" @click="showMap=!showMap">View in Cards</button>
         </div>
         <hr />
 

@@ -29,7 +29,7 @@
           required
         />
 
-        <button @click="login" class="my-btn form-control my-4">Log in</button>
+        <button @click="login" class="btn btn-dark form-control my-4">Log in</button>
 
         <p class="hint-text">
           Don't have an account?

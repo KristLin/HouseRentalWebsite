@@ -4,7 +4,9 @@
       <div>
         <h1>About us</h1>
         <p>We are professional.</p>
-        <p>写对 tenant 和 provider 我们提供了什么服务</p>
+        <h3>待做任务：</h3>
+        <p>About us页面排版；写对 tenant 和 provider 我们提供了什么服务</p>
+        <p>主页三张图找高清的、扁长的（类似16：9）</p>
       </div>
 
       <div>

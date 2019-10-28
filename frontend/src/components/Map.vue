@@ -20,9 +20,11 @@
               :clickable="true"
               :draggable="true"
               :label="{text: '$' + house.price ,color: '#fff',fontSize: '12px',fontWeight: 'bold'}"
-              :icon="{url:'https://vectr.com/kristlin/afhuGVy8p.png?width=45&height=35&select=afhuGVy8ppage0'}"
+              
+              :icon="{url: 'https://vectr.com/kristlin/afhuGVy8p.svg?width=45&height=35&select=afhuGVy8ppage0'}"
               @click="clickHouseMarker(house)"
             />
+            <!-- 'https://vectr.com/kristlin/afhuGVy8p.png?width=45&height=35&select=afhuGVy8ppage0' -->
           </GmapMap>
         </div>
       </div>

@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="sidebar">
-          <button class="my-btn form-control my-2" @click="$router.go(-1)">
+          <button class="btn btn-dark form-control my-2" @click="$router.go(-1)">
             <i class="fas fa-chevron-left"></i> Go Back
           </button>
           <hr />
@@ -16,16 +16,16 @@
           </ul>
           <hr />
           <button
-            class="my-btn form-control my-2"
+            class="btn btn-dark form-control my-2"
             @click="saveToMyList"
             v-if="!isSaved"
           >Save To My List</button>
           <button
-            class="my-btn form-control my-2"
+            class="btn btn-dark form-control my-2"
             @click="removeFromMyList"
             v-if="isSaved"
           >Remove from My List</button>
-          <button class="my-btn form-control my-2" @click="bookThisHouse">Book This House</button>
+          <button class="btn btn-dark form-control my-2" @click="bookThisHouse">Book This House</button>
         </div>
       </div>
       <!-- /.col-lg-3 -->
@@ -82,12 +82,11 @@
             <h6 class="text-left my-2">${{house.price}} per night</h6>
             <h6 class="text-left">
               {{house.tenant_num}}
-              <i class="fas fa-user"></i>
-            </h6>
-            <h6 class="text-left">
+              <i class="fas fa-user mr-4"></i>
               {{ house.size }} m
               <sup>2</sup>
             </h6>
+            <h6 class="text-left">{{ house.location }}</h6>
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -95,14 +94,17 @@
               :show-rating="false"
               v-bind:increment="0.01"
               v-bind:star-size="20"
-              v-if="house.rating"
+              v-if="parseInt(house.rating_num) !== 0"
             ></star-rating>
             <span
               style="font-weight:bold;"
               class="mx-2"
-              v-if="house.rating"
+              v-if="parseInt(house.rating_num) !== 0"
             >({{ house.rating_num }})</span>
-            <p class="text-left mb-0" v-if="!house.rating">This house has no rating yet.</p>
+            <p
+              class="text-left mb-0"
+              v-if="parseInt(house.rating_num) === 0"
+            >This house has no rating yet.</p>
           </div>
         </div>
         <!-- /.card -->
@@ -161,11 +163,11 @@
                   v-model="userRating"
                 ></star-rating>
               </div>
-              <button class="my-btn form-control my-4" @click="uploadReview">Leave a review</button>
+              <button class="btn btn-dark form-control my-4" @click="uploadReview">Leave a review</button>
             </div>
             <div class="login-to-comment" v-if="!$store.getters.isLoggedIn">
               <button
-                class="my-btn form-control my-4"
+                class="btn btn-dark form-control my-4"
                 @click="$router.push('/login')"
               >Login to post review</button>
             </div>
@@ -374,14 +376,14 @@ a.list-group-item {
   }
 }
 
-.my-btn {
+.sidebar-my-btn {
   border: 2px solid black; /* Green */
   background-color: black;
   color: white;
 }
 
-.my-btn:hover {
-  background-color: #3c9d9b;
+.sidebar-my-btn:hover {
+  background-color: #48bbb9;
   color: white;
 }
 

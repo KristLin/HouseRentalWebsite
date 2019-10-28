@@ -55,12 +55,11 @@
           <h6 class="text-left">${{house.price}} per night</h6>
           <h6 class="text-left">
             {{house.tenant_num}}
-            <i class="fas fa-user"></i>
-          </h6>
-          <h6 class="text-left">
+            <i class="fas fa-user mr-4"></i>
             {{ house.size }} m
             <sup>2</sup>
           </h6>
+          <h6 class="text-left">{{ house.location }}</h6>
           <div class="rating-div"></div>
           <star-rating
             :inline="true"
@@ -69,14 +68,18 @@
             :show-rating="false"
             v-bind:increment="0.01"
             v-bind:star-size="20"
-            v-if="house.rating"
+            v-if="parseInt(house.rating_num) !== 0"
           ></star-rating>
-          <span style="font-weight:bold;" class="mx-2">({{ house.rating_num }})</span>
-          <p class="mt-2" v-if="!house.rating">This house has no rating yet.</p>
+          <span
+            style="font-weight:bold;"
+            class="mx-2"
+            v-if="parseInt(house.rating_num) !== 0"
+          >({{ house.rating_num }})</span>
+          <p class="mt-2" v-if="parseInt(house.rating_num) === 0">This house has no rating yet.</p>
         </div>
       </div>
       <div id="learnMore" class="card card-outline-secondary my-2">
-        <button class="my-btn form-control" @click="goToHousePage">More Info</button>
+        <button class="btn btn-dark form-control" @click="goToHousePage">More Info</button>
       </div>
       <!-- /.card -->
       <div id="description" class="card card-outline-secondary my-2">
