@@ -104,7 +104,7 @@
       </div>
       <hr />
       <div class="button-area">
-        <button class="btn btn-dark form-control" @click="updateAccount">Update Account</button>
+        <button class="my-btn form-control" @click="updateAccount">Update Account</button>
         <button class="btn btn-danger form-control my-1" @click="deleteAccount">Delete Account</button>
       </div>
     </div>

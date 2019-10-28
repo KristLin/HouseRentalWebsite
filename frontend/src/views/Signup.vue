@@ -83,7 +83,7 @@
                 </em>
               </p>
               <div class="register-button-div">
-                <button @click="registerAccount" class="btn btn-dark form-control my-4">Register</button>
+                <button @click="registerAccount" class="my-btn form-control my-4">Register</button>
               </div>
             </div>
           </div>
@@ -122,6 +122,13 @@ export default {
           alert("The register form is not complete!");
           return;
         }
+      }
+
+      // check the format of email Address
+      var ckEmail = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+      if (!ckEmail.test(this.userData.email)) {
+        alert("Wrong email format!");
+        return;
       }
 
       // check if agree policy

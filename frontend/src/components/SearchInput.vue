@@ -77,7 +77,7 @@
       </div>
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Search House:</label>
-        <button @click="searchHouse" class="btn btn-outline-dark form-control">Search</button>
+        <button @click="searchHouse" class="my-btn form-control">Search</button>
       </div>
     </div>
     <div class="row w-50 m-auto"></div>

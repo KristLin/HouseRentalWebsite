@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="sidebar">
-          <button class="btn btn-dark form-control my-2" @click="$router.go(-1)">
+          <button class="my-btn form-control my-2" @click="$router.go(-1)">
             <i class="fas fa-chevron-left"></i> Go Back
           </button>
           <hr />
@@ -16,16 +16,16 @@
           </ul>
           <hr />
           <button
-            class="btn btn-dark form-control my-2"
+            class="my-btn form-control my-2"
             @click="saveToMyList"
             v-if="!isSaved"
           >Save To My List</button>
           <button
-            class="btn btn-dark form-control my-2"
+            class="my-btn form-control my-2"
             @click="removeFromMyList"
             v-if="isSaved"
           >Remove from My List</button>
-          <button class="btn btn-dark form-control my-2" @click="bookThisHouse">Book This House</button>
+          <button class="my-btn form-control my-2" @click="bookThisHouse">Book This House</button>
         </div>
       </div>
       <!-- /.col-lg-3 -->
@@ -163,11 +163,11 @@
                   v-model="userRating"
                 ></star-rating>
               </div>
-              <button class="btn btn-dark form-control my-4" @click="uploadReview">Leave a review</button>
+              <button class="my-btn form-control my-4" @click="uploadReview">Leave a review</button>
             </div>
             <div class="login-to-comment" v-if="!$store.getters.isLoggedIn">
               <button
-                class="btn btn-dark form-control my-4"
+                class="my-btn form-control my-4"
                 @click="$router.push('/login')"
               >Login to post review</button>
             </div>

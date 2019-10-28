@@ -56,7 +56,7 @@ user_model = api.model(
             help="Email cannot be blank.",
         ),
         "name": fields.String,
-        "profile": fields.Raw,
+        "profile": fields.String,
         "password": fields.String,
         "phone": fields.String,
         "role": fields.String,
@@ -339,7 +339,7 @@ class Houses(Resource):
     # upload a house
     def post(self):
         new_house = request.json
-        new_hosue["rating"] = "0"
+        new_house["rating"] = "0"
         new_house["rating_num"] = "0"
         new_house["suburb"] = new_house["suburb"].title()
         _id = db.add_house(new_house)

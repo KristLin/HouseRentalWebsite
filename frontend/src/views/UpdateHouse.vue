@@ -90,7 +90,7 @@
             ref="coverInput"
             @change="selectCover"
           />
-          <button class="btn btn-dark form-control" @click="$refs.coverInput.click()">Select Cover</button>
+          <button class="my-btn form-control" @click="$refs.coverInput.click()">Select Cover</button>
         </div>
         <!-- input cover end -->
 

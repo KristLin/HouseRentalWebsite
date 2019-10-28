@@ -79,7 +79,7 @@
         </div>
       </div>
       <div id="learnMore" class="card card-outline-secondary my-2">
-        <button class="btn btn-dark form-control" @click="goToHousePage">More Info</button>
+        <button class="my-btn form-control" @click="goToHousePage">More Info</button>
       </div>
       <!-- /.card -->
       <div id="description" class="card card-outline-secondary my-2">

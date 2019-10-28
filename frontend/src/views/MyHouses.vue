@@ -30,7 +30,7 @@
 
         <hr />
         <button
-          class="btn btn-outline-dark w-50 m-auto form-control"
+          class="my-btn w-50 m-auto form-control"
           @click="$router.push({name: 'uploadHouse'})"
         >Upload House</button>
         <hr />

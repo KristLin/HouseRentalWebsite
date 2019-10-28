@@ -34,7 +34,7 @@
             <small class="text-muted">${{house.price}}</small>
           </div>
         </div>
-        <button class="btn btn-dark form-control my-1 shadow" @click="updateHouse(house._id)">Update House</button>
+        <button class="my-btn form-control my-1 shadow" @click="updateHouse(house._id)">Update House</button>
         <button
           class="btn btn-danger form-control shadow"
           @click="deleteHouse(house._id)"
