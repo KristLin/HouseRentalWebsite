@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from bson import ObjectId
 from dotenv import load_dotenv
+from random import sample
 import os
 
 # Database to manipulate user & house data
@@ -164,6 +165,32 @@ class DB(object):
                 user_houses.append(str(house["_id"]))
         for house_id in user_houses:
             self.delete_house(house_id)
+    
+    def recommend_houses(self, house_id, suburb, price, tenant_num):
+        price_range=50
+        cursor = self.houses.find()
+        same_suburb_houses = []
+        close_price_houses = []
+        same_tenant_num_houses = []
+        for house in cursor:
+            house["_id"] = str(house["_id"])
+            if house["_id"] == house_id:
+                continue
+            if house["tenant_num"] == tenant_num:
+                same_tenant_num_houses.append(house)
+            if house["suburb"] == suburb:
+                same_suburb_houses.append(house)
+            if int(house["price"]) in range(int(price)-price_range, int(price)+price_range+1):
+                close_price_houses.append(house)
+        
+        if len(same_tenant_num_houses) >= 3:
+            same_tenant_num_houses = sample(same_tenant_num_houses, 3)
+        if len(same_suburb_houses) >= 3:
+            same_suburb_houses = sample(same_suburb_houses, 3)
+        if len(close_price_houses) >= 3:
+            close_price_houses = sample(close_price_houses, 3)
+        result = {"same_suburb": same_suburb_houses, "close_price": close_price_houses, "same_tenant_num": same_tenant_num_houses}
+        return result
 
     # =========== save list data manipulation ===========
     def find_all_savelists(self):

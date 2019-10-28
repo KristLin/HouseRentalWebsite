@@ -404,6 +404,9 @@ export default {
 }
 
 .house-description-display {
+  padding-top: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   word-wrap: break-word;
   min-height: 100px;
 }

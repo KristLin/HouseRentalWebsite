@@ -286,6 +286,7 @@ export default {
       for (let key in this.houseData) {
         if (key !== "lat" || key !== "lng") {
           if (!this.houseData[key]) {
+            window.console.log("value of key is empty: ", key)
             alert("The house data is not complete!");
             return;
           }
@@ -383,6 +384,9 @@ export default {
 }
 
 .house-description-display {
+  padding-top: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   word-wrap: break-word;
   min-height: 100px;
 }

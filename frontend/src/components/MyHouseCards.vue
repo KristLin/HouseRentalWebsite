@@ -73,16 +73,6 @@ export default {
         name: "updateHouse",
         query: { houseId: house_id }
       });
-      //   this.$axios
-      //     .patch(
-      //       "/api/houses/" + this.$store.getters.getUserId + "/" + house_id,
-      //       usedUpdatedUserData
-      //     )
-      //     .then(response => {
-      //       window.console.log(response);
-      //       alert("User info is updated!");
-      //     })
-      //     .catch(error => window.console.log(error.response));
     },
 
     deleteHouse(house_id) {

@@ -527,6 +527,21 @@ class HousesOfUserSavelist(Resource):
             order_type=order_type,
         )
         return user_savelist_houses, 200
+
+@houses.route("/recommend")
+class RecommendHouses(Resource):
+    @api.param("house_id", "house id for recommending houses")
+    @api.param("suburb", "suburb for recommending houses")
+    @api.param("price", "price for recommending houses")
+    @api.param("tenant_num", "tenant num for recommending houses")
+    @api.doc(description="Get houses in the user's savelist")
+    def get(self):
+        house_id = request.args.get("house_id")
+        suburb = request.args.get("suburb")
+        price = request.args.get("price")
+        tenant_num = request.args.get("tenant_num")
+        recommend_houses = db.recommend_houses(house_id, suburb, price, tenant_num)
+        return recommend_houses, 200
 # ============ house API part end ============
 
 # ============ user saved list part start ============

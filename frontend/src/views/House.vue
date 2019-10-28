@@ -108,6 +108,14 @@
           </div>
         </div>
         <!-- /.card -->
+        <div id="recommendations" class="card card-outline-secondary my-4">
+          <div class="card-header" style="background-color: #3c9d9b; color: white">Recommended Houses</div>
+          <div class="card-body pt-1">
+            <RecommendHouses
+              :recommendInfo="{house_id: houseId, suburb: house.suburb, price: house.price, tenant_num: house.tenant_num}"
+            />
+          </div>
+        </div>
 
         <div id="description" class="card card-outline-secondary my-4">
           <div class="card-header">House Description</div>
@@ -119,10 +127,10 @@
         <div id="conditions" class="card card-outline-secondary my-4">
           <div class="card-header">House Conditions</div>
           <div class="card-body">
-            <i id="has-wifi" class="fas fa-wifi house-page-condition-icon"></i>
-            <i class="fas fa-smoking house-page-condition-icon"></i>
-            <i class="fas fa-glass-cheers house-page-condition-icon"></i>
-            <i class="fas fa-dog house-page-condition-icon"></i>
+            <i class="fas fa-wifi house-page-condition-icon" v-if="house.has_wifi"></i>
+            <i class="fas fa-smoking house-page-condition-icon" v-if="house.smoke_allowed"></i>
+            <i class="fas fa-glass-cheers house-page-condition-icon" v-if="house.party_allowed"></i>
+            <i class="fas fa-dog house-page-condition-icon" v-if="house.pet_allowed"></i>
           </div>
         </div>
 
@@ -183,11 +191,13 @@
 
 <script>
 import StarRating from "vue-star-rating";
+import RecommendHouses from "@/components/RecommendHouses.vue";
 
 export default {
   name: "House",
   components: {
-    StarRating
+    StarRating,
+    RecommendHouses
   },
   props: {
     houseFromMap: {}

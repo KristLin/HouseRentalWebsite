@@ -144,7 +144,7 @@ export default {
 }
 
 .card-img-top {
-  height: 250px;
+  height: 200px;
   width: 100%;
   object-fit: cover;
 }
