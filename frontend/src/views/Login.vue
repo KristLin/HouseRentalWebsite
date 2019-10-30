@@ -1,41 +1,39 @@
 <template>
-  <div>
-    <div class="text-center container">
-      <div class="login-container">
-        <!-- <img
+  <div class="container">
+    <div class="login-container">
+      <!-- <img
             class="mb-4"
             src="/docs/4.3/assets/brand/bootstrap-solid.svg"
             alt
             width="72"
             height="72"
-        />-->
-        <i class="fas fa-user-circle fa-6x login-icon"></i>
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input
-          type="email"
-          v-model="loginData.email"
-          class="form-control"
-          placeholder="Email address"
-          required
-          autofocus
-        />
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input
-          type="password"
-          v-model="loginData.password"
-          class="form-control"
-          placeholder="Password"
-          required
-        />
+      />-->
+      <i class="fas fa-user-circle fa-6x login-icon"></i>
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input
+        type="email"
+        v-model="loginData.email"
+        class="form-control"
+        placeholder="Email address"
+        required
+        autofocus
+      />
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input
+        type="password"
+        v-model="loginData.password"
+        class="form-control"
+        placeholder="Password"
+        required
+      />
 
-        <button @click="login" class="my-btn form-control my-4">Log in</button>
+      <button @click="login" class="my-btn form-control my-4">Log in</button>
 
-        <p class="hint-text">
-          Don't have an account?
-          <router-link class="mx-1 sign-up-link" to="/signup">Sign up</router-link>here!
-        </p>
-      </div>
+      <p class="hint-text">
+        Don't have an account?
+        <router-link class="mx-1 sign-up-link" to="/signup">Sign up</router-link>here!
+      </p>
     </div>
   </div>
 </template>

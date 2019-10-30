@@ -125,8 +125,7 @@ export default {
       }
 
       // check the format of email Address
-      var ckEmail = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
-      if (!ckEmail.test(this.userData.email)) {
+      if (!this.userData.email.includes('@')) {
         alert("Wrong email format!");
         return;
       }

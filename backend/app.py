@@ -174,12 +174,14 @@ class Login(Resource):
     def post(self):
         user_login_data = request.json
         login_user = db.find_user_by_email(user_login_data["email"])
-        if utils.check_logged_in(active_users, user_login_data["email"]):
-            print(user_login_data["email"] + " has Already logged in")
-            return login_user["_id"] + " " + login_user["role"] + " " + login_user["name"], 200
+
         if login_user == None:
             return "The user email does not exist", 400
 
+        if utils.check_logged_in(active_users, user_login_data["email"]):
+            print(user_login_data["email"] + " has Already logged in")
+            return login_user["_id"] + " " + login_user["role"] + " " + login_user["name"], 200
+            
         # check encrypted password
         # if bcrypt.hashpw(user_password.encode("utf-8"), user_password) == user_password:
         if user_login_data["password"] == login_user["password"]:
@@ -541,6 +543,7 @@ class RecommendHouses(Resource):
         price = request.args.get("price")
         tenant_num = request.args.get("tenant_num")
         recommend_houses = db.recommend_houses(house_id, suburb, price, tenant_num)
+        print(len(recommend_houses))
         return recommend_houses, 200
 # ============ house API part end ============
 

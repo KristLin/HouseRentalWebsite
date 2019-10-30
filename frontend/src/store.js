@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     userId: null,
-    userRole: null
+    userRole: null,
+    userName: null,
   },
   getters: {
     isLoggedIn: state => {

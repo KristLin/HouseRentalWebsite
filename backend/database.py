@@ -172,10 +172,12 @@ class DB(object):
         same_suburb_houses = []
         close_price_houses = []
         same_tenant_num_houses = []
+        
         for house in cursor:
             house["_id"] = str(house["_id"])
             if house["_id"] == house_id:
                 continue
+            print(house["tenant_num"], tenant_num)
             if house["tenant_num"] == tenant_num:
                 same_tenant_num_houses.append(house)
             if house["suburb"] == suburb:

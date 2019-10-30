@@ -83,7 +83,7 @@ export default {
       carouselItems: [
         {
           title: "Explore with us.",
-          description: "Find your dreaming house in an easy way.",
+          description: "Find your dream house in an easy way.",
           imageSrc: require("@/assets/homepage_carousel_images/1.jpg"),
           buttonText: "Search",
           buttonClickFunction: () => {

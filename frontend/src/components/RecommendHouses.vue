@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="row">
-      <ul class="list-group list-group-horizontal ml-auto">
+      <!-- <div class="card-header p-2" style="background-color: #3c9d9b; color: white;">Recommended Houses</div> -->
+      <ul class="list-group list-group-horizontal ml-auto my-1">
         <li class="list-group-item type-option-item" :class="{active: chosenType==='suburb'}" @click="chosenType='suburb'">Same Suburb</li>
         <li class="list-group-item type-option-item" :class="{active: chosenType==='price'}" @click="chosenType='price'">Close Price</li>
         <li class="list-group-item type-option-item" :class="{active: chosenType==='tenant_num'}" @click="chosenType='tenant_num'">Same Tenant Number</li>
@@ -9,7 +10,7 @@
     </div>
     <div class="row" v-if="chosenType==='suburb'">
       <div
-        class="col-lg-4 col-sm-4 mb-4"
+        class="col-lg-4 col-sm-4 mb-0"
         @click="clickHouse(house)"
         :key="house._id"
         v-for="house in recommendedHouses.same_suburb"
@@ -39,9 +40,7 @@
             <small class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</small>
           </div>
           <div class="card-footer p-1">
-            <small class="text-muted">{{house.suburb}}</small>
-            <small>-</small>
-            <small class="text-muted">${{house.price}}</small>
+            <small class="text-muted">{{house.suburb}} - ${{house.price}}</small>
           </div>
         </div>
       </div>
@@ -49,7 +48,7 @@
 
     <div class="row" v-if="chosenType==='price'">
       <div
-        class="col-lg-4 col-sm-6 mb-4"
+        class="col-lg-4 col-sm-6 mb-0"
         @click="clickHouse(house)"
         :key="house._id"
         v-for="house in recommendedHouses.close_price"
@@ -82,9 +81,7 @@
             <small class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</small>
           </div>
           <div class="card-footer p-1">
-            <small class="text-muted">{{house.suburb}}</small>
-            <small>-</small>
-            <small class="text-muted">${{house.price}}</small>
+            <small class="text-muted">{{house.suburb}} - ${{house.price}}</small>
           </div>
         </div>
       </div>
@@ -92,7 +89,7 @@
 
     <div class="row" v-if="chosenType==='tenant_num'">
       <div
-        class="col-lg-4 col-sm-4 mb-4"
+        class="col-lg-4 col-sm-4 mb-0"
         @click="clickHouse(house)"
         :key="house._id"
         v-for="house in recommendedHouses.same_tenant_num"
@@ -122,9 +119,7 @@
             <small class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</small>
           </div>
           <div class="card-footer p-1">
-            <small class="text-muted">{{house.suburb}}</small>
-            <small>-</small>
-            <small class="text-muted">${{house.price}}</small>
+            <small class="text-muted">{{house.suburb}} - ${{house.price}}</small>
           </div>
         </div>
       </div>
@@ -170,7 +165,7 @@ export default {
       .then(response => {
         this.recommendedHouses = response.data;
         window.console.log(
-          "recommendedHouses: " + this.recommendedHouses.same_suburb
+          "recommendedHouses: " + this.recommendedHouses.same_tenant_num
         );
       })
       .catch(error => {

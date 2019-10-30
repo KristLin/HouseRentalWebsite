@@ -9,10 +9,12 @@
           </button>
           <hr />
           <ul class="list-group">
-            <a href="#intro" class="list-group-item">Intro</a>
-            <a href="#description" class="list-group-item">Description</a>
-            <a href="#conditions" class="list-group-item">Condition</a>
-            <a href="#review" class="list-group-item">Review</a>
+            <!-- the locator seems having an issue -->
+            <a href="#" class="list-group-item">Intro</a>
+            <a href="#intro" class="list-group-item">Recommendation</a>
+            <a href="#recommendations" class="list-group-item">Description</a>
+            <a href="#description" class="list-group-item">Condition</a>
+            <a href="#conditions" class="list-group-item">Review</a>
           </ul>
           <hr />
           <button
@@ -109,7 +111,7 @@
         </div>
         <!-- /.card -->
         <div id="recommendations" class="card card-outline-secondary my-4">
-          <div class="card-header" style="background-color: #3c9d9b; color: white">Recommended Houses</div>
+          <div class="card-header p-2" style="background-color: #3c9d9b; color: white;">Recommended Houses</div>
           <div class="card-body pt-1">
             <RecommendHouses
               :recommendInfo="{house_id: houseId, suburb: house.suburb, price: house.price, tenant_num: house.tenant_num}"
