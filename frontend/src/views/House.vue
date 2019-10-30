@@ -129,10 +129,10 @@
         <div id="facility" class="card card-outline-secondary my-4">
           <div class="card-header">House Facilities</div>
           <div class="card-body">
-            <i class="fas fa-wifi house-page-condition-icon" v-if="house.wifi"></i>
-            <i class="fas fa-utensils house-page-condition-icon" v-if="house.kitchen"></i>
-            <i class="fas fa-car house-page-condition-icon" v-if="house.carpark"></i>
-            <i class="fas fa-snowflake house-page-condition-icon" v-if="house.ac"></i>
+            <i class="fas fa-wifi house-page-facility-icon" v-if="house.wifi"></i>
+            <i class="fas fa-utensils house-page-facility-icon" v-if="house.kitchen"></i>
+            <i class="fas fa-car house-page-facility-icon" v-if="house.carpark"></i>
+            <i class="fas fa-snowflake house-page-facility-icon" v-if="house.ac"></i>
           </div>
         </div>
 
@@ -399,14 +399,14 @@ a.list-group-item {
   color: white;
 }
 
-.house-page-condition-icon {
+.house-page-facility-icon {
   font-size: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;
 }
 
 @media screen and (max-width: 510px) {
-  .house-page-condition-icon {
+  .house-page-facility-icon {
     font-size: 1.4rem;
     margin-left: 1.4rem;
     margin-right: 1.4rem;

@@ -195,31 +195,31 @@
           />
         </div>
         <div class="row mt-2">
-          <label class="input-label">Conditions:</label>
+          <label class="input-label">Facility:</label>
           <div class="row w-100">
             <div class="col-6 m-auto text-left">
               <input type="checkbox" class="mx-2 mt-2" v-model="houseData.wifi" />
               <label for>
-                <i class="fas fa-wifi condition-icon"></i>
+                <i class="fas fa-wifi facility-icon"></i>
                 Wifi
               </label>
               <br />
               <input type="checkbox" class="mx-2" v-model="houseData.kitchen" />
               <label for>
-                <i class="fas fa-utensils condition-icon"></i>
+                <i class="fas fa-utensils facility-icon"></i>
                 Kitchen
               </label>
             </div>
             <div class="col-6 m-auto text-left">
               <input type="checkbox" class="mx-2" v-model="houseData.carpark" />
               <label for>
-                <i class="fas fa-car condition-icon"></i>
+                <i class="fas fa-car facility-icon"></i>
                 Car Park
               </label>
               <br />
               <input type="checkbox" class="mx-2" v-model="houseData.ac" />
               <label for>
-                <i class="far fa-snowflake condition-icon"></i>
+                <i class="far fa-snowflake facility-icon"></i>
                 Air Conditioning
               </label>
             </div>
@@ -427,7 +427,7 @@ export default {
   color: white;
 }
 
-.condition-icon {
+.facility-icon {
   font-size: 1.25rem;
 }
 </style>

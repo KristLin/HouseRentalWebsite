@@ -92,10 +92,10 @@
       <div id="facility" class="card card-outline-secondary my-4">
         <div class="card-header">House Facility</div>
         <div class="card-body">
-          <i class="fas fa-wifi map-house-condition-icon" v-if="house.wifi"></i>
-          <i class="fas fa-utensils map-house-condition-icon" v-if="house.kitchen"></i>
-          <i class="fas fa-car map-house-condition-icon" v-if="house.carpark"></i>
-          <i class="fas fa-snowflake map-house-condition-icon" v-if="house.ac"></i>
+          <i class="fas fa-wifi map-house-facility-icon" v-if="house.wifi"></i>
+          <i class="fas fa-utensils map-house-facility-icon" v-if="house.kitchen"></i>
+          <i class="fas fa-car map-house-facility-icon" v-if="house.carpark"></i>
+          <i class="fas fa-snowflake map-house-facility-icon" v-if="house.ac"></i>
         </div>
       </div>
     </div>
@@ -166,7 +166,7 @@ export default {
   margin-bottom: 100px;
 }
 
-.map-house-condition-icon {
+.map-house-facility-icon {
   font-size: 1.5rem;
   margin-left: 1rem;
   margin-right: 1rem;

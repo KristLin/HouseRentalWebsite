@@ -49,18 +49,18 @@
         />
       </div>
       <div class="col-lg-3 col-md-6 form-group">
-        <label class="filter-label">House Conditions:</label>
+        <label class="filter-label">House Facility:</label>
         <br />
         <div class="mt-2">
-          <input type="checkbox" class="search-condition-input" v-model="searchData.wifi" />
-          <i class="fas fa-wifi search-condition-icon"></i>
-          <input type="checkbox" class="search-condition-input" v-model="searchData.kitchen" />
-          <i class="fas fa-utensils search-condition-icon"></i>
-          <br class="condition-input-layout-br">
-          <input type="checkbox" class="search-condition-input" v-model="searchData.carpark" />
-          <i class="fas fa-car search-condition-icon"></i>
-          <input type="checkbox" class="search-condition-input" v-model="searchData.ac" />
-          <i class="fas fa-snowflake search-condition-icon"></i>
+          <input type="checkbox" class="search-facility-input" v-model="searchData.wifi" />
+          <i class="fas fa-wifi search-facility-icon"></i>
+          <input type="checkbox" class="search-facility-input" v-model="searchData.kitchen" />
+          <i class="fas fa-utensils search-facility-icon"></i>
+          <br class="facility-input-layout-br">
+          <input type="checkbox" class="search-facility-input" v-model="searchData.carpark" />
+          <i class="fas fa-car search-facility-icon"></i>
+          <input type="checkbox" class="search-facility-input" v-model="searchData.ac" />
+          <i class="fas fa-snowflake search-facility-icon"></i>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 form-group">
@@ -123,54 +123,54 @@ export default {
   color: white;
 }
 
-.search-condition-input {
+.search-facility-input {
   margin-right: 5px;
 }
-.search-condition-icon {
+.search-facility-icon {
   margin-right: 12px;
 }
 
-.condition-input-layout-br {
+.facility-input-layout-br {
   display: none;
 }
 
 @media screen and (max-width: 991px) {
-  .search-condition-input {
+  .search-facility-input {
     height: 1rem;
     margin-right: 8px;
   }
-  .search-condition-icon {
+  .search-facility-icon {
     font-size: 1.2rem;
     margin-right: 25px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .search-condition-input {
+  .search-facility-input {
     height: 1.2rem;
     margin-right: 12px;
   }
-  .search-condition-icon {
+  .search-facility-icon {
     font-size: 1.6rem;
     margin-right: 50px;
   }
 }
 
 @media screen and (max-width: 510px) {
-  .search-condition-icon {
+  .search-facility-icon {
     font-size: 1.2rem;
     margin-right: 35px;
   }
 }
 @media screen and (max-width: 421px) {
-  .search-condition-icon {
+  .search-facility-icon {
     font-size: 1rem;
     margin-right: 18px;
   }
 }
 
 @media screen and (max-width: 336px) {
-  .search-condition-icon {
+  .search-facility-icon {
     font-size: 1rem;
     margin-right: 10px;
   }
