@@ -111,7 +111,10 @@
         </div>
         <!-- /.card -->
         <div id="recommendations" class="card card-outline-secondary my-4">
-          <div class="card-header p-2" style="background-color: #3c9d9b; color: white;">Recommended Houses</div>
+          <div
+            class="card-header p-2"
+            style="background-color: #3c9d9b; color: white;"
+          >Recommended Houses</div>
           <div class="card-body pt-1">
             <RecommendHouses
               :recommendInfo="{house_id: houseId, suburb: house.suburb, price: house.price, tenant_num: house.tenant_num}"
@@ -217,9 +220,17 @@ export default {
   methods: {
     saveToMyList() {
       if (!this.$store.getters.isLoggedIn) {
-        if (confirm("Need login first. Do you want to go to the login page?")) {
-          this.$router.push({ name: "login" });
-        }
+        this.$swal({
+          title: "Confirm",
+          text: "Need login first. Do you want to go to the login page?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true
+        }).then(choice => {
+          if (choice) {
+            this.$router.push({ name: "login" });
+          }
+        });
       } else {
         let user_id = this.$store.getters.getUserId;
         this.$axios
@@ -227,7 +238,7 @@ export default {
           .then(() => {
             // JSON responses are automatically parsed.
             this.isSaved = !this.isSaved;
-            alert("house is saved to your list!");
+            this.$swal("Success!", "House is saved to your list!", "success");
           })
           .catch(err => {
             window.console.log(err.response);
@@ -236,7 +247,7 @@ export default {
     },
     removeFromMyList() {
       if (!this.$store.getters.isLoggedIn) {
-        alert("please login first!");
+        this.$swal("Warning", "Please log in first!", "warning");
         this.$router.push({ name: "login" });
       } else {
         let user_id = this.$store.getters.getUserId;
@@ -245,7 +256,11 @@ export default {
           .then(() => {
             // JSON responses are automatically parsed.
             this.isSaved = !this.isSaved;
-            alert("house is removed from your list!");
+            this.$swal(
+              "Success!",
+              "House is removed from your list!",
+              "success"
+            );
           })
           .catch(err => {
             window.console.log(err.response);
@@ -254,10 +269,10 @@ export default {
     },
     bookThisHouse() {
       if (!this.$store.getters.isLoggedIn) {
-        alert("please login first!");
+        this.$swal("Warning", "Please log in first!", "warning");
         this.$router.push({ name: "login" });
       } else {
-        alert("booked! (test)");
+        this.$swal("Success!", "You have booked the house!", "success");
       }
     },
     uploadReview() {
@@ -274,7 +289,7 @@ export default {
         .then(() => {
           window.console.log("Review uploaded!");
           window.location.reload(true);
-          alert("Review uploaded!");
+          this.$swal("Success!", "You have uploaded the review!", "success");
         })
         .catch(error => {
           window.console.log(error.response.data);
@@ -287,7 +302,7 @@ export default {
       Object.keys(this.$route.query).length === 0 &&
       !this.houseFromMap
     ) {
-      alert("no house data to render");
+      window.console.log("no house data to render");
       this.$router.push({ name: "search" });
     }
 

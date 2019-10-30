@@ -35,7 +35,11 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item" @click="goToMyAccount">My Account</span>
-              <span class="dropdown-item" @click="goToMyHouses" v-if="$store.getters.getUserRole === 'provider'">My Houses</span>
+              <span
+                class="dropdown-item"
+                @click="goToMyHouses"
+                v-if="$store.getters.getUserRole === 'provider'"
+              >My Houses</span>
               <span class="dropdown-item" @click="goToMySaveList">My Save List</span>
               <div class="dropdown-divider"></div>
               <span class="dropdown-item" @click="logout">Log out</span>
@@ -48,7 +52,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from "jquery";
 
 export default {
   name: "Header",
@@ -60,28 +64,33 @@ export default {
       );
 
       if (this.$store.getters.isLoggedIn) {
-        if (confirm("Do you really want to log out?")) {
-          this.$axios
-            .get("/api/users/logout/" + this.$store.getters.getUserId)
-            .then(res => {
-              if (res.status == 200) {
-                this.$store.commit("logout");
-                // this.$router.go()
-                // refresh the web page
+        this.$swal({
+          title: "Confirm",
+          text: "Are you sure you want to log out?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true
+        }).then(choice => {
+          if (choice) {
+            this.$axios
+              .get("/api/users/logout/" + this.$store.getters.getUserId)
+              .then(res => {
+                if (res.status == 200) {
+                  this.$store.commit("logout");
+                  window.console.log("user logged out");
+                  this.$swal("Success", "You are logged out!", "success");
 
-                if (this.$router.currentRoute.name !== "home") {
-                  this.$router.push({ name: "home" });
+                  if (this.$router.currentRoute.name !== "home") {
+                    this.$router.push({ name: "home" });
+                  }
+                  // window.location.reload(true);
                 }
-                window.location.reload(true);
-                window.console.log("user logged out");
-                // alert("logged out!");
-              }
-            })
-            .catch(err => window.console.log(err));
-        }
+              })
+              .catch(err => window.console.log(err));
+          }
+        });
       } else {
         window.console.log("You are not logged in!");
-        alert("You are not logged in!");
       }
     },
     goToMyAccount() {

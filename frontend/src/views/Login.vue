@@ -59,7 +59,7 @@ export default {
       // raise alert if login form is not complete
       for (let key in this.loginData) {
         if (this.loginData[key] === "") {
-          alert("The login form is not complete!");
+          this.$swal("Warning!", "The log in form is not complete!", "warning");
           return;
         }
       }
@@ -79,7 +79,7 @@ export default {
             window.console.log("user logged in!");
             window.console.log("user id: " + userId);
             window.console.log("user role: " + userRole);
-            alert("logged in!");
+            this.$swal("Welcome Back!", "You are logged in!", "success");
             this.$router.push({
               name: "search"
             });
@@ -87,7 +87,7 @@ export default {
         })
         .catch(err => {
           window.console.log(err.response);
-          alert(err.response.data);
+          // this.$swal(err.response.data);
         });
     }
   }

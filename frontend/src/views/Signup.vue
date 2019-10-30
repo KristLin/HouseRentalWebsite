@@ -119,26 +119,26 @@ export default {
       // raise alert if user info is not complete
       for (let key in this.userData) {
         if (this.userData[key] === "") {
-          alert("The register form is not complete!");
+          this.$swal("Warning", "The register form is not complete!", "warning");
           return;
         }
       }
 
       // check the format of email Address
       if (!this.userData.email.includes('@')) {
-        alert("Wrong email format!");
+        this.$swal("Warning", "Wrong email format!", "warning");
         return;
       }
 
       // check if agree policy
       if (this.checkedData.checkedPolicy === "") {
-        alert("You have to agree to our policy!");
+        this.$swal("Warning", "You need to agree to our policy!", "warning");
         return;
       }
 
       // raise alert if two password are not matched
       if (this.userData.password !== this.checkedData.password2) {
-        alert("Passwords are not matched!");
+        this.$swal("Warning", "Passwords are not matched!", "warning");
       } else {
         this.$axios
           .post("/api/users/", this.userData)
@@ -156,7 +156,7 @@ export default {
               window.console.log("user rigistered!");
               window.console.log("user id: " + userId);
               window.console.log("user role: " + userRole);
-              alert("rigistered!");
+              this.$swal("Success", "You are registered!", "success");
               this.$router.push({
                 name: "search"
               });
@@ -164,7 +164,6 @@ export default {
           })
           .catch(err => {
             window.console.log(err.response);
-            alert(err.response.data);
           });
       }
     }

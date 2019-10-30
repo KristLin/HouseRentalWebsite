@@ -266,7 +266,7 @@ export default {
     },
     selectImages(event) {
       if (!this.displayData.cover) {
-        alert("Please select cover first!");
+        this.$swal("Warning", "Please select cover first!", "warning");
         return;
       }
       if (Array.from(event.target.files)) {
@@ -305,7 +305,7 @@ export default {
         if (key !== "lat" && key !== "lng") {
           if (this.houseData[key] === "") {
             window.console.log(key + " is empty!");
-            alert(key + " is empty!");
+            this.$swal("Warning", key + " is empty!", "warning");
             return;
           }
         }
@@ -329,7 +329,7 @@ export default {
           // JSON responses are automatically parsed.
           if (response.status == 201) {
             window.console.log("uploaded!");
-            alert("House is uploaded!");
+            this.$swal("Success!", "House is uploaded!", "success");
             this.$router.push({ name: "myHouses" });
           }
         })
@@ -348,7 +348,7 @@ export default {
       window.console.log("current user is provider.");
       this.houseData.provider = this.$store.getters.getUserId;
     } else {
-      alert("Require provider login!");
+      window.console.log("Require provider login!");
       this.$router.push({ name: "home" });
     }
   }

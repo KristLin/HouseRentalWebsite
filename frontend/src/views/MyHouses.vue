@@ -97,11 +97,11 @@ export default {
             window.console.log(err.response);
           });
       } else {
-        alert("Require provider login!");
+        window.console.log("Require provider login!");
         this.$router.push({ name: "home" });
       }
     } else {
-      alert("Require provider login!");
+      window.console.log("Require provider login!");
       this.$router.push({ name: "home" });
     }
   }

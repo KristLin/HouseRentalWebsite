@@ -144,7 +144,7 @@ export default {
       // if one of the password input are not empty, check if they are matched
       if (this.updatedUserData.password || this.updatedUserData.password2) {
         if (this.updatedUserData.password !== this.updatedUserData.password2) {
-          alert("Passwords not matched!");
+          this.$swal("Warning", "Passwords are not matched!", "warning");
           return;
         }
       }
@@ -170,35 +170,45 @@ export default {
       }
 
       if (validData === 0) {
-        alert("Nothing to update!");
+        this.$swal("Warning", "Nothing to update!", "warning");
         return;
       }
       this.$axios
         .patch("/api/users/" + this.$store.getters.getUserId, validUpdatedData)
         .then(response => {
           window.console.log(response);
-          alert("User info is updated!");
+          this.$swal("Success", "Your user data is updated!", "success");
           this.$forceUpdate();
         })
         .catch(error => window.console.log(error.response));
     },
 
     deleteAccount() {
-      this.$axios
-        .delete("/api/users/" + this.$store.getters.getUserId)
-        .then(response => {
-          window.console.log(response);
-          alert("User account is deleted!");
-          this.$store.commit("logout");
-          this.$router.push({ name: "home" });
-          window.location.reload(true);
-        })
-        .catch(error => window.console.log(error.response));
+      this.$swal({
+        title: "Confirm",
+        text: "Are you sure you want to delete your account?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(choice => {
+        if (choice) {
+          this.$axios
+            .delete("/api/users/" + this.$store.getters.getUserId)
+            .then(response => {
+              window.console.log(response);
+              this.$swal("Success", "Your account is deleted!", "success");
+              this.$store.commit("logout");
+              this.$router.push({ name: "home" });
+              window.location.reload(true);
+            })
+            .catch(error => window.console.log(error.response));
+        }
+      });
     }
   },
   created() {
     if (!this.$store.getters.isLoggedIn) {
-      alert("Require login!");
+      window.console.log("Require log in!");
       this.$router.push({ name: "home" });
     }
     this.$axios

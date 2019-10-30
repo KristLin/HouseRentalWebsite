@@ -255,7 +255,7 @@ export default {
     },
     selectImages(event) {
       if (!this.displayData.cover) {
-        alert("Please select cover first!");
+        this.$swal("Warning", "Please select cover first!", "warning");
         return;
       }
       if (Array.from(event.target.files)) {
@@ -298,7 +298,7 @@ export default {
         }
       }
       if (validData === 0) {
-        alert("Nothing to update");
+        this.$swal("Warning", "Nothing to update", "warning");
         return;
       }
 
@@ -330,7 +330,7 @@ export default {
           // JSON responses are automatically parsed.
           if (response.status == 200) {
             window.console.log("House is updated!");
-            alert("House is updated!");
+            this.$swal("Success!", "House is updated!", "success");
             this.$router.push({ name: "myHouses" });
           }
         })
@@ -348,7 +348,6 @@ export default {
 
         if (this.$store.getters.getUserId !== this.displayData.provider) {
           window.console.log("current user is not the provider.");
-          alert("current user is not the provider.");
           this.$router.push({ name: "myHouses" });
         }
         this.houseData.wifi = this.displayData.wifi;

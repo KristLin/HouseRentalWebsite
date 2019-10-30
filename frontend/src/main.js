@@ -9,6 +9,9 @@ import axios from 'axios'
 import store from './store'
 
 import * as VueGoogleMaps from 'vue2-google-maps'
+import VueSwal from 'vue-swal'
+
+Vue.use(VueSwal)
 
 Vue.prototype.$axios = axios
 // axios.defaults.headers.post['Content-Type'] = 'application/json';

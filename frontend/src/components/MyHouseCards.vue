@@ -76,27 +76,32 @@ export default {
     },
 
     deleteHouse(house_id) {
-      if (confirm("Do you really want to delete the house?")) {
-        this.$axios
-          .delete(
-            "/api/houses/" + this.$store.getters.getUserId + "/" + house_id
-          )
-          .then(response => {
-            window.console.log(response);
-            alert("House Deleted!");
-            //   this.houses = this.houses.filter(function(house) {
-            //     return house._id != house_id;
-            //   });
-            for (var i = this.houses.length - 1; i >= 0; i--) {
-              if (this.houses[i]._id === house_id) {
-                this.houses.splice(i, 1);
+      this.$swal({
+        title: "Confirm",
+        text: "Are you sure you want to delete the house?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(choice => {
+        if (choice) {
+          this.$axios
+            .delete(
+              "/api/houses/" + this.$store.getters.getUserId + "/" + house_id
+            )
+            .then(response => {
+              window.console.log(response);
+              this.$swal("Success!", "House is deleted!", "success");
+              for (var i = this.houses.length - 1; i >= 0; i--) {
+                if (this.houses[i]._id === house_id) {
+                  this.houses.splice(i, 1);
+                }
               }
-            }
-          })
-          .catch(error => {
-            window.console.log(error.response);
-          });
-      }
+            })
+            .catch(error => {
+              window.console.log(error.response);
+            });
+        }
+      });
     }
   }
 };
