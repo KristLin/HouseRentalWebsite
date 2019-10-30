@@ -235,7 +235,24 @@ export default {
   data() {
     return {
       displayData: {},
-      houseData: {}
+      houseData: {
+        "title": "",
+        "cover": "",
+        "images": "",
+        "description": "",
+        "provider": "",
+        "suburb": "",
+        "location": "",
+        "price": "",
+        "size": "",
+        "tenant_num": "",
+        "wifi": false,
+        "kitchen": false,
+        "carpark": false,
+        "ac": false,
+        "lat": "",
+        "lng": "",
+      }
     };
   },
   methods: {
@@ -282,12 +299,13 @@ export default {
       formData.append("image", imageFile);
       return await this.$axios.post(HOST, formData);
     },
+
     async uploadHouse() {
       for (let key in this.houseData) {
-        if (key !== "lat" || key !== "lng") {
-          if (!this.houseData[key]) {
-            window.console.log("value of key is empty: ", key);
-            alert("The house data is not complete!");
+        if (key !== "lat" && key !== "lng") {
+          if (this.houseData[key] === "") {
+            window.console.log(key + " is empty!");
+            alert(key + " is empty!");
             return;
           }
         }
@@ -304,19 +322,6 @@ export default {
       this.houseData.images = imageUrls;
       window.console.log(this.houseData);
 
-      if (this.houseData.wifi === "") {
-        this.houseData.wifi = false;
-      }
-      if (this.houseData.kitchen === "") {
-        this.houseData.kitchen = false;
-      }
-      if (this.houseData.carpark === "") {
-        this.houseData.carpark = false;
-      }
-      if (this.houseData.ac === "") {
-        this.houseData.ac = false;
-      }
-
       // upload images in url form to backend
       this.$axios
         .post("/api/houses/", this.houseData)
@@ -329,7 +334,7 @@ export default {
           }
         })
         .catch(err => {
-          window.console.log(err.response);
+          window.console.log(err.response.data);
         });
     }
     // parseImagesUrls(imagesUrlText) {

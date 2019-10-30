@@ -543,7 +543,6 @@ class RecommendHouses(Resource):
         price = request.args.get("price")
         tenant_num = request.args.get("tenant_num")
         recommend_houses = db.recommend_houses(house_id, suburb, price, tenant_num)
-        print(len(recommend_houses))
         return recommend_houses, 200
 # ============ house API part end ============
 

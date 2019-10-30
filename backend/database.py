@@ -177,7 +177,6 @@ class DB(object):
             house["_id"] = str(house["_id"])
             if house["_id"] == house_id:
                 continue
-            print(house["tenant_num"], tenant_num)
             if house["tenant_num"] == tenant_num:
                 same_tenant_num_houses.append(house)
             if house["suburb"] == suburb:

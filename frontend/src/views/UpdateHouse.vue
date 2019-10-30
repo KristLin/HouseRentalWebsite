@@ -117,7 +117,7 @@
             @change="selectImages"
             multiple
           />
-          <button class="btn btn-dark form-control" @click="$refs.imagesInput.click()">Select Images</button>
+          <button class="my-btn form-control" @click="$refs.imagesInput.click()">Select Images</button>
         </div>
         <!-- input images end -->
 
@@ -228,7 +228,7 @@
       </div>
     </div>
     <div class="row w-50 mx-auto mt-4">
-      <button class="btn btn-dark form-control" @click="updateHouse">Update House</button>
+      <button class="my-btn form-control" @click="updateHouse">Update House</button>
     </div>
   </div>
 </template>
@@ -291,7 +291,7 @@ export default {
       let validData = 0;
       window.console.log(this.houseData);
       for (let key in this.houseData) {
-        if (this.houseData[key] !== null && this.houseData[key] !== "") {
+        if (this.houseData[key] !== "") {
           if (this.houseData[key] !== this.displayData[key]) {
             validData += 1;
           }
@@ -302,16 +302,13 @@ export default {
         return;
       }
 
-      if (this.houseData.cover !== null && this.houseData.cover !== undefined) {
+      if (this.houseData.cover !== null) {
         // get cover url
         let res = await this.imageToUrl(this.houseData.cover);
         this.houseData.cover = res.data.data.url;
       }
 
-      if (
-        this.houseData.images !== null &&
-        this.houseData.images !== undefined
-      ) {
+      if (this.houseData.images !== null) {
         // get images urls
         let imageUrls = [];
         for (let idx in this.houseData.images) {
