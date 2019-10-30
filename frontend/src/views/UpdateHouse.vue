@@ -190,7 +190,7 @@
           <input
             type="text"
             class="form-control"
-            placeholder="Tenant Number"
+            :placeholder="displayData.tenant_num"
             v-model="houseData.tenant_num"
           />
         </div>
@@ -198,29 +198,29 @@
           <label class="input-label">Conditions:</label>
           <div class="row w-100">
             <div class="col-6 m-auto text-left">
-              <input type="checkbox" class="mx-2 mt-2" v-model="houseData.has_wifi" />
+              <input type="checkbox" class="mx-2 mt-2" v-model="houseData.wifi" />
               <label for>
                 <i class="fas fa-wifi condition-icon"></i>
-                Has Wifi
+                Wifi
               </label>
               <br />
-              <input type="checkbox" class="mx-2" v-model="houseData.party_allowed" />
+              <input type="checkbox" class="mx-2" v-model="houseData.kitchen" />
               <label for>
-                <i class="fas fa-glass-cheers condition-icon"></i>
-                Allow Party
+                <i class="fas fa-utensils condition-icon"></i>
+                Kitchen
               </label>
             </div>
             <div class="col-6 m-auto text-left">
-              <input type="checkbox" class="mx-2" v-model="houseData.pet_allowed" />
+              <input type="checkbox" class="mx-2" v-model="houseData.carpark" />
               <label for>
-                <i class="fas fa-dog condition-icon"></i>
-                Allow Pet
+                <i class="fas fa-car condition-icon"></i>
+                Car Park
               </label>
               <br />
-              <input type="checkbox" class="mx-2" v-model="houseData.smoke_allowed" />
+              <input type="checkbox" class="mx-2" v-model="houseData.ac" />
               <label for>
-                <i class="fas fa-smoking condition-icon"></i>
-                Allow Smoke
+                <i class="far fa-snowflake condition-icon"></i>
+                Air Conditioning
               </label>
             </div>
           </div>
@@ -354,10 +354,10 @@ export default {
           alert("current user is not the provider.");
           this.$router.push({ name: "myHouses" });
         }
-        this.houseData.has_wifi = this.displayData.has_wifi;
-        this.houseData.party_allowed = this.displayData.party_allowed;
-        this.houseData.pet_allowed = this.displayData.pet_allowed;
-        this.houseData.smoke_allowed = this.displayData.smoke_allowed;
+        this.houseData.wifi = this.displayData.wifi;
+        this.houseData.kitchen = this.displayData.kitchen;
+        this.houseData.carpark = this.displayData.carpark;
+        this.houseData.ac = this.displayData.ac;
       })
       .catch(err => {
         window.console.log(err.response);

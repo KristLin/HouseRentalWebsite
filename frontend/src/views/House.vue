@@ -13,8 +13,8 @@
             <a href="#" class="list-group-item">Intro</a>
             <a href="#intro" class="list-group-item">Recommendation</a>
             <a href="#recommendations" class="list-group-item">Description</a>
-            <a href="#description" class="list-group-item">Condition</a>
-            <a href="#conditions" class="list-group-item">Review</a>
+            <a href="#description" class="list-group-item">Facility</a>
+            <a href="#facility" class="list-group-item">Review</a>
           </ul>
           <hr />
           <button
@@ -126,13 +126,13 @@
           </div>
         </div>
 
-        <div id="conditions" class="card card-outline-secondary my-4">
-          <div class="card-header">House Conditions</div>
+        <div id="facility" class="card card-outline-secondary my-4">
+          <div class="card-header">House Facilities</div>
           <div class="card-body">
-            <i class="fas fa-wifi house-page-condition-icon" v-if="house.has_wifi"></i>
-            <i class="fas fa-smoking house-page-condition-icon" v-if="house.smoke_allowed"></i>
-            <i class="fas fa-glass-cheers house-page-condition-icon" v-if="house.party_allowed"></i>
-            <i class="fas fa-dog house-page-condition-icon" v-if="house.pet_allowed"></i>
+            <i class="fas fa-wifi house-page-condition-icon" v-if="house.wifi"></i>
+            <i class="fas fa-utensils house-page-condition-icon" v-if="house.kitchen"></i>
+            <i class="fas fa-car house-page-condition-icon" v-if="house.carpark"></i>
+            <i class="fas fa-snowflake house-page-condition-icon" v-if="house.ac"></i>
           </div>
         </div>
 

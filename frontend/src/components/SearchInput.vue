@@ -52,15 +52,15 @@
         <label class="filter-label">House Conditions:</label>
         <br />
         <div class="mt-2">
-          <input type="checkbox" class="search-condition-input" v-model="searchData.has_wifi" />
+          <input type="checkbox" class="search-condition-input" v-model="searchData.wifi" />
           <i class="fas fa-wifi search-condition-icon"></i>
-          <input type="checkbox" class="search-condition-input" v-model="searchData.party_allowed" />
-          <i class="fas fa-glass-cheers search-condition-icon"></i>
+          <input type="checkbox" class="search-condition-input" v-model="searchData.kitchen" />
+          <i class="fas fa-utensils search-condition-icon"></i>
           <br class="condition-input-layout-br">
-          <input type="checkbox" class="search-condition-input" v-model="searchData.pet_allowed" />
-          <i class="fas fa-dog search-condition-icon"></i>
-          <input type="checkbox" class="search-condition-input" v-model="searchData.smoke_allowed" />
-          <i class="fas fa-smoking search-condition-icon"></i>
+          <input type="checkbox" class="search-condition-input" v-model="searchData.carpark" />
+          <i class="fas fa-car search-condition-icon"></i>
+          <input type="checkbox" class="search-condition-input" v-model="searchData.ac" />
+          <i class="fas fa-snowflake search-condition-icon"></i>
         </div>
       </div>
       <div class="col-lg-3 col-md-6 form-group">

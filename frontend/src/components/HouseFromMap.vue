@@ -89,13 +89,13 @@
         </div>
       </div>
 
-      <div id="conditions" class="card card-outline-secondary my-4">
-        <div class="card-header">House Conditions</div>
+      <div id="facility" class="card card-outline-secondary my-4">
+        <div class="card-header">House Facility</div>
         <div class="card-body">
-          <i class="fas fa-wifi map-house-condition-icon" v-if="house.has_wifi"></i>
-          <i class="fas fa-smoking map-house-condition-icon" v-if="house.smoke_allowed"></i>
-          <i class="fas fa-glass-cheers map-house-condition-icon" v-if="house.party_allowed"></i>
-          <i class="fas fa-dog map-house-condition-icon" v-if="house.pet_allowed"></i>
+          <i class="fas fa-wifi map-house-condition-icon" v-if="house.wifi"></i>
+          <i class="fas fa-utensils map-house-condition-icon" v-if="house.kitchen"></i>
+          <i class="fas fa-car map-house-condition-icon" v-if="house.carpark"></i>
+          <i class="fas fa-snowflake map-house-condition-icon" v-if="house.ac"></i>
         </div>
       </div>
     </div>

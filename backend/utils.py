@@ -9,10 +9,12 @@ def filter_houses(
     max_price=None,
     start_date=None,
     end_date=None,
-    pet_allowed=False,
-    party_allowed=False,
-    smoke_allowed=False,
-    has_wifi=False,
+
+    wifi=False,
+    kitchen=False,
+    carpark=False,
+    ac=False,
+
     tenant_num=None,
     order_type="default"
 ):
@@ -21,7 +23,7 @@ def filter_houses(
     filtered_houses = filter_houses_with_suburb(filtered_houses, suburb)
     filtered_houses = filter_houses_with_min_price(filtered_houses, min_price)
     filtered_houses = filter_houses_with_max_price(filtered_houses, max_price)
-    filtered_houses = filter_houses_with_conditions(filtered_houses, has_wifi, pet_allowed, party_allowed, smoke_allowed)
+    filtered_houses = filter_houses_with_conditions(filtered_houses, wifi, kitchen, carpark, ac)
     filtered_houses = filter_houses_with_tenant_num(filtered_houses, tenant_num)
     filtered_houses = filter_houses_with_date(filtered_houses, start_date, end_date)
 
@@ -135,20 +137,12 @@ def filter_houses_with_condition(houses, condition_name, condition):
     else:
         return houses
 
-def filter_houses_with_conditions(houses, has_wifi, pet_allowed, party_allowed, smoke_allowed):
+def filter_houses_with_conditions(houses, wifi, kitchen, carpark, ac):
     filtered_houses = houses
-    filtered_houses = filter_houses_with_condition(filtered_houses, "has_wifi", has_wifi)
-    filtered_houses = filter_houses_with_condition(filtered_houses, "pet_allowed", pet_allowed)
-    filtered_houses = filter_houses_with_condition(filtered_houses, "party_allowed", party_allowed)
-    filtered_houses = filter_houses_with_condition(filtered_houses, "smoke_allowed", smoke_allowed)
-    return filtered_houses
-
-
-def filter_houses_with_facilities(houses, has_wifi):
-    filtered_houses = []
-    for house in houses:
-        if house["has_wifi"] == has_wifi:
-            filtered_houses.append(house)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "wifi", wifi)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "kitchen", kitchen)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "carpark", carpark)
+    filtered_houses = filter_houses_with_condition(filtered_houses, "ac", ac)
     return filtered_houses
 
 

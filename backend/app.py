@@ -81,10 +81,10 @@ house_model = api.model(
         "price": fields.String,
         "size": fields.String,
         "tenant_num": fields.String,
-        "has_wifi": fields.Boolean,
-        "party_allowed": fields.Boolean,
-        "pet_allowed": fields.Boolean,
-        "smoke_allowed": fields.Boolean,
+        "wifi": fields.Boolean,
+        "kitchen": fields.Boolean,
+        "carpark": fields.Boolean,
+        "ac": fields.Boolean,
         "lat": fields.String,
         "lng": fields.String,
         "rating_num": fields.String,
@@ -287,10 +287,10 @@ class Houses(Resource):
     @api.param("end_date", "end date for filtering houses")
     @api.param("size", "house size for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
-    @api.param("pet_allowed", "pet allowed for filtering houses")
-    @api.param("smoke_allowed", "smoke allowed for filtering houses")
-    @api.param("party_allowed", "party allowed for filtering houses")
-    @api.param("has_wifi", "has wifie for filtering houses")
+    @api.param("carpark", "has carpark for filtering houses")
+    @api.param("ac", "has ac for filtering houses")
+    @api.param("kitchen", "has kitchen for filtering houses")
+    @api.param("wifi", "has wifie for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
     @api.param("order_type", "ordering method")
     @api.doc(description="Retrieve all houses info")
@@ -307,10 +307,10 @@ class Houses(Resource):
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
-        has_wifi = True if request.args.get("has_wifi") == "true" else False
-        smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
-        party_allowed = True if request.args.get("party_allowed") == "true" else False
-        pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+        wifi = True if request.args.get("wifi") == "true" else False
+        ac = True if request.args.get("ac") == "true" else False
+        kitchen = True if request.args.get("kitchen") == "true" else False
+        carpark = True if request.args.get("carpark") == "true" else False
         
         tenant_num = (
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
@@ -326,10 +326,10 @@ class Houses(Resource):
             max_price=max_price,
             start_date=start_date,
             end_date=end_date,
-            has_wifi=has_wifi,
-            smoke_allowed=smoke_allowed,
-            party_allowed=party_allowed,
-            pet_allowed=pet_allowed,
+            wifi=wifi,
+            ac=ac,
+            kitchen=kitchen,
+            carpark=carpark,
             tenant_num=tenant_num,
             order_type=order_type
         )
@@ -425,10 +425,10 @@ class HousesOfProvider(Resource):
     @api.param("end_date", "end date for filtering houses")
     @api.param("size", "house size for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
-    @api.param("pet_allowed", "pet allowed for filtering houses")
-    @api.param("party_allowed", "party allowed for filtering houses")
-    @api.param("smoke_allowed", "smoke allowed for filtering houses")
-    @api.param("has_wifi", "has wifi for filtering houses")
+    @api.param("carpark", "has carpark for filtering houses")
+    @api.param("ac", "has ac for filtering houses")
+    @api.param("kitchen", "has kitchen for filtering houses")
+    @api.param("wifi", "has wifie for filtering houses")
     @api.param("tenant_num", "tenant num for filtering houses")
     @api.param("order_type", "ordering method")
     @api.doc(description="Get the provider's house list")
@@ -444,10 +444,10 @@ class HousesOfProvider(Resource):
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
-        has_wifi = True if request.args.get("has_wifi") == "true" else False
-        smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
-        party_allowed = True if request.args.get("party_allowed") == "true" else False
-        pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+        wifi = True if request.args.get("wifi") == "true" else False
+        ac = True if request.args.get("ac") == "true" else False
+        kitchen = True if request.args.get("kitchen") == "true" else False
+        carpark = True if request.args.get("carpark") == "true" else False
 
         tenant_num = (
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
@@ -463,10 +463,10 @@ class HousesOfProvider(Resource):
             max_price=max_price,
             start_date=start_date,
             end_date=end_date,
-            has_wifi=has_wifi,
-            smoke_allowed=smoke_allowed,
-            party_allowed=party_allowed,
-            pet_allowed=pet_allowed,
+            wifi=wifi,
+            ac=ac,
+            kitchen=kitchen,
+            carpark=carpark,
             tenant_num=tenant_num,
             order_type=order_type,
         )
@@ -482,10 +482,10 @@ class HousesOfUserSavelist(Resource):
     @api.param("end_date", "end date for filtering houses")
     @api.param("size", "house size for filtering houses")
     @api.param("tenant_num", "tenant number for filtering houses")
-    @api.param("pet_allowed", "pet allowed for filtering houses")
-    @api.param("party_allowed", "party allowed for filtering houses")
-    @api.param("smoke_allowed", "smoke allowed for filtering houses")
-    @api.param("has_wifi", "has wifie for filtering houses")
+    @api.param("carpark", "has carpark for filtering houses")
+    @api.param("ac", "has ac for filtering houses")
+    @api.param("kitchen", "has kitchen for filtering houses")
+    @api.param("wifi", "has wifie for filtering houses")
     @api.param("tenant_num", "tenant num for filtering houses")
     @api.param("order_type", "ordering method")
     @api.doc(description="Get houses in the user's savelist")
@@ -501,10 +501,10 @@ class HousesOfUserSavelist(Resource):
         start_date = request.args.get("start_date")
         end_date = request.args.get("end_date")
 
-        has_wifi = True if request.args.get("has_wifi") == "true" else False
-        smoke_allowed = True if request.args.get("smoke_allowed") == "true" else False
-        party_allowed = True if request.args.get("party_allowed") == "true" else False
-        pet_allowed = True if request.args.get("pet_allowed") == "true" else False
+        wifi = True if request.args.get("wifi") == "true" else False
+        ac = True if request.args.get("ac") == "true" else False
+        kitchen = True if request.args.get("kitchen") == "true" else False
+        carpark = True if request.args.get("carpark") == "true" else False
 
         tenant_num = (
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
@@ -521,10 +521,10 @@ class HousesOfUserSavelist(Resource):
             max_price=max_price,
             start_date=start_date,
             end_date=end_date,
-            has_wifi=has_wifi,
-            smoke_allowed=smoke_allowed,
-            party_allowed=party_allowed,
-            pet_allowed=pet_allowed,
+            wifi=wifi,
+            ac=ac,
+            kitchen=kitchen,
+            carpark=carpark,
             tenant_num = tenant_num,
             order_type=order_type,
         )

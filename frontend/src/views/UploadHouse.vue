@@ -193,29 +193,29 @@
           <label class="input-label">Conditions:</label>
           <div class="row w-100">
             <div class="col-6 m-auto text-left">
-              <input type="checkbox" class="mx-2 mt-2" v-model="houseData.has_wifi" />
+              <input type="checkbox" class="mx-2 mt-2" v-model="houseData.wifi" />
               <label for>
                 <i class="fas fa-wifi condition-icon"></i>
-                Has Wifi
+                Wifi
               </label>
               <br />
-              <input type="checkbox" class="mx-2" v-model="houseData.party_allowed" />
+              <input type="checkbox" class="mx-2" v-model="houseData.kitchen" />
               <label for>
-                <i class="fas fa-glass-cheers condition-icon"></i>
-                Allow Party
+                <i class="fas fa-utensils condition-icon"></i>
+                Kitchen
               </label>
             </div>
             <div class="col-6 m-auto text-left">
-              <input type="checkbox" class="mx-2" v-model="houseData.pet_allowed" />
+              <input type="checkbox" class="mx-2" v-model="houseData.carpark" />
               <label for>
-                <i class="fas fa-dog condition-icon"></i>
-                Allow Pet
+                <i class="fas fa-car condition-icon"></i>
+                Car Park
               </label>
               <br />
-              <input type="checkbox" class="mx-2" v-model="houseData.smoke_allowed" />
+              <input type="checkbox" class="mx-2" v-model="houseData.ac" />
               <label for>
-                <i class="fas fa-smoking condition-icon"></i>
-                Allow Smoke
+                <i class="far fa-snowflake condition-icon"></i>
+                Air Conditioning
               </label>
             </div>
           </div>
@@ -286,7 +286,7 @@ export default {
       for (let key in this.houseData) {
         if (key !== "lat" || key !== "lng") {
           if (!this.houseData[key]) {
-            window.console.log("value of key is empty: ", key)
+            window.console.log("value of key is empty: ", key);
             alert("The house data is not complete!");
             return;
           }
@@ -304,17 +304,17 @@ export default {
       this.houseData.images = imageUrls;
       window.console.log(this.houseData);
 
-      if (this.houseData.has_wifi === "") {
-        this.houseData.has_wifi = false;
+      if (this.houseData.wifi === "") {
+        this.houseData.wifi = false;
       }
-      if (this.houseData.party_allowed === "") {
-        this.houseData.party_allowed = false;
+      if (this.houseData.kitchen === "") {
+        this.houseData.kitchen = false;
       }
-      if (this.houseData.pet_allowed === "") {
-        this.houseData.pet_allowed = false;
+      if (this.houseData.carpark === "") {
+        this.houseData.carpark = false;
       }
-      if (this.houseData.smoke_allowed === "") {
-        this.houseData.smoke_allowed = false;
+      if (this.houseData.ac === "") {
+        this.houseData.ac = false;
       }
 
       // upload images in url form to backend
