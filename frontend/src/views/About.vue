@@ -8,14 +8,14 @@
       <div class="row">
         <div class="col-lg-6 col-sm-12" style="margin-top:20px">
           <div class="card mx-auto" style="width:85%">
-            <div class="card-header" style="background-color: #3c9d9b; color: #fff; font-size:1.5rem;">I am a tenant.</div>
+            <div class="card-header" style="background-color: black; color: #fff; font-size:1.5rem;"><b>I am a tenant.</b></div>
             <div class="card-body">
-              <h4 class="mb-4">I can..</h4>
+              <h4 class="mb-4"  style="color: #3c9d9b"><b>I can..</b></h4>
               <ul class="list-group">
-                <li class="list-group-item">Search houses with planty of options</li>
-                <li class="list-group-item">View houses on Google Map</li>
-                <li class="list-group-item">Save houses to my list</li>
-                <li class="list-group-item">Comment and rate houses</li>
+                <li class="list-group-item"><b>Search houses with planty of options</b></li>
+                <li class="list-group-item"><b>View houses on Google Map</b></li>
+                <li class="list-group-item"><b>Save houses to my list</b></li>
+                <li class="list-group-item"><b>Comment and rate houses</b></li>
               </ul>
             </div>
           </div>
@@ -23,14 +23,14 @@
 
         <div class="col-lg-6 col-sm-12" style="margin-top:20px">
           <div class="card mx-auto" style="width:85%">
-            <div class="card-header" style="background-color: #3c9d9b; color: #fff; font-size:1.5rem;">I am a provider.</div>
+            <div class="card-header" style="background-color: black; color: #fff; font-size:1.5rem;"><b>I am a provider.</b></div>
             <div class="card-body">
-              <h4 class="mb-4">I can..</h4>
+              <h4 class="mb-4"  style="color: #3c9d9b"><b>I can..</b></h4>
               <ul class="list-group">
-                <li class="list-group-item">Advertise my house</li>
-                <li class="list-group-item">Plot my house in Google Map</li>
-                <li class="list-group-item">Manage my house list</li>
-                <li class="list-group-item">View house comments and ratings</li>
+                <li class="list-group-item"><b>Advertise my house</b></li>
+                <li class="list-group-item"><b>Plot my house in Google Map</b></li>
+                <li class="list-group-item"><b>Manage my house list</b></li>
+                <li class="list-group-item"><b>View house comments and ratings</b></li>
               </ul>
             </div>
           </div>
