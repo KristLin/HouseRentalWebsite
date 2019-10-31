@@ -36,11 +36,21 @@
         <hr />
 
         <!-- advertisments here -->
-        <h5
+        <!-- no result -->
+        <div
+          class="mx-auto"
+          style="margin-top:100px; margin-bottom:150px"
           v-if="!this.houses.length && this.hasFetchedData && !showMap"
-          class="mt-4 mx-auto"
-        >Sorry, there is not result...</h5>
-        <h5 v-if="!this.hasFetchedData && !showMap" class="mt-4 mx-auto">Searching, please wait...</h5>
+        >
+          <h5>Sorry, there is not result...</h5>
+        </div>
+
+        <!-- loading -->
+        <div class="mx-auto" style="margin-top:100px; margin-bottom:150px" v-if="!this.hasFetchedData && !showMap">
+          <RingLoader :color="'#96d1c7'" />
+          <!-- <h5 v-if="!this.hasFetchedData && !showMap">Searching, please wait...</h5> -->
+        </div>
+
         <HouseCards :houses="houses" v-if="this.hasFetchedData && !showMap" />
 
         <Map :houses="houses" v-if="showMap" />
@@ -58,13 +68,15 @@
 import SearchInput from "@/components/SearchInput.vue";
 import HouseCards from "@/components/HouseCards.vue";
 import Map from "@/components/Map.vue";
+import { RingLoader } from "vue-spinners-css";
 
 export default {
   name: "search",
   components: {
     SearchInput,
     HouseCards,
-    Map
+    Map,
+    RingLoader
   },
 
   data() {
@@ -92,7 +104,7 @@ export default {
         .catch(err => {
           window.console.log(err.response);
         });
-    },
+    }
     // orderResult(orderType) {
     //   this.houses.sort((a, b) => {
     //     parseFloat(a[orderType]) > parseFloat(b[orderType])

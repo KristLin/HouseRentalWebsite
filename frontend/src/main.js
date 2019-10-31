@@ -10,8 +10,10 @@ import store from './store'
 
 import * as VueGoogleMaps from 'vue2-google-maps'
 import VueSwal from 'vue-swal'
+import * as VueSpinnersCss from "vue-spinners-css";
 
 Vue.use(VueSwal)
+Vue.use(VueSpinnersCss)
 
 Vue.prototype.$axios = axios
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
