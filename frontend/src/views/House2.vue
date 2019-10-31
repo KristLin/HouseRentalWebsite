@@ -7,16 +7,14 @@
           <button class="my-btn form-control my-2" @click="$router.go(-1)">
             <i class="fas fa-chevron-left"></i> Go Back
           </button>
-          <hr />
           <ul class="list-group">
             <!-- the locator seems having an issue -->
-            <a href="#" class="list-group-item">Intro</a>
-            <a href="#intro" class="list-group-item">Recommendation</a>
-            <a href="#recommendations" class="list-group-item">Description</a>
-            <a href="#description" class="list-group-item">Facility</a>
-            <a href="#facility" class="list-group-item">Review</a>
+            <a href="#" class="list-group-item p-2">Intro</a>
+            <a href="#intro" class="list-group-item p-2">Recommendation</a>
+            <a href="#recommendations" class="list-group-item p-2">Description</a>
+            <a href="#description" class="list-group-item p-2">Facility</a>
+            <a href="#facility" class="list-group-item p-2">Review</a>
           </ul>
-          <hr />
           <button
             class="my-btn form-control my-2"
             @click="saveToMyList"
@@ -27,7 +25,27 @@
             @click="removeFromMyList"
             v-if="isSaved"
           >Remove from My List</button>
-          <button class="my-btn form-control my-2" @click="bookThisHouse">Book This House</button>
+
+          <button
+            class="my-btn form-control mb-2"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >Select Time to Book</button>
+
+          <div class="collapse" id="collapseExample">
+            <div class="card">
+              <div class="card-body p-2">
+                <small>Check in</small>
+                <input type="date" class="form-control" v-model="checkIn" />
+                <small>Check out</small>
+                <input type="date" class="form-control" v-model="checkOut" />
+                <button class="btn btn-warning form-control my-2" @click="bookThisHouse">Book</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- /.col-lg-3 -->
@@ -214,7 +232,9 @@ export default {
       isSaved: false,
       houseComments: [],
       userComment: "",
-      userRating: 5
+      userRating: 5,
+      checkIn: "",
+      checkOut: ""
     };
   },
   methods: {
@@ -269,21 +289,60 @@ export default {
     },
     bookThisHouse() {
       if (!this.$store.getters.isLoggedIn) {
-        this.$swal("Warning", "Please log in first!", "warning");
-        this.$router.push({ name: "login" });
-      } else {
         this.$swal({
           title: "Confirm",
-          text: "You need to pay $" + this.house.price + " to book it.",
+          text: "Need login first. Do you want to go to the login page?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true
+        }).then(choice => {
+          if (choice) {
+            this.$router.push({ name: "login" });
+          }
+        });
+      } else {
+        if (this.checkIn === "" || this.checkOut === "") {
+          this.$swal({
+            title: "Error",
+            text: "You need to select your stay period!",
+            icon: "error"
+          });
+          return;
+        }
+        let startDay = new Date(this.checkIn);
+        let endDay = new Date(this.checkOut);
+        let millisecondsPerDay = 1000 * 60 * 60 * 24;
+        let millisBetween = endDay.getTime() - startDay.getTime();
+        let days = millisBetween / millisecondsPerDay;
+        if (days <= 0) {
+          this.$swal({
+            title: "Incorrect Time Period",
+            text:
+              "Please make sure check out date is not before check in date.",
+            icon: "error"
+          });
+          return;
+        }
+        this.$swal({
+          title: "Confirm",
+          text: "You need to pay $" + this.house.price * days + " to book it.",
           icon: "warning",
           buttons: ["Cancel", "Pay Now"],
           dangerMode: true
         }).then(choice => {
           if (choice) {
-            this.$swal("Success!", "You have booked the house!", "success");
+            this.$swal({
+              title: "Processing...",
+              text: "Please wait",
+              icon: require("../../static/loading-small.gif"),
+              buttons: false,
+              allowOutsideClick: false,
+              timer: 3000
+            }).then(() => {
+              this.$swal("Success!", "You have booked the house!", "success");
+            });
           }
         });
-        
       }
     },
     uploadReview() {
@@ -399,18 +458,6 @@ export default {
   z-index: 1;
 }
 
-.my-btn {
-  border: none;
-  background-color: black;
-  color: white;
-}
-
-.my-btn:hover {
-  border: none;
-  background-color: #3c9d9b;
-  color: white;
-}
-
 a.list-group-item {
   color: #3c9d9b;
 }
@@ -424,6 +471,18 @@ a.list-group-item {
   .sidebar {
     width: 207px;
   }
+}
+
+.my-btn {
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+.my-btn:hover {
+  border: none;
+  background-color: #3c9d9b;
+  color: white;
 }
 
 .house-page-facility-icon {
