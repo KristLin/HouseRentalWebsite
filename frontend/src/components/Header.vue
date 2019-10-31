@@ -23,7 +23,7 @@
             <router-link class="nav-link" to="/search" active-class="active" exact>Search</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about" active-class="active" exact>About us</router-link>
+            <router-link class="nav-link" to="/about" active-class="active" exact>Get Started</router-link>
           </li>
           <li class="nav-item" v-if="!this.$store.getters.isLoggedIn">
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>

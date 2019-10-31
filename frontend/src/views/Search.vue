@@ -55,7 +55,7 @@
 
         <Map :houses="houses" v-if="showMap" />
 
-        <div class="float-right" v-if="!showMap">
+        <div class="float-right" v-if="this.hasFetchedData && !showMap">
           <a href="#" style="color: #000;">Back to top</a>
         </div>
       </div>

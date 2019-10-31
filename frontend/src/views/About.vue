@@ -2,18 +2,39 @@
   <div>
     <div class="container">
       <div>
-        <h1>About us</h1>
-        <p>We are professional.</p>
-        <h3>待做任务：</h3>
-        <p>About us页面排版；写对 tenant 和 provider 我们提供了什么服务</p>
-        <p>主页三张图找高清的、扁长的（类似16：9）</p>
+        <h1 style="margin-top: 30px; margin-bottom:30px">Let's get started.</h1>
+        <h5 style="margin-bottom:30px">What do we offer?</h5>
       </div>
+      <div class="row">
+        <div class="col-lg-6 col-sm-12" style="margin-top:20px">
+          <div class="card mx-auto" style="width:85%">
+            <div class="card-header" style="background-color: #3c9d9b; color: #fff; font-size:1.5rem;">I am a tenant.</div>
+            <div class="card-body">
+              <h4 class="mb-4">I can..</h4>
+              <ul class="list-group">
+                <li class="list-group-item">Search houses with planty of options</li>
+                <li class="list-group-item">View houses on Google Map</li>
+                <li class="list-group-item">Save houses to my list</li>
+                <li class="list-group-item">Comment and rate houses</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-      <div>
-        <h1>Contact us</h1>
-        <p>Email: 123456@gmail.com</p>
-        <p>TEL: 123456</p>
-        <p>Address: Sydney</p>
+        <div class="col-lg-6 col-sm-12" style="margin-top:20px">
+          <div class="card mx-auto" style="width:85%">
+            <div class="card-header" style="background-color: #3c9d9b; color: #fff; font-size:1.5rem;">I am a provider.</div>
+            <div class="card-body">
+              <h4 class="mb-4">I can..</h4>
+              <ul class="list-group">
+                <li class="list-group-item">Advertise my house</li>
+                <li class="list-group-item">Plot my house in Google Map</li>
+                <li class="list-group-item">Manage my house list</li>
+                <li class="list-group-item">View house comments and ratings</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -84,7 +84,7 @@ export default {
         {
           title: "Explore with us.",
           description: "Find your dream house in an easy way.",
-          imageSrc: require("@/assets/homepage_carousel_images/1.jpg"),
+          imageSrc: require("../../static/homepage-images/1.jpg"),
           buttonText: "Search",
           buttonClickFunction: () => {
             this.$router.push({
@@ -95,7 +95,7 @@ export default {
         {
           title: "Join us.",
           description: "Join us with thousands of users.",
-          imageSrc: require("@/assets/homepage_carousel_images/3.jpg"),
+          imageSrc: require("../../static/homepage-images/3.jpg"),
           buttonText: "Sign up here",
           buttonClickFunction: () => {
             this.$router.push({
@@ -106,8 +106,8 @@ export default {
         {
           title: "Welcome to Bomb Shrimp",
           description: "What are we and what do we offer?",
-          imageSrc: require("@/assets/homepage_carousel_images/2.jpg"),
-          buttonText: "About us",
+          imageSrc: require("../../static/homepage-images/2.jpg"),
+          buttonText: "Get Started",
           buttonClickFunction: () => {
             this.$router.push({
               name: "about"
@@ -183,7 +183,7 @@ export default {
   width: 100%;
   height: 650px;
   object-fit: cover;
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7));
+  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6));
 }
 
 .carousel-btn {

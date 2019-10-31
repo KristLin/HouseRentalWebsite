@@ -53,7 +53,7 @@
 
         <MyHouseCards v-bind:houses="userHouses" v-if="this.hasFetchedData" />
         
-        <div class="float-right">
+        <div class="float-right" v-if="this.hasFetchedData">
           <a href="#" style="color: #000;">Back to top</a>
         </div>
       </div>
