@@ -152,8 +152,9 @@ export default {
   },
   methods: {
     clickHouse(house) {
+      let nextPathName = this.$route.name === "house" ? "house2"  : "house"
       this.$router.push({
-        name: "house",
+        name: nextPathName,
         query: { houseId: house._id },
         params: { house: house }
       });
