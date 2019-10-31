@@ -78,12 +78,16 @@ export default {
                 if (res.status == 200) {
                   this.$store.commit("logout");
                   window.console.log("user logged out");
-                  this.$swal("Success", "You are logged out!", "success");
+
+                  this.$swal("Success", "You are logged out!", "success").then(
+                    () => {
+                      window.location.reload(true);
+                    }
+                  );
 
                   if (this.$router.currentRoute.name !== "home") {
                     this.$router.push({ name: "home" });
                   }
-                  // window.location.reload(true);
                 }
               })
               .catch(err => window.console.log(err));

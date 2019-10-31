@@ -272,7 +272,18 @@ export default {
         this.$swal("Warning", "Please log in first!", "warning");
         this.$router.push({ name: "login" });
       } else {
-        this.$swal("Success!", "You have booked the house!", "success");
+        this.$swal({
+          title: "Confirm",
+          text: "You need to pay $" + this.house.price + " to book it.",
+          icon: "warning",
+          buttons: ["Cancel", "Pay Now"],
+          dangerMode: true
+        }).then(choice => {
+          if (choice) {
+            this.$swal("Success!", "You have booked the house!", "success");
+          }
+        });
+        
       }
     },
     uploadReview() {
