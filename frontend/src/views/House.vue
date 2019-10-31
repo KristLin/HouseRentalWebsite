@@ -463,8 +463,13 @@ a.list-group-item {
 }
 
 @media screen and (max-width: 991px) {
-  .sidebar {
+  .sidebar ul {
     display: none;
+  }
+  .sidebar {
+    margin: auto;
+    position: relative;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1040px) {
