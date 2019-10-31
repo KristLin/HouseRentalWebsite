@@ -7,14 +7,16 @@
           <button class="my-btn form-control my-2" @click="$router.go(-1)">
             <i class="fas fa-chevron-left"></i> Go Back
           </button>
-          <ul class="list-group">
-            <!-- the locator seems having an issue -->
-            <a href="#" class="list-group-item p-2">Intro</a>
-            <a href="#intro" class="list-group-item p-2">Recommendation</a>
-            <a href="#recommendations" class="list-group-item p-2">Description</a>
-            <a href="#description" class="list-group-item p-2">Facility</a>
-            <a href="#facility" class="list-group-item p-2">Review</a>
-          </ul>
+          <div class="collapse show" id="collapseExample">
+            <ul class="list-group">
+              <!-- the locator seems having an issue -->
+              <a href="#" class="list-group-item p-2">Intro</a>
+              <a href="#intro" class="list-group-item p-2">Recommendation</a>
+              <a href="#recommendations" class="list-group-item p-2">Description</a>
+              <a href="#description" class="list-group-item p-2">Facility</a>
+              <a href="#facility" class="list-group-item p-2">Review</a>
+            </ul>
+          </div>
           <button
             class="my-btn form-control my-2"
             @click="saveToMyList"
@@ -462,6 +464,12 @@ a.list-group-item {
   color: #3c9d9b;
 }
 
+@media screen and (min-width: 1040px) {
+  .sidebar {
+    width: 207px;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .sidebar ul {
     display: none;
@@ -472,9 +480,10 @@ a.list-group-item {
     width: 100%;
   }
 }
-@media screen and (min-width: 1040px) {
-  .sidebar {
-    width: 207px;
+
+@media screen and (max-height: 500px) {
+  .sidebar ul {
+    display: none;
   }
 }
 
