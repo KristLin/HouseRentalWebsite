@@ -29,11 +29,11 @@
           <hr />
         </div>
 
-        <div class="w-50 mx-auto my-4">
+        <div class="w-50 mx-auto my-4" v-if="$store.getters.isLoggedIn">
           <button class="my-btn form-control" v-if="!showMap" @click="showMap=!showMap">View in Map</button>
           <button class="my-btn form-control" v-if="showMap" @click="showMap=!showMap">View in Cards</button>
+           <hr />
         </div>
-        <hr />
 
         <!-- advertisments here -->
         <!-- no result -->

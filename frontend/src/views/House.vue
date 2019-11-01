@@ -28,7 +28,7 @@
             v-if="isSaved"
           >Remove from My List</button>
 
-          <hr>
+          <hr />
 
           <button
             class="my-btn form-control mb-2"
@@ -55,7 +55,6 @@
                 <div id="datepicker-div" class="w-100">
                   <datepicker format="yyyy-MM-dd" placeholder="Check out Date" v-model="checkOut"></datepicker>
                 </div>
-                
 
                 <button class="btn btn-warning form-control my-2" @click="bookThisHouse">Book</button>
               </div>
@@ -387,7 +386,12 @@ export default {
         })
         .then(() => {
           window.console.log("Review uploaded!");
-          window.location.reload(true);
+          this.houseComments.push({
+            user: user_id,
+            content: this.userComment,
+            rating: this.userRating
+          });
+          this.userComment = ""
           this.$swal("Success!", "You have uploaded the review!", "success");
         })
         .catch(error => {

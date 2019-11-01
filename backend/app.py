@@ -622,10 +622,10 @@ class AddCommentToHouse(Resource):
             if not item:
                 return "comment data is not complete!", 400
         
-        house_comments = db.find_comments_of_house(house_id)
-        for comment in house_comments:
-            if user_id == comment["user"]:
-                return "User has posted a comment already!", 400
+        # house_comments = db.find_comments_of_house(house_id)
+        # for comment in house_comments:
+        #     if user_id == comment["user"]:
+        #         return "User has posted a comment already!", 400
         
         if db.add_comment_to_house(house_id, user_id, content, rating):
             db.update_rating(house_id, rating)

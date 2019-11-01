@@ -73,6 +73,8 @@
           <option value="rating_desc">Highest Rating</option>
           <option value="rating_num_asc">Less Rating Number</option>
           <option value="rating_num_desc">Most Rating Number</option>
+          <option value="size_asc">Smallest Size</option>
+          <option value="size_desc">Biggest Size</option>
         </select>
       </div>
       <div class="col-lg-3 col-md-6 form-group">

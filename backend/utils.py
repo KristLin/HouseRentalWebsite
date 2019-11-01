@@ -90,10 +90,12 @@ def get_order_key(order_type):
     order_key = "_id"
     if order_type.startswith("price"):
         order_key = "price"
-    elif order_type.startswith("rating"):
-        order_key = "rating"
     elif order_type.startswith("rating_num"):
         order_key = "rating_num"
+    elif order_type.startswith("rating"):
+        order_key = "rating"
+    elif order_type.startswith("size"):
+        order_key = "size"
     return order_key
 
 def order_filtered_houses(houses, order_type):
