@@ -18,7 +18,7 @@
               v-for="(house, index) in houses"
               :position="getHousePosition(house)"
               :clickable="true"
-              :draggable="true"
+              :draggable="false"
               :label="{text: '$' + house.price ,color: '#fff',fontSize: '12px',fontWeight: 'bold'}"
               
               :icon="{url: 'https://vectr.com/kristlin/afhuGVy8p.svg?width=45&height=35&select=afhuGVy8ppage0'}"
