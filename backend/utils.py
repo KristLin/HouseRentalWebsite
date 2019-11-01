@@ -33,7 +33,7 @@ def filter_houses(
 
 def filter_houses_with_keyword(houses, keyword):
     filtered_houses = []
-    if keyword != None:
+    if keyword:
         for house in houses:
             keyword = keyword.lower()
             # simple keyword search
@@ -46,7 +46,7 @@ def filter_houses_with_keyword(houses, keyword):
 
 def filter_houses_with_suburb(houses, suburb):
     filtered_houses = []
-    if suburb != None:
+    if suburb:
         for house in houses:
             if house["suburb"].lower() == suburb.lower():
                 filtered_houses.append(house)
@@ -68,7 +68,7 @@ def filter_houses_with_min_price(houses, min_price):
 
 def filter_houses_with_max_price(houses, max_price):
     filtered_houses = []
-    if max_price != None:
+    if max_price:
         for house in houses:
             if int(house["price"]) <= max_price:
                 filtered_houses.append(house)
@@ -78,7 +78,7 @@ def filter_houses_with_max_price(houses, max_price):
 
 def filter_houses_with_tenant_num(houses, tenant_num):
     filtered_houses = []
-    if tenant_num != None:
+    if tenant_num:
         for house in houses:
             if int(house["tenant_num"]) == tenant_num:
                 filtered_houses.append(house)
@@ -97,7 +97,9 @@ def get_order_key(order_type):
     return order_key
 
 def order_filtered_houses(houses, order_type):
-    if order_type == "default" or order_type == None:
+    if not order_type:
+        return houses
+    if order_type == "default":
         return houses
     else:
         order_key = get_order_key(order_type)
@@ -119,7 +121,7 @@ def checkHouseAvailability(house, start_date, end_date):
 
 def filter_houses_with_date(houses, start_date, end_date):
     filtered_houses = []
-    if start_date != None and end_date != None:
+    if start_date and end_date:
         for house in houses:
             if checkHouseAvailability(house, start_date, end_date):
                 filtered_houses.append(house)
@@ -150,7 +152,7 @@ def filter_houses_with_conditions(houses, wifi, kitchen, carpark, ac):
 def get_valid_update_info(data_object):
     update_info = {}
     for attr in data_object:
-        if data_object[attr] != "" and data_object[attr] != None:
+        if data_object[attr]:
             update_info[attr] = data_object[attr]
     return update_info
 
