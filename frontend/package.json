@@ -23,6 +23,7 @@
     "vue-star-rating": "^1.6.1",
     "vue-swal": "^1.0.0",
     "vue2-google-maps": "^0.10.7",
+    "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

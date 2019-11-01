@@ -27,6 +27,8 @@
             @click="removeFromMyList"
             v-if="isSaved"
           >Remove from My List</button>
+          
+          <hr>
 
           <button
             class="my-btn form-control mb-2"
@@ -40,10 +42,21 @@
           <div class="collapse" id="collapseExample">
             <div class="card">
               <div class="card-body p-2">
-                <small>Check in (yyyy-mm-dd)</small>
-                <input type="date" class="form-control" v-model="checkIn" />
-                <small>Check out (yyyy-mm-dd)</small>
-                <input type="date" class="form-control" v-model="checkOut" />
+                <!-- <small>Check in</small> -->
+                <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" :min="today" v-model="checkIn" /> -->
+                <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" v-model="checkIn" /> -->
+                <div id="datepicker-div" class="w-100">
+                  <datepicker format="yyyy-MM-dd" placeholder="Check in Date" v-model="checkIn"></datepicker>
+                </div>
+
+                <!-- <small>Check out</small> -->
+                <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" :min="today" v-model="checkOut" /> -->
+                <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" v-model="checkOut" /> -->
+                <div id="datepicker-div" class="w-100">
+                  <datepicker format="yyyy-MM-dd" placeholder="Check out Date" v-model="checkOut"></datepicker>
+                </div>
+                
+
                 <button class="btn btn-warning form-control my-2" @click="bookThisHouse">Book</button>
               </div>
             </div>
@@ -217,12 +230,14 @@
 <script>
 import StarRating from "vue-star-rating";
 import RecommendHouses from "@/components/RecommendHouses.vue";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   name: "House",
   components: {
     StarRating,
-    RecommendHouses
+    RecommendHouses,
+    Datepicker
   },
   props: {
     houseFromMap: {}
@@ -236,7 +251,8 @@ export default {
       userComment: "",
       userRating: 5,
       checkIn: "",
-      checkOut: ""
+      checkOut: "",
+      today: new Date().toISOString().substring(0, 10)
     };
   },
   methods: {
@@ -311,16 +327,27 @@ export default {
           });
           return;
         }
+
+        let todayDate = new Date(this.today);
         let startDay = new Date(this.checkIn);
         let endDay = new Date(this.checkOut);
+
+        if (startDay.getTime() - todayDate.getTime() < 0) {
+          this.$swal({
+            title: "Incorrect Check in Time",
+            text: "Check in date is before today (" + this.today + ")",
+            icon: "error"
+          });
+          return;
+        }
+
         let millisecondsPerDay = 1000 * 60 * 60 * 24;
         let millisBetween = endDay.getTime() - startDay.getTime();
         let days = millisBetween / millisecondsPerDay;
         if (days <= 0) {
           this.$swal({
             title: "Incorrect Time Period",
-            text:
-              "Please make sure check out date is not before check in date.",
+            text: "Check out date is not after the check in date.",
             icon: "error"
           });
           return;
@@ -511,5 +538,12 @@ a.list-group-item {
     margin-left: 1.4rem;
     margin-right: 1.4rem;
   }
+}
+
+#datepicker-div input {
+  padding: 5px;
+  font-size: 15px;
+  text-align: center;
+  width: 100%;
 }
 </style>
