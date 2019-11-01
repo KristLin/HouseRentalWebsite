@@ -7,7 +7,7 @@
       </div>
       <div class="row">
         <div class="col-lg-6 col-sm-12" style="margin-top:20px">
-          <div class="card mx-auto" style="width:85%">
+          <div class="card mx-auto shadow" style="width:85%">
             <div class="card-header" style="background-color: black; color: #fff; font-size:1.5rem;"><b>I am a tenant.</b></div>
             <div class="card-body">
               <h4 class="mb-4"  style="color: #3c9d9b"><b>I can..</b></h4>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-lg-6 col-sm-12" style="margin-top:20px">
-          <div class="card mx-auto" style="width:85%">
+          <div class="card mx-auto shadow" style="width:85%">
             <div class="card-header" style="background-color: black; color: #fff; font-size:1.5rem;"><b>I am a provider.</b></div>
             <div class="card-body">
               <h4 class="mb-4"  style="color: #3c9d9b"><b>I can..</b></h4>
