@@ -22,10 +22,10 @@
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="card-img-top house-cover-display" :src="house.cover" />
+              <img class="card-img-top map-house-cover-display" :src="house.cover" />
             </div>
             <div class="carousel-item" :key="idx" v-for="(index, idx) in house.images">
-              <img class="card-img-top house-cover-display" :src="house.images[idx]" />
+              <img class="card-img-top map-house-cover-display" :src="house.images[idx]" />
             </div>
           </div>
           <a
@@ -47,7 +47,7 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-        <div class="house-cover-display" v-if="!house.cover">
+        <div class="map-house-cover-display" v-if="!house.cover">
           <p class>House Cover</p>
         </div>
         <div class="card-body">
@@ -143,8 +143,8 @@ export default {
   overflow: auto;
 }
 
-.card-img-top {
-  height: 200px;
+.map-house-cover-display {
+  height: 250px;
   width: 100%;
   object-fit: cover;
 }

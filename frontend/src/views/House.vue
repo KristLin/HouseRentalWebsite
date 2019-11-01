@@ -27,7 +27,7 @@
             @click="removeFromMyList"
             v-if="isSaved"
           >Remove from My List</button>
-          
+
           <hr>
 
           <button
@@ -475,9 +475,9 @@ export default {
   margin-bottom: 80px;
 }
 
-.card-img-top {
+.house-cover-display {
   width: 100%;
-  height: 350px;
+  height: 500px;
   object-fit: cover;
 }
 

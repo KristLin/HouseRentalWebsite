@@ -8,7 +8,7 @@
         v-for="house in houses"
       >
         <div class="card h-100 shadow">
-          <img class="card-img-top" :src="house.cover" alt="house-cover" />
+          <img class="card-img-top house-card-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
             <h6>
@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+.house-card-cover-display {
   width: 100%;
   height: 200px;
   object-fit: cover;

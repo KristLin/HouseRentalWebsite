@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-4 col-sm-6 mb-4" :key="house._id" v-for="house in houses">
         <div class="card shadow" @click="clickHouse(house)">
-          <img class="card-img-top" :src="house.cover" alt="house-cover" />
+          <img class="card-img-top my-house-card-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
             <h6>
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+.my-house-card-cover-display {
   width: 100%;
   height: 200px;
   object-fit: cover;

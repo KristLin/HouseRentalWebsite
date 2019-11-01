@@ -16,7 +16,7 @@
         v-for="house in recommendedHouses.same_suburb"
       >
         <div class="card h-100">
-          <img class="card-img-top" :src="house.cover" alt="house-cover" />
+          <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
             <small class="card-title">{{ house.title }}</small>
             <br />
@@ -54,7 +54,7 @@
         v-for="house in recommendedHouses.close_price"
       >
         <div class="card h-100">
-          <img class="card-img-top" :src="house.cover" alt="house-cover" />
+          <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
             <small class="card-title">{{ house.title }}</small>
             <br />
@@ -95,7 +95,7 @@
         v-for="house in recommendedHouses.same_tenant_num"
       >
         <div class="card h-100">
-          <img class="card-img-top" :src="house.cover" alt="house-cover" />
+          <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
             <small class="card-title">{{ house.title }}</small>
             <br />
@@ -177,7 +177,7 @@ export default {
 </script>
 
 <style scoped>
-img {
+.recommend-house-cover-display {
   width: 100%;
   height: 80px;
   object-fit: cover;
