@@ -365,7 +365,7 @@ export default {
               text: "Please wait",
               icon: require("../../static/loading-small.gif"),
               buttons: false,
-              allowOutsideClick: false,
+              closeOnClickOutside: false,
               timer: 3000
             }).then(() => {
               this.$swal("Success!", "You have booked the house!", "success");
