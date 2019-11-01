@@ -98,6 +98,7 @@
         <div class="row mt-2">
           <label class="input-label">Description:</label>
           <textarea
+            id="house-description-input"
             cols="30"
             rows="8"
             class="form-control"
@@ -270,6 +271,7 @@ export default {
         this.$forceUpdate();
       }
     },
+
     handleDescription(description) {
       if (description) {
         return (
@@ -280,6 +282,7 @@ export default {
         return "House Description";
       }
     },
+
     async imageToUrl(imageFile) {
       let KEY = "587e7ebff1f6ee9c2fc6501859d37864";
       let HOST = "https://api.imgbb.com/1/upload?key=" + KEY;
@@ -287,6 +290,7 @@ export default {
       formData.append("image", imageFile);
       return await this.$axios.post(HOST, formData);
     },
+
     async updateHouse() {
       let validData = 0;
       window.console.log(this.houseData);
@@ -301,14 +305,14 @@ export default {
         this.$swal("Warning", "Nothing to update", "warning");
         return;
       }
-
-      if (this.houseData.cover !== null) {
+      
+      if (this.houseData.cover != null) {
         // get cover url
         let res = await this.imageToUrl(this.houseData.cover);
         this.houseData.cover = res.data.data.url;
       }
 
-      if (this.houseData.images !== null) {
+      if (this.houseData.images != null) {
         // get images urls
         let imageUrls = [];
         for (let idx in this.houseData.images) {
@@ -345,7 +349,8 @@ export default {
       .then(response => {
         // JSON responses are automatically parsed.
         this.displayData = response.data;
-
+        document.getElementById("house-description-input").focus();
+        
         if (this.$store.getters.getUserId !== this.displayData.provider) {
           window.console.log("current user is not the provider.");
           this.$router.push({ name: "myHouses" });

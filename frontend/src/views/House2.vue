@@ -40,9 +40,9 @@
           <div class="collapse" id="collapseExample">
             <div class="card">
               <div class="card-body p-2">
-                <small>Check in</small>
+                <small>Check in (yyyy-mm-dd)</small>
                 <input type="date" class="form-control" v-model="checkIn" />
-                <small>Check out</small>
+                <small>Check out (yyyy-mm-dd)</small>
                 <input type="date" class="form-control" v-model="checkOut" />
                 <button class="btn btn-warning form-control my-2" @click="bookThisHouse">Book</button>
               </div>
