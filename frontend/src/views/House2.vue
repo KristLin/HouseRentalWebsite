@@ -118,7 +118,8 @@
               {{house.tenant_num}}
               <i class="fas fa-user mr-4"></i>
               {{ house.size }} m
-              <sup>2</sup>
+              <sup class="mr-4">2</sup>
+              {{ house.suburb }}
             </h6>
             <h6 class="text-left">{{ house.location }}</h6>
             <star-rating
