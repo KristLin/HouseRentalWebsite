@@ -252,7 +252,7 @@ export default {
       userRating: 5,
       checkIn: "",
       checkOut: "",
-      today: new Date().toISOString().substring(0, 10)
+      today: new Date().toLocaleString('en-AU').substring(0, 10).split("/").reverse().join("-")
     };
   },
   methods: {
@@ -489,7 +489,7 @@ export default {
 .sidebar {
   position: fixed;
   width: 20%;
-  z-index: 1;
+  z-index: 2;
 }
 
 a.list-group-item {
