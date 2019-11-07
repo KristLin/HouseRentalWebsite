@@ -24,6 +24,9 @@ app = Flask(__name__)
 db = DB()
 CORS(app)
 
+# store active users
+active_users = {}
+
 api = Api(
     app,
     #   # Default namespace
@@ -636,8 +639,6 @@ class AddCommentToHouse(Resource):
 
 # run the app
 if __name__ == "__main__":
-    app.secret_key = SECRET_KEY
-    # store active users
-    active_users = {}
+    # app.secret_key = SECRET_KEY
     app.run(debug=True)
 
