@@ -7,8 +7,6 @@ import datetime
 
 # import bcrypt
 from functools import wraps
-from dotenv import load_dotenv
-import os
 import requests
 
 from database import DB
@@ -16,8 +14,8 @@ import utils
 
 # =============== app setting part start ===============
 # load secret key
-load_dotenv()
-SECRET_KEY = os.getenv("SECRET_KEY")
+# load_dotenv()
+# SECRET_KEY = os.getenv("SECRET_KEY")
 
 app = Flask(__name__)
 # connect to mongoDB
