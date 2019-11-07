@@ -15,7 +15,7 @@
         :key="house._id"
         v-for="house in recommendedHouses.same_suburb"
       >
-        <div class="card h-100">
+        <div class="card zoom h-100">
           <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
             <small class="card-title">{{ house.title }}</small>
@@ -53,7 +53,7 @@
         :key="house._id"
         v-for="house in recommendedHouses.close_price"
       >
-        <div class="card h-100">
+        <div class="card zoom h-100">
           <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
             <small class="card-title">{{ house.title }}</small>
@@ -94,7 +94,7 @@
         :key="house._id"
         v-for="house in recommendedHouses.same_tenant_num"
       >
-        <div class="card h-100">
+        <div class="card zoom h-100">
           <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
             <small class="card-title">{{ house.title }}</small>
@@ -206,5 +206,17 @@ export default {
   border: none;
   background-color: black;
   color: white;
+}
+
+.zoom:hover {
+  transform: scale(1.02);
+}
+
+.zoom:hover .card-body {
+  background-color: #fcfcfc;
+}
+
+.zoom:hover .card-footer {
+  background-color: #eeeeee;
 }
 </style>

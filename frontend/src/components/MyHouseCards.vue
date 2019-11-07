@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-lg-4 col-sm-6 mb-4" :key="house._id" v-for="house in houses">
-        <div class="card shadow" @click="clickHouse(house)">
+        <div class="card zoom shadow" @click="clickHouse(house)">
           <img class="card-img-top my-house-card-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
@@ -124,5 +124,17 @@ export default {
   border: none;
   background-color: #3c9d9b;
   color: white;
+}
+
+.zoom:hover {
+  transform: scale(1.02);
+}
+
+.zoom:hover .card-body {
+  background-color: #fcfcfc;
+}
+
+.zoom:hover .card-footer {
+  background-color: #eeeeee;
 }
 </style>

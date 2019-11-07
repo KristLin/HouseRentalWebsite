@@ -7,7 +7,7 @@
         :key="house._id"
         v-for="house in houses"
       >
-        <div class="card h-100 shadow">
+        <div class="card zoom h-100 shadow">
           <img class="card-img-top house-card-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body">
             <h5 class="card-title">{{ house.title }}</h5>
@@ -77,5 +77,17 @@ export default {
   width: 100%;
   height: 200px;
   object-fit: cover;
+}
+
+.zoom:hover {
+  transform: scale(1.02);
+}
+
+.zoom:hover .card-body {
+  background-color: #fcfcfc;
+}
+
+.zoom:hover .card-footer {
+  background-color: #eeeeee;
 }
 </style>
