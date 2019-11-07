@@ -196,7 +196,7 @@ class Login(Resource):
             # return user id
             return login_user["_id"] + " " + login_user["role"] + " " + login_user["name"], 200
         else:
-            return "Unauthorized login request", 401
+            return "Email or password is incorrect!", 400
 
 
 @users.route("/logout/<string:user_id>")
