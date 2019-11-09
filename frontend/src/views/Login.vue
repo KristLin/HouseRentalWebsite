@@ -87,7 +87,7 @@ export default {
         })
         .catch(err => {
           window.console.log(err.response);
-          this.$swal("Oops!", "Email or password is incorrcet!", "error");
+          this.$swal("Oops!", err.response.data, "error");
         });
     }
   }
