@@ -386,13 +386,22 @@ export default {
           }
         })
         .then(() => {
-          window.console.log("Review uploaded!");
+          window.console.log("before upload:", this.house.rating, this.house.rating_num)
+          let house_rating_num = parseInt(this.house.rating_num)
+          let total_rating = parseFloat(this.house.rating) * house_rating_num
+          window.console.log("total and rating num:",total_rating, house_rating_num)
+          this.house.rating_num = house_rating_num + 1
+          this.house.rating = (total_rating + parseFloat(this.userRating)) / this.house.rating_num
+          window.console.log("after upload:", this.house.rating, this.house.rating_num)
           this.houseComments.push({
             user: user_id,
             content: this.userComment,
             rating: this.userRating
           });
+
           this.userComment = ""
+          this.userRating = 5
+          window.console.log("Review uploaded!");
           this.$swal("Success!", "You have uploaded the review!", "success");
         })
         .catch(error => {

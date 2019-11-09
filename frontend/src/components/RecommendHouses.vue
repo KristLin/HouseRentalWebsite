@@ -165,9 +165,6 @@ export default {
       .get("/api/houses/recommend", { params: this.recommendInfo })
       .then(response => {
         this.recommendedHouses = response.data;
-        window.console.log(
-          "recommendedHouses: " + this.recommendedHouses.same_tenant_num
-        );
       })
       .catch(error => {
         window.console.log(error);
