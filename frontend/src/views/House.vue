@@ -150,6 +150,16 @@
           </div>
         </div>
 
+        <div id="facility" class="card card-outline-secondary my-4">
+          <div class="card-header">House Facilities</div>
+          <div class="card-body">
+            <i class="fas fa-wifi house-page-facility-icon" v-if="house.wifi"></i>
+            <i class="fas fa-utensils house-page-facility-icon" v-if="house.kitchen"></i>
+            <i class="fas fa-car house-page-facility-icon" v-if="house.carpark"></i>
+            <i class="fas fa-snowflake house-page-facility-icon" v-if="house.ac"></i>
+          </div>
+        </div>
+
         <div id="recommendations" class="card card-outline-secondary my-4">
           <div
             class="card-header p-2"
@@ -159,16 +169,6 @@
             <RecommendHouses
               :recommendInfo="{house_id: houseId, suburb: house.suburb, price: house.price, tenant_num: house.tenant_num}"
             />
-          </div>
-        </div>
-
-        <div id="facility" class="card card-outline-secondary my-4">
-          <div class="card-header">House Facilities</div>
-          <div class="card-body">
-            <i class="fas fa-wifi house-page-facility-icon" v-if="house.wifi"></i>
-            <i class="fas fa-utensils house-page-facility-icon" v-if="house.kitchen"></i>
-            <i class="fas fa-car house-page-facility-icon" v-if="house.carpark"></i>
-            <i class="fas fa-snowflake house-page-facility-icon" v-if="house.ac"></i>
           </div>
         </div>
 
