@@ -176,7 +176,7 @@
         <div class="row mt-2">
           <label class="input-label">Google Map Location (Optional):</label>
           <input type="text" class="form-control" placeholder="Latitude" v-model="houseData.lat" />
-          <input type="text" class="form-control" placeholder="Longtude" v-model="houseData.lng" />
+          <input type="text" class="form-control" placeholder="Longitude" v-model="houseData.lng" />
         </div>
       </div>
       <div class="col-lg-6 col-md-12 grid-col-div">
