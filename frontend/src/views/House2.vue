@@ -8,13 +8,24 @@
             <i class="fas fa-chevron-left"></i> Go Back
           </button>
           <div class="collapse show" id="collapseExample">
-            <ul class="list-group">
+            <ul class="list-group list-unstyled">
               <!-- the locator seems having an issue -->
-              <a href="#" class="list-group-item p-2">Intro</a>
-              <a href="#description" class="list-group-item p-2">Description</a>
-              <a href="#facility" class="list-group-item p-2">Facility</a>
-              <a href="#recommendations" class="list-group-item p-2">Recommendation</a>
-              <a href="#review" class="list-group-item p-2">Review</a>
+              <!-- I put hidden anchor target locations below (not exact where content locates) -->
+              <li class="list-group-item p-2">
+                <a href="#intro">Intro</a>
+              </li>
+              <li class="list-group-item p-2">
+                <a href="#description">Description</a>
+              </li>
+              <li class="list-group-item p-2">
+                <a href="#facility">Facility</a>
+              </li>
+              <li class="list-group-item p-2">
+                <a href="#recommendations">Recommendation</a>
+              </li>
+              <li class="list-group-item p-2">
+                <a href="#review">Review</a>
+              </li>
             </ul>
           </div>
           <button
@@ -109,6 +120,8 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
+            <!-- hidden anchor location -->
+            <div id="description"></div>
           </div>
 
           <div class="card-body">
@@ -143,14 +156,18 @@
           </div>
         </div>
 
-        <div id="description" class="card card-outline-secondary my-4">
+        <div class="card card-outline-secondary my-4">
+          <!-- hidden anchor location -->
+          <div id="facility"></div>
           <div class="card-header">House Description</div>
           <div class="card-body">
             <p class="text-left">{{ house.description }}</p>
           </div>
         </div>
 
-        <div id="facility" class="card card-outline-secondary my-4">
+        <div class="card card-outline-secondary my-4">
+          <!-- hidden anchor location -->
+          <div id="recommendations"></div>
           <div class="card-header">House Facilities</div>
           <div class="card-body">
             <i class="fas fa-wifi house-page-facility-icon" v-if="house.wifi"></i>
@@ -160,7 +177,9 @@
           </div>
         </div>
 
-        <div id="recommendations" class="card card-outline-secondary my-4">
+        <div class="card card-outline-secondary my-4">
+          <!-- hidden anchor location -->
+          <div id="review"></div>
           <div
             class="card-header p-2"
             style="background-color: #3c9d9b; color: white;"
@@ -520,7 +539,7 @@ export default {
   z-index: 2;
 }
 
-a.list-group-item {
+.list-group-item a {
   color: #3c9d9b;
 }
 
