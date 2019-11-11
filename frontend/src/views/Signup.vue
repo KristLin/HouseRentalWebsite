@@ -140,23 +140,27 @@ export default {
       if (this.userData.password !== this.checkedData.password2) {
         this.$swal("Warning", "Passwords are not matched!", "warning");
       } else {
+        // send register request to backend
         this.$axios
           .post("/api/users/", this.userData)
           .then(response => {
-            // JSON responses are automatically parsed.
             if (response.status == 200) {
+              // get user info from backend response
               let [userId, userRole, userName] = response.data.split(" ");
               let authUserData = {
                 userId: userId,
                 userRole: userRole,
                 userName: userName
               };
+              // save user login state in frontend
               this.$store.commit("login", authUserData);
 
               window.console.log("user rigistered!");
               window.console.log("user id: " + userId);
               window.console.log("user role: " + userRole);
               this.$swal("Success", "You are registered!", "success");
+              
+              // send user to search page
               this.$router.push({
                 name: "search"
               });

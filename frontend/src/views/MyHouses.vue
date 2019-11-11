@@ -33,10 +33,10 @@
           class="my-btn w-50 m-auto form-control"
           @click="$router.push({name: 'uploadHouse'})"
         >Upload House</button>
-        <hr />
-
+        
         <!-- advertisments here -->
-        <!-- no result -->
+        <hr />
+        <!-- display text if there is no result -->
         <div
           class="mx-auto"
           style="margin-top:100px; margin-bottom:150px"
@@ -45,14 +45,16 @@
           <h5>Sorry, there is not result...</h5>
         </div>
 
-        <!-- loading -->
+        <!-- loading animation -->
         <div class="mx-auto" style="margin-top:100px; margin-bottom:150px" v-if="!this.hasFetchedData">
           <RingLoader :color="'#96d1c7'" />
           <!-- <h5 v-if="!this.hasFetchedData">Searching, please wait...</h5> -->
         </div>
 
+        <!-- search result -->
         <MyHouseCards v-bind:houses="userHouses" v-if="this.hasFetchedData" />
         
+        <!-- back to top button -->
         <div class="float-right" v-if="this.hasFetchedData">
           <a href="#" style="color: #000;">Back to top</a>
         </div>
@@ -86,12 +88,12 @@ export default {
       window.console.log("searching...");
       this.hasFetchedData = false;
       window.console.log(this.searchData);
+      // send search request to backend
       this.$axios
         .get("/api/houses/providedby/" + this.$store.getters.getUserId, {
           params: this.searchData
         })
         .then(response => {
-          // JSON responses are automatically parsed.
           window.console.log(response.data);
           this.userHouses = response.data;
           this.hasFetchedData = true;
@@ -102,13 +104,13 @@ export default {
     }
   },
   created() {
+    // only allow provider to see this page
     if (this.$store.getters.isLoggedIn) {
       if (this.$store.getters.isProvider) {
         window.console.log("current user is provider.");
         this.$axios
           .get("/api/houses/providedby/" + this.$store.getters.getUserId)
           .then(response => {
-            // JSON responses are automatically parsed.
             this.userHouses = response.data;
             this.hasFetchedData = true;
           })

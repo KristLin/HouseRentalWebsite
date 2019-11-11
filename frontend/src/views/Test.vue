@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- this page is used for testing Google Map API only -->
     <Map :houses="houses" />
   </div>
 </template>
@@ -10,10 +11,10 @@ export default {
   name: "test",
   components: { Map },
   created() {
+    // get houses from backend and try to render them in google map
     this.$axios
       .get("/api/houses/")
       .then(response => {
-        // JSON responses are automatically parsed.
         this.houses = response.data;
         window.console.log(this.houses);
         // this.$forceUpdate();

@@ -132,7 +132,7 @@
             v-model="houseData.suburb"
           />
         </div>
-        <!-- input title end -->
+        <!-- input suburb end -->
 
         <!-- input price start -->
         <div class="row mt-2">
@@ -144,6 +144,9 @@
             v-model="houseData.price"
           />
         </div>
+        <!-- input price end -->
+
+        <!-- input size start -->
         <div class="row mt-2">
           <label class="input-label">
             Size (m
@@ -156,10 +159,12 @@
             v-model="houseData.size"
           />
         </div>
+        <!-- input size end -->
       </div>
     </div>
     <div class="row">
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <!-- input location start -->
         <div class="row mt-2">
           <label class="input-label">Location:</label>
           <input
@@ -169,6 +174,9 @@
             v-model="houseData.location"
           />
         </div>
+        <!-- input location end -->
+
+        <!-- input lat & lng start -->
         <div class="row mt-2">
           <label class="input-label">Google Map Location:</label>
           <input
@@ -183,9 +191,11 @@
             :placeholder="displayData.lng"
             v-model="houseData.lng"
           />
+          <!-- input lat & lng end -->
         </div>
       </div>
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <!-- input tenant number start -->
         <div class="row mt-2">
           <label class="input-label">Tenant Number:</label>
           <input
@@ -195,6 +205,9 @@
             v-model="houseData.tenant_num"
           />
         </div>
+        <!-- input tenant number end -->
+
+        <!-- input available facility start -->
         <div class="row mt-2">
           <label class="input-label">Facility:</label>
           <div class="row w-100">
@@ -226,8 +239,11 @@
             </div>
           </div>
         </div>
+        <!-- input available facility end -->
       </div>
     </div>
+
+    <!-- update house button -->
     <div class="row w-50 mx-auto mt-4">
       <button class="my-btn form-control" @click="updateHouse">Update House</button>
     </div>
@@ -247,6 +263,7 @@ export default {
   },
   methods: {
     selectCover(event) {
+      // if there is a cover selected, assign it to display data's cover
       if (event.target.files[0]) {
         window.console.log(event.target.files[0]);
         this.houseData.cover = event.target.files[0];
@@ -255,10 +272,12 @@ export default {
       }
     },
     selectImages(event) {
+      // need to select cover first (to display the carousel correctly)
       if (!this.displayData.cover) {
         this.$swal("Warning", "Please select cover first!", "warning");
         return;
       }
+      // if there are images selected, assign them to display data's images
       if (Array.from(event.target.files)) {
         this.houseData.images = Array.from(event.target.files);
 
@@ -271,7 +290,8 @@ export default {
         this.$forceUpdate();
       }
     },
-
+    
+    // only display the first 150 characters of description
     handleDescription(description) {
       if (description) {
         return (
@@ -283,6 +303,7 @@ export default {
       }
     },
 
+    // get url of image from imgBB API
     async imageToUrl(imageFile) {
       let KEY = "587e7ebff1f6ee9c2fc6501859d37864";
       let HOST = "https://api.imgbb.com/1/upload?key=" + KEY;
@@ -291,9 +312,11 @@ export default {
       return await this.$axios.post(HOST, formData);
     },
 
+    // update house operation
     async updateHouse() {
       let validData = 0;
       window.console.log(this.houseData);
+      // count the changed properties
       for (let key in this.houseData) {
         if (this.houseData[key] !== "") {
           if (this.houseData[key] !== this.displayData[key]) {
@@ -301,6 +324,8 @@ export default {
           }
         }
       }
+
+      // show warning dialog if there is nothing to update
       if (validData === 0) {
         this.$swal("Warning", "Nothing to update", "warning");
         return;
@@ -322,6 +347,7 @@ export default {
         this.houseData.images = imageUrls;
       }
 
+      // send backend request to backend
       this.$axios
         .patch(
           "/api/houses/" +
@@ -344,6 +370,8 @@ export default {
     }
   },
   created() {
+    // get the house data automatically when this page is created
+    // assign the house data to displayData to display it in house card
     this.$axios
       .get("/api/houses/" + this.$route.query.houseId)
       .then(response => {

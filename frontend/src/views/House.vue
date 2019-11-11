@@ -3,10 +3,14 @@
   <div class="container" v-if="house">
     <div class="row">
       <div class="col-lg-3">
+        <!-- sidebar components: go back, navigation, save/remove to/from savelist, book house -->
         <div class="sidebar">
+          <!-- go back button -->
           <button class="my-btn form-control my-2" @click="$router.go(-1)">
             <i class="fas fa-chevron-left"></i> Go Back
           </button>
+
+          <!-- sidebar navigation -->
           <div class="collapse show" id="collapseExample">
             <ul class="list-group list-unstyled">
               <!-- the locator seems having an issue -->
@@ -28,11 +32,17 @@
               </li>
             </ul>
           </div>
+
+          <!-- save to my list button -->
+          <!-- only displayed when it is not saved in user's list -->
           <button
             class="my-btn form-control my-2"
             @click="saveToMyList"
             v-if="!isSaved"
           >Save To My List</button>
+
+          <!-- remove from my list button -->
+          <!-- only displayed when it is saved in user's list -->
           <button
             class="my-btn form-control my-2"
             @click="removeFromMyList"
@@ -41,6 +51,7 @@
 
           <hr />
 
+          <!-- select time to book button -->
           <button
             class="my-btn form-control mb-2"
             type="button"
@@ -50,23 +61,26 @@
             aria-controls="collapseExample"
           >Select Time to Book</button>
 
+          <!-- when the select time button is clicked, the timepicker will show up -->
           <div class="collapse" id="collapseExample">
             <div class="card">
+              <!-- check in & check out datepicker and book button -->
               <div class="card-body p-2">
+                <!-- data type input, but it is not supported in safari browser -->
                 <!-- <small>Check in</small> -->
                 <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" :min="today" v-model="checkIn" /> -->
                 <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" v-model="checkIn" /> -->
                 <div id="datepicker-div" class="w-100">
                   <datepicker format="yyyy-MM-dd" placeholder="Check in Date" v-model="checkIn"></datepicker>
                 </div>
-
+                <!-- data type input, but it is not supported in safari browser -->
                 <!-- <small>Check out</small> -->
                 <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" :min="today" v-model="checkOut" /> -->
                 <!-- <input type="date" class="form-control" placeholder="yyyy-mm-dd" v-model="checkOut" /> -->
                 <div id="datepicker-div" class="w-100">
                   <datepicker format="yyyy-MM-dd" placeholder="Check out Date" v-model="checkOut"></datepicker>
                 </div>
-
+                <!-- book button -->
                 <button class="btn btn-warning form-control my-2" @click="bookThisHouse">Book</button>
               </div>
             </div>
@@ -76,6 +90,7 @@
       <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
+        <!-- house intro section -->
         <div id="intro" class="card mt-2">
           <div
             id="carouselExampleIndicators"
@@ -83,10 +98,9 @@
             data-ride="carousel"
             v-if="house.cover"
           >
+          <!-- carousel indicators -->
             <ol class="carousel-indicators active">
-              <!-- cover image -->
               <li data-target="#carouselExampleIndicators" data-slide-to="0"></li>
-              <!-- other images -->
               <li
                 data-target="#carouselExampleIndicators"
                 :key="idx"
@@ -94,6 +108,7 @@
                 :data-slide-to="idx+1"
               ></li>
             </ol>
+            <!-- carousel images: house cover and house images -->
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <img class="card-img-top house-cover-display" :src="house.cover" />
@@ -125,6 +140,7 @@
           </div>
 
           <div class="card-body">
+            <!-- house basic information: title, price, size, tenant number and location -->
             <h3 class="card-title text-left">{{ house.title }}</h3>
             <h6 class="text-left my-2">${{house.price}} per night</h6>
             <h6 class="text-left">
@@ -135,6 +151,8 @@
               {{ house.suburb }}
             </h6>
             <h6 class="text-left">{{ house.location }}</h6>
+
+            <!-- house rating and rating number-->
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -156,6 +174,7 @@
           </div>
         </div>
 
+        <!-- house description section -->
         <div class="card card-outline-secondary my-4">
           <!-- hidden anchor location -->
           <div id="facility"></div>
@@ -165,6 +184,7 @@
           </div>
         </div>
 
+        <!-- Available facilities section -->
         <div class="card card-outline-secondary my-4">
           <!-- hidden anchor location -->
           <div id="recommendations"></div>
@@ -177,6 +197,7 @@
           </div>
         </div>
 
+        <!-- recommendations section -->
         <div class="card card-outline-secondary my-4">
           <!-- hidden anchor location -->
           <div id="review"></div>
@@ -191,7 +212,8 @@
           </div>
         </div>
 
-        <div id="review" class="card card-outline-secondary my-4">
+        <!-- review section -->
+        <div class="card card-outline-secondary my-4">
           <div class="card-header">House Reviews</div>
           <div class="card-body">
             <div class="comment" :key="idx" v-for="(comment, idx) in houseComments">
@@ -209,6 +231,8 @@
 
               <hr />
             </div>
+
+            <!-- show review input and rating input if user is logged in -->
             <div class="post-comment" v-if="$store.getters.isLoggedIn">
               <textarea
                 v-model="userComment"
@@ -230,6 +254,8 @@
               </div>
               <button class="my-btn form-control my-4" @click="uploadReview">Leave a review</button>
             </div>
+
+            <!-- if user is not logged in, show the login to review button -->
             <div class="login-to-comment" v-if="!$store.getters.isLoggedIn">
               <button
                 class="my-btn form-control my-4"
@@ -282,6 +308,7 @@ export default {
   methods: {
     saveToMyList() {
       if (!this.$store.getters.isLoggedIn) {
+        // if user is not logged in, ask if he/she want to go to the login page
         this.$swal({
           title: "Confirm",
           text: "Need login first. Do you want to go to the login page?",
@@ -294,11 +321,11 @@ export default {
           }
         });
       } else {
+        // if user is already logged in send save house to savelist request to backend
         let user_id = this.$store.getters.getUserId;
         this.$axios
           .get("/api/savelists/" + user_id + "/add/" + this.house._id)
           .then(() => {
-            // JSON responses are automatically parsed.
             this.isSaved = !this.isSaved;
             this.$swal("Success!", "House is saved to your list!", "success");
           })
@@ -309,9 +336,11 @@ export default {
     },
     removeFromMyList() {
       if (!this.$store.getters.isLoggedIn) {
+        // if user is not logged in, raise a alert
         this.$swal("Warning", "Please log in first!", "warning");
         this.$router.push({ name: "login" });
       } else {
+        // if user is already logged in send remove house from savelist request to backend
         let user_id = this.$store.getters.getUserId;
         this.$axios
           .get("/api/savelists/" + user_id + "/remove/" + this.house._id)
@@ -331,6 +360,7 @@ export default {
     },
     bookThisHouse() {
       if (!this.$store.getters.isLoggedIn) {
+        // if user is not logged in, ask if he/she want to go to the login page
         this.$swal({
           title: "Confirm",
           text: "Need login first. Do you want to go to the login page?",
@@ -343,6 +373,7 @@ export default {
           }
         });
       } else {
+        // check if the check in and check out date are empty
         if (this.checkIn === "" || this.checkOut === "") {
           this.$swal({
             title: "Error",
@@ -356,6 +387,7 @@ export default {
         let startDay = new Date(this.checkIn);
         let endDay = new Date(this.checkOut);
 
+        // check if the check in date is before today
         if (startDay.getTime() - todayDate.getTime() < 0) {
           this.$swal({
             title: "Incorrect Check in Time",
@@ -368,6 +400,7 @@ export default {
         let millisecondsPerDay = 1000 * 60 * 60 * 24;
         let millisBetween = endDay.getTime() - startDay.getTime();
         let days = millisBetween / millisecondsPerDay;
+        // check if the check out date is after check in date
         if (days <= 0) {
           this.$swal({
             title: "Incorrect Time Period",
@@ -376,6 +409,7 @@ export default {
           });
           return;
         }
+        // show the book fee and wait for user to confirm
         this.$swal({
           title: "Confirm",
           text: "You need to pay $" + this.house.price * days + " to book it.",
@@ -384,6 +418,7 @@ export default {
           dangerMode: true
         }).then(choice => {
           if (choice) {
+            // simulated processing
             this.$swal({
               title: "Processing...",
               text: "Please wait",
@@ -400,6 +435,7 @@ export default {
     },
     uploadReview() {
       let user_id = this.$store.getters.getUserId;
+      // send post comment request to backend
       this.$axios
         .get("/api/comments/add", {
           params: {
@@ -410,11 +446,7 @@ export default {
           }
         })
         .then(() => {
-          window.console.log(
-            "before upload:",
-            this.house.rating,
-            this.house.rating_num
-          );
+          // update house rating in frontend
           let house_rating_num = parseInt(this.house.rating_num);
           let total_rating = parseFloat(this.house.rating) * house_rating_num;
           window.console.log(
@@ -431,14 +463,18 @@ export default {
             this.house.rating,
             this.house.rating_num
           );
+
+          // push new comment to comment list
           this.houseComments.push({
             user: user_id,
             content: this.userComment,
             rating: this.userRating
           });
 
+          // reset comment input
           this.userComment = "";
           this.userRating = 5;
+
           window.console.log("Review uploaded!");
           this.$swal("Success!", "You have uploaded the review!", "success");
         })
@@ -448,6 +484,7 @@ export default {
     }
   },
   created() {
+    // if all route data are lost, go back to search page
     if (
       Object.keys(this.$route.params).length === 0 &&
       Object.keys(this.$route.query).length === 0 &&
@@ -457,6 +494,8 @@ export default {
       this.$router.push({ name: "search" });
     }
 
+    // if the route params (house data) is lost
+    // request backend for house data and house's comment data using house id in the route's query data
     let house_id = this.houseId ? this.houseId : this.house._id;
     window.console.log("House id:", house_id);
     // get comments data
@@ -474,13 +513,13 @@ export default {
               this.isSaved = response.data;
               // get house data
               if (this.houseFromMap) {
+                // if the house is from the google map, get the data from this.houseFromMap
                 this.house = this.houseFromMap;
               } else {
                 if (Object.keys(this.$route.params).length === 0) {
                   this.$axios
                     .get("/api/houses/" + house_id)
                     .then(response => {
-                      // JSON responses are automatically parsed.
                       this.house = response.data;
                     })
                     .catch(err => {
@@ -495,13 +534,13 @@ export default {
         } else {
           // get house data
           if (this.houseFromMap) {
+            // if the house is from the google map, get the data from this.houseFromMap
             this.house = this.houseFromMap;
           } else {
             if (Object.keys(this.$route.params).length === 0) {
               this.$axios
                 .get("/api/houses/" + house_id)
                 .then(response => {
-                  // JSON responses are automatically parsed.
                   this.house = response.data;
                 })
                 .catch(err => {

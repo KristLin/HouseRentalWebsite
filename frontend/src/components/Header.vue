@@ -1,7 +1,9 @@
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <!-- brand name in navbar -->
       <router-link class="navbar-brand" to="/">Bomb Shrimper 🍤</router-link>
+      <!-- collapsed navbar button -->
       <button
         class="navbar-toggler"
         type="button"
@@ -14,6 +16,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
+      <!-- navbar -->
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -25,9 +28,11 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/about" active-class="active" exact>Get Started</router-link>
           </li>
+          <!-- login navbar button, only shown when user is not logged in -->
           <li class="nav-item" v-if="!this.$store.getters.isLoggedIn">
             <router-link class="nav-link" to="/login" active-class="active" exact>Log in</router-link>
           </li>
+          <!-- user account navbar button, only shown when user is logged in -->
           <li class="nav-item dropdown" v-if="this.$store.getters.isLoggedIn">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown">
               <i class="fas fa-user mr-2"></i>

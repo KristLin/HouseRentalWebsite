@@ -29,6 +29,7 @@
           <hr />
         </div>
 
+        <!-- view in map/view in cards button -->
         <div class="w-50 mx-auto my-4" v-if="$store.getters.isLoggedIn">
           <button class="my-btn form-control" v-if="!showMap" @click="showMap=!showMap">View in Map</button>
           <button class="my-btn form-control" v-if="showMap" @click="showMap=!showMap">View in Cards</button>
@@ -36,7 +37,7 @@
         </div>
 
         <!-- advertisments here -->
-        <!-- no result -->
+        <!-- display text if there is no result -->
         <div
           class="mx-auto"
           style="margin-top:100px; margin-bottom:150px"
@@ -45,16 +46,19 @@
           <h5>Sorry, there is not result...</h5>
         </div>
 
-        <!-- loading -->
+        <!-- loading animation -->
         <div class="mx-auto" style="margin-top:100px; margin-bottom:150px" v-if="!this.hasFetchedData && !showMap">
           <RingLoader :color="'#96d1c7'" />
           <!-- <h5 v-if="!this.hasFetchedData && !showMap">Searching, please wait...</h5> -->
         </div>
 
+        <!-- search result -->
         <HouseCards :houses="houses" v-if="this.hasFetchedData && !showMap" />
 
+        <!-- view in map -->
         <Map :houses="houses" v-if="showMap" />
 
+        <!-- back to top button -->
         <div class="float-right" v-if="this.hasFetchedData && !showMap">
           <a href="#" style="color: #000;">Back to top</a>
         </div>
@@ -94,10 +98,10 @@ export default {
       window.console.log("searching...");
       window.console.log(this.searchData);
       this.hasFetchedData = false;
+      // send search request to backend
       this.$axios
         .get("/api/houses/", { params: this.searchData })
         .then(response => {
-          // JSON responses are automatically parsed.
           this.hasFetchedData = true;
           this.houses = response.data;
         })
@@ -105,23 +109,12 @@ export default {
           window.console.log(err.response);
         });
     }
-    // orderResult(orderType) {
-    //   this.houses.sort((a, b) => {
-    //     parseFloat(a[orderType]) > parseFloat(b[orderType])
-    //       ? 1
-    //       : parseFloat(a[orderType]) === parseFloat(b[orderType])
-    //       ? parseFloat(a._id) > parseFloat(b._id)
-    //         ? 1
-    //         : -1
-    //       : -1;
-    //   });
-    // }
   },
   created() {
+    // get all houses automatically when this page is created
     this.$axios
       .get("/api/houses/")
       .then(response => {
-        // JSON responses are automatically parsed.
         this.hasFetchedData = true;
         this.houses = response.data;
       })

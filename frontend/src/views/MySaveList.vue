@@ -30,7 +30,7 @@
 
         <!-- advertisments here -->
         <hr />
-        <!-- no result -->
+        <!-- display text if there is no result -->
         <div
           class="mx-auto"
           style="margin-top:100px; margin-bottom:150px"
@@ -39,13 +39,16 @@
           <h5>Sorry, there is not result...</h5>
         </div>
 
-        <!-- loading -->
+        <!-- loading animation -->
         <div class="mx-auto" style="margin-top:100px; margin-bottom:150px" v-if="!this.hasFetchedData">
           <RingLoader :color="'#96d1c7'" />
           <!-- <h5 v-if="!this.hasFetchedData">Searching, please wait...</h5> -->
         </div>
-        
+
+        <!-- search result -->
         <HouseCards v-bind:houses="houses" v-if="this.hasFetchedData" />
+
+        <!-- back to top button -->
         <div class="float-right" v-if="this.hasFetchedData">
           <a href="#" style="color: #000;">Back to top</a>
         </div>
@@ -79,12 +82,12 @@ export default {
       window.console.log("searching...");
       this.hasFetchedData = false
       window.console.log(this.searchData);
+      // send search request to backend
       this.$axios
         .get("/api/houses/savelist/" + this.$store.getters.getUserId, {
           params: this.searchData
         })
         .then(response => {
-          // JSON responses are automatically parsed.
           window.console.log(response.data);
           this.houses = response.data;
           this.hasFetchedData = true;
@@ -95,10 +98,10 @@ export default {
     }
   },
   created() {
+    // get the savelist data automatically when this page is created
     this.$axios
       .get("/api/houses/savelist/" + this.$store.getters.getUserId)
       .then(response => {
-        // JSON responses are automatically parsed.
         this.houses = response.data;
         this.hasFetchedData = true
       })

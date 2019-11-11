@@ -6,6 +6,7 @@
         <h5 style="margin-bottom:30px">What do we offer?</h5>
       </div>
       <div class="row">
+        <!-- tenant intro -->
         <div class="col-lg-6 col-sm-12" style="margin-top:20px">
           <div class="card mx-auto shadow" style="width:85%">
             <div class="card-header" style="background-color: black; color: #fff; font-size:1.5rem;"><b>I am a tenant.</b></div>
@@ -21,6 +22,7 @@
           </div>
         </div>
 
+        <!-- provider intro -->
         <div class="col-lg-6 col-sm-12" style="margin-top:20px">
           <div class="card mx-auto shadow" style="width:85%">
             <div class="card-header" style="background-color: black; color: #fff; font-size:1.5rem;"><b>I am a provider.</b></div>

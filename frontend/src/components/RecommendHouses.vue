@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="row">
-      <!-- <div class="card-header p-2" style="background-color: #3c9d9b; color: white;">Recommended Houses</div> -->
+      <!-- three types of recommendations: same suburb; close price; same tenant number -->
       <ul class="list-group list-group-horizontal ml-auto my-1">
         <li class="list-group-item type-option-item" :class="{active: chosenType==='suburb'}" @click="chosenType='suburb'">Same Suburb</li>
         <li class="list-group-item type-option-item" :class="{active: chosenType==='price'}" @click="chosenType='price'">Close Price</li>
         <li class="list-group-item type-option-item" :class="{active: chosenType==='tenant_num'}" @click="chosenType='tenant_num'">Same Tenant Number</li>
       </ul>
     </div>
+    <!-- same suburb recommendations -->
     <div class="row" v-if="chosenType==='suburb'">
       <div
         class="col-lg-4 col-sm-4 mb-0"
@@ -16,10 +17,14 @@
         v-for="house in recommendedHouses.same_suburb"
       >
         <div class="card zoom h-100">
+          <!-- house cover -->
           <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
+            <!-- house title -->
             <small class="card-title">{{ house.title }}</small>
             <br />
+
+            <!-- house size and tenant number -->
             <small>
               {{house.tenant_num}}
               <i class="fas fa-user mr-4"></i>
@@ -27,6 +32,8 @@
               <sup>2</sup>
             </small>
             <br />
+
+            <!-- house rating and rating number -->
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -39,6 +46,8 @@
             <small class="mx-2" v-if="parseInt(house.rating_num) !== 0">({{ house.rating_num }})</small>
             <small class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</small>
           </div>
+
+          <!-- house suburb and price -->
           <div class="card-footer p-1">
             <small class="text-muted">{{house.suburb}} - ${{house.price}}</small>
           </div>
@@ -46,6 +55,7 @@
       </div>
     </div>
 
+    <!-- close price recommendations -->
     <div class="row" v-if="chosenType==='price'">
       <div
         class="col-lg-4 col-sm-6 mb-0"
@@ -54,10 +64,14 @@
         v-for="house in recommendedHouses.close_price"
       >
         <div class="card zoom h-100">
+          <!-- house cover -->
           <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
+            <!-- house title -->
             <small class="card-title">{{ house.title }}</small>
             <br />
+
+            <!-- house size and tenant number -->
             <small>
               {{house.tenant_num}}
               <i class="fas fa-user mr-4"></i>
@@ -65,6 +79,8 @@
               <sup>2</sup>
             </small>
             <br />
+
+            <!-- house rating and rating number -->
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -80,6 +96,8 @@
             >({{ house.rating_num }})</small>
             <small class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</small>
           </div>
+
+          <!-- house suburb and price -->
           <div class="card-footer p-1">
             <small class="text-muted">{{house.suburb}} - ${{house.price}}</small>
           </div>
@@ -87,6 +105,7 @@
       </div>
     </div>
 
+    <!-- same tenant number recommendations -->
     <div class="row" v-if="chosenType==='tenant_num'">
       <div
         class="col-lg-4 col-sm-4 mb-0"
@@ -95,10 +114,14 @@
         v-for="house in recommendedHouses.same_tenant_num"
       >
         <div class="card zoom h-100">
+          <!-- house cover -->
           <img class="card-img-top recommend-house-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body p-0">
+            <!-- hosue title -->
             <small class="card-title">{{ house.title }}</small>
             <br />
+
+            <!-- house size and tenant number -->
             <small>
               {{house.tenant_num}}
               <i class="fas fa-user mr-4"></i>
@@ -106,6 +129,8 @@
               <sup>2</sup>
             </small>
             <br />
+
+            <!-- house rating and rating number -->
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -118,6 +143,8 @@
             <small class="mx-2" v-if="parseInt(house.rating_num) !== 0">({{ house.rating_num }})</small>
             <small class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</small>
           </div>
+
+          <!-- house suburb and price -->
           <div class="card-footer p-1">
             <small class="text-muted">{{house.suburb}} - ${{house.price}}</small>
           </div>
@@ -152,6 +179,7 @@ export default {
   },
   methods: {
     clickHouse(house) {
+      // get another House page's name to avoid pushing data to the same page
       let nextPathName = this.$route.name === "house" ? "house2"  : "house"
       this.$router.push({
         name: nextPathName,
@@ -161,6 +189,7 @@ export default {
     }
   },
   created() {
+    // get recommmended houses from backend
     this.$axios
       .get("/api/houses/recommend", { params: this.recommendInfo })
       .then(response => {

@@ -2,6 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <!-- dynamic house info display start -->
         <div class="row card house-display-card">
           <div
             id="carouselExampleIndicators"
@@ -19,9 +20,6 @@
                 v-for="(index, idx) in displayData.images"
                 :data-slide-to="idx+1"
               ></li>
-              <!-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
             </ol>
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -30,16 +28,6 @@
               <div class="carousel-item" :key="idx" v-for="(index, idx) in displayData.images">
                 <img class="card-img-top house-cover-display" :src="displayData.images[idx]" />
               </div>
-
-              <!-- <div class="carousel-item active">
-              <img class="d-block w-100" src="..." alt="First slide" />
-            </div>
-            <div class="carousel-item">
-              <img class="d-block w-100" src="..." alt="Second slide" />
-            </div>
-            <div class="carousel-item">
-              <img class="d-block w-100" src="..." alt="Third slide" />
-              </div>-->
             </div>
             <a
               class="carousel-control-prev"
@@ -60,15 +48,13 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
-          <!-- <img
-            class="card-img-top house-cover-display"
-            v-if="displayData.cover"
-            :src="displayData.cover"
-            alt="house-cover"
-          />-->
+
+          <!-- display text if no cover is selected -->
           <div class="house-cover-display" v-if="!displayData.cover">
             <p class="mt-3">House Cover</p>
           </div>
+
+          <!-- house title & description -->
           <div class="card-body">
             <h4 class="card-title mt-2">{{ houseData.title ? houseData.title : "House Title" }}</h4>
             <p
@@ -76,12 +62,15 @@
               :class="{'text-left': houseData.description}"
             >{{ handleDescription(houseData.description) }}</p>
           </div>
+
+          <!-- house suburb and price -->
           <div class="card-footer">
             <small class="text-muted">{{ houseData.suburb ? houseData.suburb : "Suburb" }}</small>
             <br />
             <small class="text-muted">${{ houseData.price ? houseData.price : "0" }}</small>
           </div>
         </div>
+        <!-- dynamic house info display end -->
       </div>
       <div class="col-lg-6 col-md-12 grid-col-div">
         <!-- input title start -->
@@ -92,10 +81,6 @@
         <!-- input title end -->
 
         <!-- input cover start -->
-        <!-- <div class="row mt-2">
-          <label class="input-label">Cover Url:</label>
-          <input type="text" class="form-control" placeholder="Cover Url" v-model="houseData.cover" />
-        </div>-->
         <div class="row mt-2">
           <input
             type="file"
@@ -140,7 +125,7 @@
           <label class="input-label">Suburb:</label>
           <input type="text" class="form-control" placeholder="Suburb" v-model="houseData.suburb" />
         </div>
-        <!-- input title end -->
+        <!-- input suburb end -->
 
         <!-- input price start -->
         <div class="row mt-2">
@@ -152,6 +137,9 @@
             v-model="houseData.price"
           />
         </div>
+        <!-- input price end -->
+
+        <!-- input size start -->
         <div class="row mt-2">
           <label class="input-label">
             Size (m
@@ -159,11 +147,13 @@
           </label>
           <input type="text" class="form-control" placeholder="Size" v-model="houseData.size" />
         </div>
+        <!-- input size start -->
       </div>
     </div>
     <hr />
     <div class="row">
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <!-- input location start -->
         <div class="row mt-2">
           <label class="input-label">Location:</label>
           <input
@@ -173,13 +163,18 @@
             v-model="houseData.location"
           />
         </div>
+        <!-- input location end -->
+
+        <!-- input lat & lng start -->
         <div class="row mt-2">
           <label class="input-label">Google Map Location (Optional):</label>
           <input type="text" class="form-control" placeholder="Latitude" v-model="houseData.lat" />
           <input type="text" class="form-control" placeholder="Longitude" v-model="houseData.lng" />
         </div>
+        <!-- input lat & lng end -->
       </div>
       <div class="col-lg-6 col-md-12 grid-col-div">
+        <!-- input tenant number start -->
         <div class="row mt-2">
           <label class="input-label">Tenant Number:</label>
           <input
@@ -189,6 +184,9 @@
             v-model="houseData.tenant_num"
           />
         </div>
+        <!-- input tenant number end -->
+
+        <!-- input available facilities start -->
         <div class="row mt-2">
           <label class="input-label">Facility:</label>
           <div class="row w-100">
@@ -220,8 +218,11 @@
             </div>
           </div>
         </div>
+        <!-- input available facilities end -->
       </div>
     </div>
+
+    <!-- upload button -->
     <div class="row w-50 mx-auto mt-4">
       <button class="my-btn form-control" @click="uploadHouse">Upload House</button>
     </div>
@@ -258,6 +259,7 @@ export default {
   methods: {
     selectCover(event) {
       window.console.log(event.target.files[0]);
+      // when a cover is selected, assign it to displayData to show in house card
       if (event.target.files[0]) {
         this.houseData.cover = event.target.files[0];
         this.displayData.cover = URL.createObjectURL(this.houseData.cover);
@@ -265,10 +267,13 @@ export default {
       }
     },
     selectImages(event) {
+      // need to select cover first (to display the carousel correctly)
       if (!this.displayData.cover) {
         this.$swal("Warning", "Please select cover first!", "warning");
         return;
       }
+
+      // if there are images selected, assign them to display data's images
       if (Array.from(event.target.files)) {
         this.houseData.images = Array.from(event.target.files);
         window.console.log(this.houseData.images);
@@ -282,6 +287,8 @@ export default {
         this.$forceUpdate();
       }
     },
+
+    // only display the first 150 characters of description
     handleDescription(description) {
       if (description) {
         return (
@@ -292,6 +299,8 @@ export default {
         return "House Description";
       }
     },
+
+    // get url of image from imgBB API
     async imageToUrl(imageFile) {
       let KEY = "587e7ebff1f6ee9c2fc6501859d37864";
       let HOST = "https://api.imgbb.com/1/upload?key=" + KEY;
@@ -300,7 +309,9 @@ export default {
       return await this.$axios.post(HOST, formData);
     },
 
+    // upload house operation
     async uploadHouse() {
+      // check if all required inputs are filled in
       for (let key in this.houseData) {
         if (key !== "lat" && key !== "lng") {
           if (this.houseData[key] === "") {
@@ -322,11 +333,10 @@ export default {
       this.houseData.images = imageUrls;
       window.console.log(this.houseData);
 
-      // upload images in url form to backend
+      // send uplaod request to backend
       this.$axios
         .post("/api/houses/", this.houseData)
         .then(response => {
-          // JSON responses are automatically parsed.
           if (response.status == 201) {
             window.console.log("uploaded!");
             this.$swal("Success!", "House is uploaded!", "success");
@@ -337,13 +347,11 @@ export default {
           window.console.log(err.response.data);
         });
     }
-    // parseImagesUrls(imagesUrlText) {
-    //   let imageUrls = imagesUrlText.split("\n");
-    //   return imageUrls;
-    // }
   },
+
   created() {
     window.console.log("state.isProvider: " + this.$store.getters.isProvider);
+    // only show this page to provider
     if (this.$store.getters.isProvider) {
       window.console.log("current user is provider.");
       this.houseData.provider = this.$store.getters.getUserId;

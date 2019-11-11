@@ -1,9 +1,12 @@
 <template>
   <div>
     <div class="row">
+      <!-- left side is house info section -->
       <div class="col-lg-5 col-md-12 overflow-auto">
         <HouseFromMap :house="house" />
       </div>
+
+      <!-- right side is the google map section -->
       <div class="col-lg-7 col-md-12">
         <div class="google-map">
           <GmapMap
@@ -45,6 +48,7 @@ export default {
   },
   data() {
     return {
+      // google map options
       options: {
         zoomControl: true,
         mapTypeControl: false,

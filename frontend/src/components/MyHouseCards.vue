@@ -5,13 +5,18 @@
         <div class="card zoom shadow" @click="clickHouse(house)">
           <img class="card-img-top my-house-card-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body">
+            <!-- house title -->
             <h5 class="card-title">{{ house.title }}</h5>
+
+            <!-- house size and tenant number -->
             <h6>
               {{house.tenant_num}}
               <i class="fas fa-user mr-4"></i>
               {{ house.size }} m
               <sup>2</sup>
             </h6>
+
+            <!-- rating and rating number -->
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -28,13 +33,18 @@
             >({{ house.rating_num }})</span>
             <p class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</p>
           </div>
+
+          <!-- house suburb and price -->
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>
             <br />
             <small class="text-muted">${{house.price}}</small>
           </div>
         </div>
+
+        <!-- update houes button -->
         <button class="my-btn form-control my-1 shadow" @click="updateHouse(house._id)">Update House</button>
+        <!-- delete hosue button -->
         <button
           class="btn btn-danger form-control shadow"
           @click="deleteHouse(house._id)"
@@ -69,6 +79,7 @@ export default {
       );
     },
     updateHouse(house_id) {
+      // send user to update house page
       this.$router.push({
         name: "updateHouse",
         query: { houseId: house_id }
@@ -84,6 +95,7 @@ export default {
         dangerMode: true
       }).then(choice => {
         if (choice) {
+          // send delete request to backend
           this.$axios
             .delete(
               "/api/houses/" + this.$store.getters.getUserId + "/" + house_id

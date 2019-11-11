@@ -10,13 +10,18 @@
         <div class="card zoom h-100 shadow">
           <img class="card-img-top house-card-cover-display" :src="house.cover" alt="house-cover" />
           <div class="card-body">
+            <!-- house title -->
             <h5 class="card-title">{{ house.title }}</h5>
+
+            <!-- house size and tenant number -->
             <h6>
               {{house.tenant_num}}
               <i class="fas fa-user mr-4"></i>
               {{ house.size }} m
               <sup>2</sup>
             </h6>
+
+            <!-- rating and rating number -->
             <star-rating
               :inline="true"
               :rating="parseFloat(house.rating)"
@@ -33,6 +38,8 @@
             >({{ house.rating_num }})</span>
             <p class="mb-0" v-if="parseInt(house.rating_num) === 0">No rating yet.</p>
           </div>
+
+          <!-- house suburb and price -->
           <div class="card-footer">
             <small class="text-muted">{{house.suburb}}</small>
             <br />
@@ -56,6 +63,7 @@ export default {
     StarRating
   },
   methods: {
+    // when the house card is clicked, it will push the house data to House page
     clickHouse(house) {
       this.$router.push({
         name: "house",
@@ -63,6 +71,7 @@ export default {
         params: { house: house }
       });
     },
+    // only display first 150 charecters of the description for better representation
     handleDescription(description) {
       return (
         description.substring(0, 150) + (description.length > 150 ? " ..." : "")

@@ -5,8 +5,10 @@
       <hr />
       <div class="row">
         <div class="col-lg-5 col-md-6 col-sm-4">
+          <!-- user profile -->
           <img :src="userData.profile" class="user-profile" />
-          <!-- <br /> -->
+          
+          <!-- select profile button -->
           <div class="profile-buttons-div mt-2">
             <input
               type="file"
@@ -22,7 +24,11 @@
             <!-- <button class="my-btn btn-sm form-control" @click="uploadProfile">Upload Profile</button> -->
           </div>
         </div>
+
+        <!-- used as layout component -->
         <hr class="small-screen-layout" display="none" />
+
+        <!-- user info labels -->
         <div class="col-lg-2 col-md-2 col-sm-2 text-right input-label-div">
           <label class="form-group form-control border-0">Email:</label>
           <label class="form-group form-control border-0">Name:</label>
@@ -31,6 +37,8 @@
           <label class="form-group form-control border-0">Confirm:</label>
           <label class="form-group form-control border-0">Role:</label>
         </div>
+
+        <!-- user info -->
         <div class="col-lg-5 col-md-4 col-sm-6">
           <div class="form-group">
             <input
@@ -134,6 +142,7 @@ export default {
       this.$forceUpdate();
     },
     async imageToUrl(imageFile) {
+      // send image to imgbb API to get iamge's url
       let KEY = "587e7ebff1f6ee9c2fc6501859d37864";
       let HOST = "https://api.imgbb.com/1/upload?key=" + KEY;
       let formData = new FormData();
@@ -159,6 +168,7 @@ export default {
         let res = await this.imageToUrl(profile);
         validUpdatedData.profile = res.data.data.url;
       }
+
       window.console.log(validUpdatedData);
       for (let key in this.updatedUserData) {
         if (key !== "profile" && key !== "password2") {
@@ -169,10 +179,13 @@ export default {
         }
       }
 
+      // if there is no valid data to update, show a warning dialog
       if (validData === 0) {
         this.$swal("Warning", "Nothing to update!", "warning");
         return;
       }
+
+      // send update reuqest to backend
       this.$axios
         .patch("/api/users/" + this.$store.getters.getUserId, validUpdatedData)
         .then(response => {
@@ -184,6 +197,7 @@ export default {
     },
 
     deleteAccount() {
+      // need user to confirm the delete operation
       this.$swal({
         title: "Confirm",
         text: "Are you sure you want to delete your account?",
@@ -192,6 +206,7 @@ export default {
         dangerMode: true
       }).then(choice => {
         if (choice) {
+          // send delete request to backend
           this.$axios
             .delete("/api/users/" + this.$store.getters.getUserId)
             .then(response => {

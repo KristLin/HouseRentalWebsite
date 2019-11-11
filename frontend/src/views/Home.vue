@@ -2,6 +2,7 @@
   <div>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <div>
+      <!-- carousel part -->
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -50,7 +51,8 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-      <!-- 2. more on homepage -->
+
+      <!-- features part -->
       <div class="features mx-auto">
         <div class="text-center">
           <h2 class="font-weight-bold my-4">Why is it so great?</h2>
@@ -80,6 +82,7 @@ export default {
   props: {},
   data() {
     return {
+      // carousel items display in the carousel section
       carouselItems: [
         {
           title: "Explore with us.",
@@ -115,6 +118,7 @@ export default {
           }
         }
       ],
+      // feature items display in the feature section
       featureItems: [
         {
           title: "Search Engine",
@@ -134,7 +138,6 @@ export default {
       ]
     };
   },
-
   methods: {}
 };
 </script>

@@ -3,6 +3,7 @@
   <div>
     <div id="house-display" v-if="house">
       <div id="intro" class="card">
+        <!-- carousel -->
         <div
           id="carouselExampleIndicators"
           class="carousel slide"
@@ -47,9 +48,13 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
+
+        <!-- if there is no cover data, text will be shown up -->
         <div class="map-house-cover-display" v-if="!house.cover">
           <p class>House Cover</p>
         </div>
+
+        <!-- house info -->
         <div class="card-body">
           <h3 class="card-title text-left">{{ house.title }}</h3>
           <h6 class="text-left">${{house.price}} per night</h6>
@@ -62,6 +67,8 @@
           </h6>
           <h6 class="text-left">{{ house.location }}</h6>
           <div class="rating-div"></div>
+
+          <!-- house rating and rating number -->
           <star-rating
             :inline="true"
             :rating="parseFloat(house.rating)"
@@ -79,10 +86,13 @@
           <p class="mt-2" v-if="parseInt(house.rating_num) === 0">This house has no rating yet.</p>
         </div>
       </div>
+
+      <!-- click the button to go to the House page -->
       <div id="learnMore" class="card card-outline-secondary my-2">
         <button class="my-btn form-control" @click="goToHousePage">More Info</button>
       </div>
-      <!-- /.card -->
+
+      <!-- house descripiton -->
       <div id="description" class="card card-outline-secondary my-2">
         <div class="card-header">House Description</div>
         <div class="card-body">
@@ -90,6 +100,7 @@
         </div>
       </div>
 
+      <!-- house available facilities -->
       <div id="facility" class="card card-outline-secondary my-4">
         <div class="card-header">House Facility</div>
         <div class="card-body">
@@ -100,6 +111,7 @@
         </div>
       </div>
     </div>
+    <!-- show text if no marker was clicked -->
     <div class="house-display-hint" v-if="!house">
       <p>Click marker in the map to see house detail.</p>
     </div>

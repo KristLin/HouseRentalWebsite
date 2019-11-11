@@ -2,6 +2,7 @@
   <footer>
     <div class="container-fluid">
       <div class="row">
+        <!-- left footer section: quick link -->
         <div class="col-lg-4 col-md-4">
           <h3>Quick Links</h3>
           <ul class="list-unstyled">
@@ -16,6 +17,7 @@
             </li>
           </ul>
         </div>
+        <!-- middle footer section: thanks to -->
         <div class="col-lg-4 col-md-4">
           <h3>Thanks to</h3>
           <ul class="list-unstyled">
@@ -30,6 +32,7 @@
             </li>
           </ul>
         </div>
+        <!-- right footer section: contact us -->
         <div class="col-lg-4 col-md-4">
           <h3>Contact us</h3>
           <ul class="list-unstyled">
@@ -39,6 +42,7 @@
           </ul>
         </div>
       </div>
+      <!-- social media icons -->
       <a href="https://facebook.com" style="color: #fff;"><i class="social-icon fab fa-facebook-f"></i></a>
       <a href="https://twitter.com" style="color: #fff;"><i class="social-icon fab fa-twitter"></i></a>
       <a href="https://instagram.com" style="color: #fff;"><i class="social-icon fab fa-instagram"></i></a>

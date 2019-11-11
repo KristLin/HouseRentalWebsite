@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- first row: keyword, suburb and price range -->
     <div class="row">
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Keyword:</label>
@@ -30,6 +31,8 @@
         />
       </div>
     </div>
+
+    <!-- second row: tenant number, available facilities and sort option -->
     <div class="row">
       <!-- <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Check in:</label>
@@ -48,6 +51,8 @@
           v-model="searchData.tenant_num"
         />
       </div>
+
+      <!-- available facilities -->
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">House Facility:</label>
         <br />
@@ -63,6 +68,8 @@
           <i class="fas fa-snowflake search-facility-icon"></i>
         </div>
       </div>
+
+      <!-- sort type -->
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Sort by:</label>
         <select v-model="searchData.order_type" class="form-control">
@@ -77,6 +84,8 @@
           <option value="size_desc">Biggest Size</option>
         </select>
       </div>
+
+      <!-- search button -->
       <div class="col-lg-3 col-md-6 form-group">
         <label class="filter-label">Search House:</label>
         <button @click="searchHouse" class="my-btn form-control">Search</button>
