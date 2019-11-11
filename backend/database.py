@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from random import sample
 import os
 
-# Database to manipulate user & house data
+# load database admin password from .env
 load_dotenv()
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
@@ -28,16 +28,12 @@ class DB(object):
         # self.comments = self.dbclient.airbnbDB.comments
 
         # connect to mongoDB mlab
-
-        # self.dbclient = MongoClient(
-        #     f"mongodb://krist123:{DB_PASSWORD}@ds335678.mlab.com:35678/9900-database",
-        #     123456,
-        # ).get_default_database()
-        
         self.dbclient = MongoClient(
             f"mongodb://krist123:{DB_PASSWORD}@ds045679.mlab.com:45679/bomb-shrimper",
             123456,
         ).get_default_database()
+
+        # set collections
         self.users = self.dbclient["users"]
         self.houses = self.dbclient["houses"]
         self.savelists = self.dbclient["savelists"]
@@ -45,18 +41,21 @@ class DB(object):
         super().__init__()
 
     # =========== user data manipulation ===========
+    # find user by his/her id
     def find_user_by_id(self, user_id):
         found_user = self.users.find_one({"_id": ObjectId(user_id)})
         if found_user:
             found_user["_id"] = str(found_user["_id"])
         return found_user
 
+    # find the user by email
     def find_user_by_email(self, email):
         found_user = self.users.find_one({"email": email})
         if found_user:
             found_user["_id"] = str(found_user["_id"])
         return found_user
 
+    # return all users info (this is only used in testing)
     def find_all_users(self):
         cursor = self.users.find()
         all_users = []
@@ -65,6 +64,7 @@ class DB(object):
             all_users.append(user)
         return all_users
 
+    # register a user account
     def add_user(self, user):
         _id = str(self.users.insert_one(user).inserted_id)
         return _id
@@ -74,10 +74,7 @@ class DB(object):
         query = {"_id": ObjectId(user_id)}
         return self.users.update_one(query, {"$set": update_info})
 
-    def update_user_profile(self, user_id, update_profile):
-        query = {"_id": ObjectId(user_id)}
-        return self.users.update_one(query, {"$set": {"profile": update_profile}})
-
+    # delete user account
     def delete_user(self, user_id):
         self.users.delete_one({"_id": ObjectId(user_id)})
 
@@ -88,7 +85,8 @@ class DB(object):
             # change the ObjectId to string format
             found_house["_id"] = str(found_house["_id"])
         return found_house
-
+    
+    # return 3 random houses
     def find_random_houses(self):
         cursor = self.houses.find()
         all_houses = []
@@ -98,6 +96,7 @@ class DB(object):
         random_houses = all_houses[:3]
         return random_houses
 
+    # return all houses
     def find_all_houses(self):
         cursor = self.houses.find()
         all_houses = []
@@ -106,6 +105,7 @@ class DB(object):
             all_houses.append(house)
         return all_houses
 
+    # return provider's houses
     def find_user_houses(self, user_id):
         cursor = self.houses.find()
         user_houses = []
@@ -115,6 +115,7 @@ class DB(object):
                 user_houses.append(house)
         return user_houses
 
+    # return all houses in user's save list
     def find_savelist_houses(self, house_id_list):
         cursor = self.houses.find()
         savelist_houses = []
@@ -124,14 +125,17 @@ class DB(object):
                 savelist_houses.append(house)
         return savelist_houses
 
+    # upload/create a house
     def add_house(self, house):
         _id = str(self.houses.insert_one(house).inserted_id)
         return _id
 
+    # update a house
     def update_house(self, house_id, update_info):
         query = {"_id": ObjectId(house_id)}
         return self.houses.update_one(query, {"$set": update_info})
 
+    # delete a house
     def delete_house(self, house_id):
         self.houses.delete_one({"_id": ObjectId(house_id)})
         all_savelists = self.find_all_savelists()
@@ -140,6 +144,7 @@ class DB(object):
             if house_id in savelist["savelist"]:
                 self.remove_from_user_savelist(savelist["user"], house_id)
 
+    # update a house's rating
     def update_rating(self, house_id, rating):
         found_house = self.houses.find_one({"_id": ObjectId(house_id)})
         if "rating_num" in found_house and "rating" in found_house:
@@ -157,6 +162,7 @@ class DB(object):
         query = {"_id": ObjectId(house_id)}
         return self.houses.update_one(query, {"$set": {"rating_num": new_rating_num, "rating": new_rating}})
     
+    # delete providers houses data; this method is called when user want to delete his/her account
     def delete_houses_of_user(self, user_id):
         cursor = self.houses.find()
         user_houses = []
@@ -166,6 +172,9 @@ class DB(object):
         for house_id in user_houses:
             self.delete_house(house_id)
     
+    # recommend houses based on current house's information
+    # three types of recommendations: same suburb, close price, sam tenant_number
+    # the current house will be excluded from the result
     def recommend_houses(self, house_id, suburb, price, tenant_num):
         price_range=50
         cursor = self.houses.find()
@@ -184,6 +193,8 @@ class DB(object):
             if int(house["price"]) in range(int(price)-price_range, int(price)+price_range+1):
                 close_price_houses.append(house)
         
+        # do sampling if the recommendation list has more than 3 houses
+        # this will make sure the recommendations will not be the same all the time
         if len(same_tenant_num_houses) >= 3:
             same_tenant_num_houses = sample(same_tenant_num_houses, 3)
         if len(same_suburb_houses) >= 3:
@@ -194,6 +205,7 @@ class DB(object):
         return result
 
     # =========== save list data manipulation ===========
+    # return all user's savelists, this should only be used for testing
     def find_all_savelists(self):
         cursor = self.savelists.find()
         all_savelists = []
@@ -202,6 +214,8 @@ class DB(object):
             all_savelists.append(savelist)
         return all_savelists
 
+    # return the save list of the user
+    # save list is a list consists of house ids
     def find_savelist_of_user(self, user_id):
         found_list = self.savelists.find_one({"user": user_id})
         if found_list:
@@ -209,6 +223,7 @@ class DB(object):
         else:
             return []
 
+    # add a house to the user's savelist
     def add_to_user_savelist(self, user_id, house_id):
         found_list = self.savelists.find_one({"user": user_id})
         if found_list:
@@ -220,6 +235,7 @@ class DB(object):
             savelist = {"user": user_id, "savelist": [house_id]}
             return str(self.savelists.insert_one(savelist).inserted_id)
     
+    # remove the house from user's savelist
     def remove_from_user_savelist(self, user_id, house_id):
         found_list = self.savelists.find_one({"user": user_id})
         query = {"user": user_id}
@@ -228,6 +244,7 @@ class DB(object):
         return self.savelists.update_one(query, {"$set": {"savelist": savelist}})
 
     # =========== comments data manipulation ===========
+    # return the comments of the house
     def find_comments_of_house(self, house_id):
         found_house_comments = self.comments.find_one({"house": house_id})
         if found_house_comments:
@@ -235,6 +252,7 @@ class DB(object):
         else:
             return []
 
+    # add a comment to the house
     def add_comment_to_house(self, house_id, user_id, content, rating):
         found_house_comments = self.comments.find_one({"house": house_id})
         if found_house_comments:

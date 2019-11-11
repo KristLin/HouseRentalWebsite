@@ -5,7 +5,6 @@ from flask_cors import CORS
 import json
 import datetime
 
-# import bcrypt
 from functools import wraps
 import requests
 
@@ -13,10 +12,6 @@ from database import DB
 import utils
 
 # =============== app setting part start ===============
-# load secret key
-# load_dotenv()
-# SECRET_KEY = os.getenv("SECRET_KEY")
-
 app = Flask(__name__)
 # connect to mongoDB
 db = DB()
@@ -69,25 +64,26 @@ house_model = api.model(
     "house",
     {
         "title": fields.String,
-        "cover": fields.String,
-        # "cover": fields.Raw,
-        "images": fields.List(fields.String),
-        # "images": fields.List(fields.Raw),
         "description": fields.String,
+        # cover url and images url list
+        "cover": fields.String,
+        "images": fields.List(fields.String),
+        # provider's id
         "provider": fields.String,
-        # datetime.datetime.now() 获取当前时间
-        # "date": fields.DateTime,
         "suburb": fields.String,
         "location": fields.String,
         "price": fields.String,
         "size": fields.String,
         "tenant_num": fields.String,
+        # available facilities: wifi, kitchen, carpark, air conditioning
         "wifi": fields.Boolean,
         "kitchen": fields.Boolean,
         "carpark": fields.Boolean,
         "ac": fields.Boolean,
+        # latitude and longitude to display in google map
         "lat": fields.String,
         "lng": fields.String,
+        # rating and rating number
         "rating_num": fields.String,
         "rating": fields.String,
     },
@@ -107,30 +103,6 @@ user_login_model = api.model(
 )
 # =============== data model part end ===============
 
-# =============== login authentication  part start ===============
-# require user login
-# def requires_user(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         if not "user_role" in session:
-#             api.abort(401, "User login requried")
-
-#     return decorated
-
-
-# # require provider(landlord or agent) login
-# # provider is a user with more permission (house info manipulation)
-# def requires_provider(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         if not "user_role" in session or session["user_role"] != "provider":
-#             api.abort(401, "Provider login requried")
-
-#     return decorated
-
-
-# =============== login authentication  part end ===============
-
 # ============ user API part start ============
 @api.response(200, "OK")
 @api.response(201, "Created")
@@ -144,21 +116,10 @@ class Users(Resource):
         user_data = request.json
         if db.find_user_by_email(user_data["email"]):
             return "The email already exists.", 400
-
-        # store the encrypted user password
-        # user_data["password"] = bcrypt.hashpw(
-        #     user_data["password"].encode("utf-8"), bcrypt.gensalt()
-        # )
         user_id = db.add_user(user_data)
-        # set session status
-        # session["user_id"] = user_id
-        # session["user_email"] = user_data["email"]
-        # session["user_name"] = user_data["name"]
-        # session["user_role"] = user_data["role"]
-
         # store active user info
         active_users[user_id] = user_data
-        # return user id
+        # return user id, user role and user name
         return user_id + " " + user_data["role"] + " " + user_data["name"], 200
 
     @api.doc(description="get all users (only used for test)")
@@ -169,29 +130,20 @@ class Users(Resource):
 
 @users.route("/login")
 class Login(Resource):
-    # login a user account
     @api.expect(user_login_model, validate=True)
     @api.doc(description="Log in an user account")
     def post(self):
         user_login_data = request.json
         login_user = db.find_user_by_email(user_login_data["email"])
-
+        # check if the login email exist or not
         if login_user == None:
             return "The user email does not exist", 400
-
+        # check if the user is in active user list or not
         if utils.check_logged_in(active_users, user_login_data["email"]):
             print(user_login_data["email"] + " has Already logged in")
             return login_user["_id"] + " " + login_user["role"] + " " + login_user["name"], 200
-            
-        # check encrypted password
-        # if bcrypt.hashpw(user_password.encode("utf-8"), user_password) == user_password:
+        # if the password is correct, store user in active users and return user's info
         if user_login_data["password"] == login_user["password"]:
-            # set session status
-            # session["user_id"] = login_user["_id"]
-            # session["user_email"] = login_user["email"]
-            # session["user_name"] = login_user["name"]
-            # session["user_role"] = login_user["role"]
-
             # store active user info
             active_users[login_user["_id"]] = login_user
             # return user id
@@ -203,14 +155,8 @@ class Login(Resource):
 @users.route("/logout/<string:user_id>")
 class Logout(Resource):
     @api.doc(description="Log out an user account")
-    # @requires_user
-    # log out a user account (need user login)
     def get(self, user_id):
-        # clear session status
-        # if session["user_id"] == user_id:
-        #     session.clear()
-        #     return "Log out successfully", 200
-
+        # if the user is in the active list, remove it from the list
         if user_id in active_users:
             del active_users[user_id]
         print("User is not in the active list, maybe the server has restarted.")
@@ -222,6 +168,7 @@ class User(Resource):
     @api.doc(description="Return user info (except password)")
     def get(self, user_id):
         userData = db.find_user_by_id(user_id)
+        # check if the user id exist or not
         if userData:
             del userData["password"]
             return userData, 200
@@ -229,52 +176,37 @@ class User(Resource):
             return f"User with id {user_id} is not in the database!", 400
 
     @api.doc(description="Delete a user by its ID")
-    # @requires_user
-    # delete user account
     def delete(self, user_id):
         delete_user = db.find_user_by_id(user_id)
+        # check if the user id exist or not
         if delete_user:
-            # user can only delete his/her account
-            # if session["user_id"] == user_id:
-            #     db.delete_user(user_id)
-            #     msg = {"message": f"User = {user_id} is removed from the database!"}
-            #     return msg, 200
-
-            if user_id == delete_user["_id"]:
-                db.delete_houses_of_user(user_id)
-                db.delete_user(user_id)
-                if user_id in active_users:
-                    del active_users[user_id]
-                msg = {"message": f"User = {user_id} is removed from the database!"}
-                return msg, 200
-            else:
-                return "Unauthorized delete request", 401
+            # delete user's house data first to make sure there is no dirty data in database
+            db.delete_houses_of_user(user_id)
+            # then delete the user account
+            db.delete_user(user_id)
+            # if the user is in active user list, remove it from the list
+            if user_id in active_users:
+                del active_users[user_id]
+            msg = {"message": f"User = {user_id} is removed from the database!"}
+            return msg, 200
         else:
             return f"User with id {user_id} is not in the database!", 400
 
     # @api.expect(user_model, validate=True)
     @api.doc(description="Update user info")
-    # update user account
     def patch(self, user_id):
         update_info = request.json
         # remove empty property in update info
         update_info = utils.get_valid_update_info(update_info)
 
         update_user = db.find_user_by_id(user_id)
+        # check if the user id exist or not
         if update_user:
-            # user can only modify his/her user data
-            # if session["user_id"] == user_id:
-            #     db.update_user(user_id, update_info)
-            #     msg = {"message": "The user info is updated!"}
-            #     return msg, 200
-
             db.update_user(user_id, update_info)
             msg = {"message": "The user info is updated!"}
             return msg, 200
         else:
             return f"User with id {user_id} is not in the database!", 400
-
-
 # ============ user API part end ============
 
 # ============ house API part start ============
@@ -295,8 +227,8 @@ class Houses(Resource):
     @api.param("tenant_num", "tenant number for filtering houses")
     @api.param("order_type", "ordering method")
     @api.doc(description="Retrieve all houses info")
-    # get all houses
     def get(self):
+        # get search/filter/sort data from the request's query data
         keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
         min_price = (
@@ -318,7 +250,9 @@ class Houses(Resource):
         )
         order_type = request.args.get("order_type")
 
+        # find all houses first
         all_houses = db.find_all_houses()
+        # filter and sort the result based on the search/filter/sort input
         all_houses = utils.filter_houses(
             houses=all_houses,
             keyword=keyword,
@@ -334,16 +268,17 @@ class Houses(Resource):
             tenant_num=tenant_num,
             order_type=order_type
         )
+        # return the filtered houses
         return all_houses, 200
 
-    # @requires_provider
     @api.doc(description="Upload a new house")
     @api.expect(house_model, validate=False)
-    # upload a house
     def post(self):
         new_house = request.json
+        # set house's rating and rating number to default value
         new_house["rating"] = "0"
         new_house["rating_num"] = "0"
+        # change the house's suburb to title format
         new_house["suburb"] = new_house["suburb"].title()
         _id = db.add_house(new_house)
         if _id:
@@ -354,9 +289,9 @@ class Houses(Resource):
 
 @houses.route("/random")
 class RandomHouses(Resource):
-    @api.doc(description="Retrieve random houses for the home page")
-    # get all houses
+    @api.doc(description="Retrieve random houses")
     def get(self):
+        # get random houses
         random_houses = db.find_random_houses()
         return random_houses, 200
 
@@ -364,9 +299,9 @@ class RandomHouses(Resource):
 @houses.route("/<string:house_id>")
 class House(Resource):
     @api.doc(description="Retrieve a house by its ID")
-    # get house info by its ID
     def get(self, house_id):
         found_house = db.find_house_by_id(house_id)
+        # check if the house id exist or not
         if found_house:
             return found_house, 200
         else:
@@ -375,11 +310,10 @@ class House(Resource):
 
 @houses.route("/<string:provider_id>/<string:house_id>")
 class HouseOfProvider(Resource):
-    # @requires_provider
     @api.doc(description="Delete a house by its ID")
-    # delete a house
     def delete(self, provider_id, house_id):
         delete_house = db.find_house_by_id(house_id)
+        # check if the house id exist or not
         if delete_house:
             house_provider = delete_house["provider"]
             # only the provider of this house can delete this house
@@ -392,17 +326,14 @@ class HouseOfProvider(Resource):
         else:
             return f"House with id {house_id} is not in the database!", 400
 
-    # @requires_provider
-    # @api.expect(house_model, validate=True)
     @api.doc(description="Update house info")
-    # update house info
     def patch(self, provider_id, house_id):
         update_info = request.json
-
         # remove empty update properties
         update_info = utils.get_valid_update_info(update_info)
 
         update_house = db.find_house_by_id(house_id)
+        # check if the house id exist or not
         if update_house:
             house_provider = update_house["provider"]
             # only the provider of the house can modify the advertisement
@@ -432,8 +363,9 @@ class HousesOfProvider(Resource):
     @api.param("wifi", "has wifie for filtering houses")
     @api.param("tenant_num", "tenant num for filtering houses")
     @api.param("order_type", "ordering method")
-    @api.doc(description="Get the provider's house list")
+    @api.doc(description="Get all provider's houses")
     def get(self, provider_id):
+        # get search/filter/sort data from the request's query data
         keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
         min_price = (
@@ -455,7 +387,9 @@ class HousesOfProvider(Resource):
         )
         order_type = request.args.get("order_type")
 
+        # find all provider's hosues
         houses_of_provider = db.find_user_houses(provider_id)
+        # filter and sort the result based on the search/filter/sort input
         houses_of_provider = utils.filter_houses(
             houses=houses_of_provider,
             keyword=keyword,
@@ -491,6 +425,7 @@ class HousesOfUserSavelist(Resource):
     @api.param("order_type", "ordering method")
     @api.doc(description="Get houses in the user's savelist")
     def get(self, user_id):
+        # get search/filter/sort data from the request's query data
         keyword = request.args.get("keyword")
         suburb = request.args.get("suburb")
         min_price = (
@@ -511,9 +446,11 @@ class HousesOfUserSavelist(Resource):
             int(request.args.get("tenant_num")) if request.args.get("tenant_num") else None
         )
         order_type = request.args.get("order_type")
-
+        
+        # get all houses in user's save list
         user_savelist = db.find_savelist_of_user(user_id)
         user_savelist_houses = db.find_savelist_houses(user_savelist)
+        # filter and sort the result based on the search/filter/sort input
         user_savelist_houses = utils.filter_houses(
             houses=user_savelist_houses,
             keyword=keyword,
@@ -539,10 +476,12 @@ class RecommendHouses(Resource):
     @api.param("tenant_num", "tenant num for recommending houses")
     @api.doc(description="Get houses in the user's savelist")
     def get(self):
+        # get house data that used for recommender: suburb, price and tenant number
         house_id = request.args.get("house_id")
         suburb = request.args.get("suburb")
         price = request.args.get("price")
         tenant_num = request.args.get("tenant_num")
+        # get recommended houses based on the house data
         recommend_houses = db.recommend_houses(house_id, suburb, price, tenant_num)
         return recommend_houses, 200
 # ============ house API part end ============
@@ -566,6 +505,7 @@ class CheckInSavelist(Resource):
     @api.doc(description="Check if the house is in user's savelist")
     def get(self, user_id, house_id):
         user_savelist = db.find_savelist_of_user(user_id)
+        # check if the house id is in user's save list
         if user_savelist:
             if house_id in user_savelist:
                 return True, 200
@@ -576,6 +516,7 @@ class AddHouseToSavelist(Resource):
     @api.doc(description="Add house id to user's savelist")
     def get(self, user_id, house_id):
         user_savelist = db.find_savelist_of_user(user_id)
+        # if ther user don't have a save list yet, create one for him/her and save the to the save list
         if user_savelist:
             if house_id not in user_savelist:
                 db.add_to_user_savelist(user_id, house_id)
@@ -615,19 +556,19 @@ class AddCommentToHouse(Resource):
     @api.param("rating", "comment's rating")
     @api.doc(description="Add comment to house")
     def get(self):
+        # get comment's data from request's query data
         house_id = request.args.get("house")
         user_id = request.args.get("user")
         content = request.args.get("content")
         rating = request.args.get("rating")
-        for item in [house_id, user_id, content, rating]:
-            if not item:
-                return "comment data is not complete!", 400
         
+        # user can only comment a house once
         # house_comments = db.find_comments_of_house(house_id)
         # for comment in house_comments:
         #     if user_id == comment["user"]:
         #         return "User has posted a comment already!", 400
         
+        # add comment to the house and update its rating
         if db.add_comment_to_house(house_id, user_id, content, rating):
             db.update_rating(house_id, rating)
             return "Added", 201
@@ -637,6 +578,5 @@ class AddCommentToHouse(Resource):
 
 # run the app
 if __name__ == "__main__":
-    # app.secret_key = SECRET_KEY
     app.run(debug=True)
 
