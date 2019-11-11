@@ -76,6 +76,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "test" */ './views/Test.vue')
     }
   ],
+  // move to the page top when router push to a new route
   scrollBehavior() {
     return { x: 0, y: 0 }
   }
