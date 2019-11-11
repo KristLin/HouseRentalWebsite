@@ -11,10 +11,10 @@
             <ul class="list-group">
               <!-- the locator seems having an issue -->
               <a href="#" class="list-group-item p-2">Intro</a>
-              <a href="#intro" class="list-group-item p-2">Description</a>
-              <a href="#description" class="list-group-item p-2">Facility</a>
-              <a href="#facility" class="list-group-item p-2">Recommendation</a>
-              <a href="#recommendations" class="list-group-item p-2">Review</a>
+              <a href="#description" class="list-group-item p-2">Description</a>
+              <a href="#facility" class="list-group-item p-2">Facility</a>
+              <a href="#recommendations" class="list-group-item p-2">Recommendation</a>
+              <a href="#review" class="list-group-item p-2">Review</a>
             </ul>
           </div>
           <button
