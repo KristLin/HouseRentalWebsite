@@ -1,6 +1,6 @@
 import base64
 
-
+# filter houses and return the result required ordering
 def filter_houses(
     houses,
     keyword=None,
@@ -23,7 +23,7 @@ def filter_houses(
     filtered_houses = filter_houses_with_suburb(filtered_houses, suburb)
     filtered_houses = filter_houses_with_min_price(filtered_houses, min_price)
     filtered_houses = filter_houses_with_max_price(filtered_houses, max_price)
-    filtered_houses = filter_houses_with_conditions(filtered_houses, wifi, kitchen, carpark, ac)
+    filtered_houses = filter_houses_with_facilities(filtered_houses, wifi, kitchen, carpark, ac)
     filtered_houses = filter_houses_with_tenant_num(filtered_houses, tenant_num)
     filtered_houses = filter_houses_with_date(filtered_houses, start_date, end_date)
 
@@ -31,6 +31,7 @@ def filter_houses(
     return filtered_houses
 
 
+# filter houses with keyword
 def filter_houses_with_keyword(houses, keyword):
     filtered_houses = []
     if keyword:
@@ -43,7 +44,7 @@ def filter_houses_with_keyword(houses, keyword):
     else:
         return houses
 
-
+# filter houses with suburb
 def filter_houses_with_suburb(houses, suburb):
     filtered_houses = []
     if suburb:
@@ -55,6 +56,7 @@ def filter_houses_with_suburb(houses, suburb):
         return houses
 
 
+# filter houses with minimum price
 def filter_houses_with_min_price(houses, min_price):
     filtered_houses = []
     if min_price!= None:
@@ -66,6 +68,7 @@ def filter_houses_with_min_price(houses, min_price):
         return houses
 
 
+# filter houses with maximum price
 def filter_houses_with_max_price(houses, max_price):
     filtered_houses = []
     if max_price:
@@ -76,6 +79,7 @@ def filter_houses_with_max_price(houses, max_price):
     else:
         return houses
 
+# filter houses with tenant number
 def filter_houses_with_tenant_num(houses, tenant_num):
     filtered_houses = []
     if tenant_num:
@@ -86,6 +90,7 @@ def filter_houses_with_tenant_num(houses, tenant_num):
     else:
         return houses
 
+# extract order key from order_type data
 def get_order_key(order_type):
     order_key = "_id"
     if order_type.startswith("price"):
@@ -98,6 +103,7 @@ def get_order_key(order_type):
         order_key = "size"
     return order_key
 
+# sort the houses based on order_type
 def order_filtered_houses(houses, order_type):
     if not order_type:
         return houses
@@ -121,6 +127,7 @@ def checkHouseAvailability(house, start_date, end_date):
     return True
 
 
+# filter houses with start date and end date
 def filter_houses_with_date(houses, start_date, end_date):
     filtered_houses = []
     if start_date and end_date:
@@ -131,22 +138,24 @@ def filter_houses_with_date(houses, start_date, end_date):
     else:
         return houses
 
-def filter_houses_with_condition(houses, condition_name, condition):
-    if condition:
+# filter houses with tenant number
+def filter_houses_with_facility(houses, facility_name, facility):
+    if facility:
         filtered_houses = []
         for house in houses:
-            if condition_name in house and house[condition_name]:
+            if facility_name in house and house[facility_name]:
                 filtered_houses.append(house)
         return filtered_houses
     else:
         return houses
 
-def filter_houses_with_conditions(houses, wifi, kitchen, carpark, ac):
+# filter houses with available facilities
+def filter_houses_with_facilities(houses, wifi, kitchen, carpark, ac):
     filtered_houses = houses
-    filtered_houses = filter_houses_with_condition(filtered_houses, "wifi", wifi)
-    filtered_houses = filter_houses_with_condition(filtered_houses, "kitchen", kitchen)
-    filtered_houses = filter_houses_with_condition(filtered_houses, "carpark", carpark)
-    filtered_houses = filter_houses_with_condition(filtered_houses, "ac", ac)
+    filtered_houses = filter_houses_with_facility(filtered_houses, "wifi", wifi)
+    filtered_houses = filter_houses_with_facility(filtered_houses, "kitchen", kitchen)
+    filtered_houses = filter_houses_with_facility(filtered_houses, "carpark", carpark)
+    filtered_houses = filter_houses_with_facility(filtered_houses, "ac", ac)
     return filtered_houses
 
 
@@ -158,24 +167,26 @@ def get_valid_update_info(data_object):
             update_info[attr] = data_object[attr]
     return update_info
 
-
+# check if user is already in backend server's active user list
 def check_logged_in(active_users, email):
     for user_id in active_users:
         if active_users[user_id]["email"] == email:
             return True
     return False
 
-
+# encode file using base64
 def b64encode(file):
     return base64.b64encode(file)
 
+# decode file using base64
 def b64decode(str):
     return base64.b64decode(str)
 
+# encode file using utf-8
 def utf8decode(file):
     return file.decode('utf-8')
 
-# parse data to json string
+# parse data to json string: convert bytes values to string type
 def parse_data(res):
     if type(res) == dict:
         for key in res:
