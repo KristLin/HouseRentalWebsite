@@ -19,4 +19,4 @@ Our website is already on the Heroku Cloud, it can now be accessed with link: ht
 - Open a browser with address ```localhost:8080``` to see frontend web page.
 
 # Issues
-### Image quality are set to low by the image hosting provider **imgbb.com**
+- Image quality are set to low by the image hosting provider **imgbb.com**
